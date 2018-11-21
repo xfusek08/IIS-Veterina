@@ -1,4 +1,5 @@
-
 <?php
-  echo "hello";
-?>
+
+require_once("php/Settings.php");
+
+require(LOGIN_PAGE);
