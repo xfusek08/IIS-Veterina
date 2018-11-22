@@ -1,5 +1,5 @@
 <?php
 
-require_once("php/Settings.php");
+require_once("lib/Settings.php");
 
 require(LOGIN_PAGE);

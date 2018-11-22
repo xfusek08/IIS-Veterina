@@ -1,13 +1,18 @@
 <?php
-  require_once("php/SessionControl.php");
-  require_once("viewModels/login.vm.php");
+  require_once("lib/SessionControl.php");
+  require_once("viewModels/LoginViewModel.php");
 
-  SessionControl::destroySession();
+  // can't do pageInitRoutine - don't want to check if user is logged
   SessionControl::startSession();
+  if (SessionControl::isLogged())
+    SessionControl::navigate(MAIN_PAGE);
+  $actVM = SessionControl::initViewModel("LoginViewModel");
 ?>
 
 <html>
-<body>
-login
-</body>
+  <head>
+  </head>
+  <body>
+    login
+  </body>
 </html>
