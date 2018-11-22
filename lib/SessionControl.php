@@ -1,6 +1,7 @@
 <?php
 require_once("Settings.php");
 require_once("Logs.php");
+require_once("Database.php");
 
 /* Singleton class to control session related operations */
 class SessionControl {
@@ -21,8 +22,8 @@ class SessionControl {
   }
 
   public static function isLogged() {
-    if (isset($_SESSION['logged']))
-      if ($_SESSION['logged'] === true)
+    if (isset($_SESSION['userPK']))
+      if ($_SESSION['userPK'] > 0)
         return true;
     return false;
   }
@@ -39,9 +40,10 @@ class SessionControl {
     if (!MyDatabase::getOneValue($loginRes, LOGIN_SQL, array($userName, $password))) {
       self::navigate(LOGIN_PAGE . "?message=" . urlencode(STR_DATABASE_ERROR));
     }
-    if ($loginRes === 1) {
+    $loginRes = intval($loginRes);
+    if ($loginRes > 0) {
       Logging::WriteLog(LogType::Announcement, "Login successful");
-      $_SESSION['logged'] = true;
+      $_SESSION['userPK'] = $loginRes;
       return true;
     }
     Logging::WriteLog(LogType::Announcement, "Login failed");
@@ -61,11 +63,12 @@ class SessionControl {
 
   public static function initViewModel($VMTypeString) {
     $actVM = new $VMTypeString();
-    $actVM->loadFromGet();
     if (self::isAjaxRequest())
       $actVM->processAjax();
     else if (self::isPostRequest())
       $actVM->processPost();
+    else
+      $actVM->loadFromGet();
     return $actVM;
   }
 
@@ -73,6 +76,6 @@ class SessionControl {
     self::startSession();
     if (!self::isLogged())
       self::navigate(LOGIN_PAGE);
-    return initViewModel($VMTypeString);
+    return self::initViewModel($VMTypeString);
   }
 }

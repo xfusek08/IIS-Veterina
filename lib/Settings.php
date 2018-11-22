@@ -20,7 +20,7 @@ define("DATABASE_USER", "xfusek08");
 define("DATABASE_PASSWORD", "9anrofej");
 
 // SQL
-define("LOGIN_SQL", "select 1 from `Employee` where emp_name = ? and emp_password = ?");
+define("LOGIN_SQL", "select emp_pk from Employee where emp_username = ? and emp_password = ?");
 
 
 // STRINGS
