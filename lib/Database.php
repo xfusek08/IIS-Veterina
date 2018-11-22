@@ -46,8 +46,8 @@ class MyDatabase
 
   public static function runQuery(&$fields, $SQL, $ExternTransaction, $params = false)
   {
-    Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
-    Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
+    // Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
+    // Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
 
     $fields = null;
     try
@@ -70,7 +70,7 @@ class MyDatabase
 
       $fields = $query->fetchAll();
 
-      Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; results:". PHP_EOL . print_r($fields, true));
+      // Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; results:". PHP_EOL . print_r($fields, true));
 
       if (!$ExternTransaction)
       {
