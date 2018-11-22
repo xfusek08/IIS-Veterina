@@ -7,13 +7,17 @@ class SessionControl {
   private static $_wasStarted = false;
 
   public static function startSession() {
-    if (!SessionControl::$_wasStarted)
+    if (!self::$_wasStarted) {
       session_start();
+      MyDatabase::connect();
+    }
   }
 
   public static function destroySession() {
-    if (SessionControl::$_wasStarted)
+    if (self::$_wasStarted) {
       session_destroy();
+      MyDatabase::disconnect();
+    }
   }
 
   public static function isLogged() {
@@ -24,7 +28,14 @@ class SessionControl {
 
   public static function isPostRequest() {}
 
-  public static function checkLogin() {}
+  public static function login($userName, $password) {
+    // todo ask database for user
+  }
+
+  public static function logout() {
+    self::destroySession();
+    self::navigate(LOGIN_PAGE);
+  }
 
   public static function navigate($pageURL) {
     Logging::WriteLog(LogType::Announcement, "Forced navigation to: \"" . $pageURL . "\".");
@@ -35,17 +46,17 @@ class SessionControl {
   public static function initViewModel($VMTypeString) {
     $actVM = new $VMTypeString();
     $actVM->loadFromGet();
-    if (SessionControl::isAjaxRequest())
+    if (self::isAjaxRequest())
       $actVM->processAjax();
-    else if (SessionControl::isPostRequest())
+    else if (self::isPostRequest())
       $actVM->processPost();
     return $actVM;
   }
 
   public static function pageInitRoutine($VMTypeString) {
-    SessionControl::startSession();
-    if (!SessionControl::isLogged())
-      SessionControl::navigate(LOGIN_PAGE);
+    self::startSession();
+    if (!self::isLogged())
+      self::navigate(LOGIN_PAGE);
     return initViewModel($VMTypeString);
   }
 }

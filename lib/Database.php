@@ -1,37 +1,30 @@
 <?php
 class MyDatabase
-{  
+{
   const DUPLICATE_CODE = 1062;
-  
-  public static $DBFullPath = DATABASE_FULLPATH;
-  
+  public static $DBFullPath = DATABASE_FULL_CONN_STR;
   public static $UserName = DATABASE_USER;
   public static $Password = DATABASE_PASSWORD;
-  
-  public static $TransactionOpen;
-
   public static $PDO;
-  
-  public static function Connect()
+  public static $isConnected = false;
+
+
+  public static function connect()
   {
-    $TransactionOpen = false;
-    
-    if (!isset($PDO))
+    if (!isset(self::$PDO))
     {
-      
+
       $settings = array(
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,        
-        //PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
-          // stimhle nefunguji datetime typy pri querry
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", // with firebird has issues with datetime types in query
         PDO::ATTR_EMULATE_PREPARES => false,
         PDO::ATTR_AUTOCOMMIT => 0
       );
-      
-      try 
+
+      try
       {
-        self::$PDO = new PDO(
-          "firebird:dbname=" . self::$DBFullPath . ";charset=UTF8", 
-          self::$UserName, 
+        self::$PDO = new PDO(DATABASE_FULL_CONN_STR,
+          self::$UserName,
           self::$Password,
           $settings);
       }
@@ -39,16 +32,23 @@ class MyDatabase
       {
         Logging::WriteLog(LogType::Error, "Database connection error; " . $e->getMessage());
         echo $e->getMessage() . '</br>';
-        die("Database connection failed"); // asi rovnou neukoncovat celou stranku ale t5eba se vratit ...
+        die("Database connection failed");
       }
+      self::$isConnected = true;
     }
   }
-  
-  public static function RunQuery(&$fields, $SQL, $ExternTransaction, $params = false)
+
+  public static function disconnect() {
+    self::$PDO = null;
+    unset(self::$PDO);
+    self::$isConnected = false;
+  }
+
+  public static function runQuery(&$fields, $SQL, $ExternTransaction, $params = false)
   {
-    //Logging::WriteLog(LogType::Anouncement, "MyDatabase->RunQuery; SQL:" . $SQL);
-    //Logging::WriteLog(LogType::Anouncement, "MyDatabase->RunQuery; params:". PHP_EOL . print_r($params, true));
-    
+    //Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
+    //Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
+
     $fields = null;
     try
     {
@@ -56,56 +56,54 @@ class MyDatabase
       {
         self::$PDO->beginTransaction();
       }
-      
+
       $query = self::$PDO->prepare($SQL);
-      
+
       if (!$params)
         $query->execute();
-      
+
       else if (!is_array($params))
-        $query->execute(array($params));      
-      
+        $query->execute(array($params));
+
       else
-        $query->execute($params);      
-      
-      $fields = $query->fetchAll();   
+        $query->execute($params);
+
+      $fields = $query->fetchAll();
 
       if (!$ExternTransaction)
       {
-        self::$PDO->commit();      
+        self::$PDO->commit();
       }
     }
     catch(PDOException $e)
-    {      
-      Logging::WriteLog(LogType::Error, "MyDatabase->RunQuery; " . $e->getMessage());
-      Logging::WriteLog(LogType::Error, "MyDatabase->RunQuery; SQL: " . $SQL);      
+    {
+      Logging::WriteLog(LogType::Error, "MyDatabase->runQuery; " . $e->getMessage());
+      Logging::WriteLog(LogType::Error, "MyDatabase->runQuery; SQL: " . $SQL);
       if (!$ExternTransaction)
       {
-        Logging::WriteLog(LogType::Anouncement, "RollBack");      
-        self::$PDO->rollBack();      
+        Logging::WriteLog(LogType::Announcement, "RollBack");
+        self::$PDO->rollBack();
       }
       $fields = $e->errorInfo[1];
       return false;
     }
     return true;
   }
-  
-  public static function GetOneValue(&$Val, $SQL, $params = false)
+
+  public static function getOneValue(&$Val, $SQL, $params = false)
   {
     $fields = null;
-    
-    if (!self::RunQuery($fields, $SQL, false, $params))
+
+    if (!self::runQuery($fields, $SQL, false, $params))
     {
       return false;
     }
-    
+
     if ($fields)
-    {    
+    {
       $Val = $fields[0][0];
     }
     return true;
-  } 
+  }
 
 }
-
-MyDatabase::Connect();
