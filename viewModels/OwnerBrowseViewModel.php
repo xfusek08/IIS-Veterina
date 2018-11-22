@@ -2,8 +2,8 @@
 
 require_once("viewModels/ViewModelBase.php");
 
-class AnimaBrowseViewModel extends ViewModelBase {
-  public $animals = array();
+class OwnerBrowseViewModel extends ViewModelBase {
+  public $owners = array();
 
   public function loadFromGet() {}
 
