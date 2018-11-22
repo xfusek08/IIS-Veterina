@@ -18,3 +18,10 @@ define("MAIN_PAGE", "animalBrowse.view.php");
 define("DATABASE_FULL_CONN_STR", "mysql:host=localhost;dbname=xfusek08;port=/var/run/mysql/mysql.sock");
 define("DATABASE_USER", "xfusek08");
 define("DATABASE_PASSWORD", "9anrofej");
+
+// SQL
+define("LOGIN_SQL", "select 1 from `Employee` where emp_name = ? and emp_password = ?");
+
+
+// STRINGS
+define("STR_DATABASE_ERROR" , "Chyba databáze");

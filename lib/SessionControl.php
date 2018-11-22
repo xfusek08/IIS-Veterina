@@ -21,15 +21,31 @@ class SessionControl {
   }
 
   public static function isLogged() {
+    if (isset($_SESSION['logged']))
+      if ($_SESSION['logged'] === true)
+        return true;
     return false;
   }
 
   public static function isAjaxRequest() {}
 
-  public static function isPostRequest() {}
+  public static function isPostRequest() {
+    return isset($_POST['post_submit']);
+  }
 
   public static function login($userName, $password) {
-    // todo ask database for user
+    $loginRes = null;
+    Logging::WriteLog(LogType::Announcement, "Login attempt for user: \"$userName\"");
+    if (!MyDatabase::getOneValue($loginRes, LOGIN_SQL, array($userName, $password))) {
+      self::navigate(LOGIN_PAGE . "?message=" . urlencode(STR_DATABASE_ERROR));
+    }
+    if ($loginRes === 1) {
+      Logging::WriteLog(LogType::Announcement, "Login successful");
+      $_SESSION['logged'] = true;
+      return true;
+    }
+    Logging::WriteLog(LogType::Announcement, "Login failed");
+    return false;
   }
 
   public static function logout() {
