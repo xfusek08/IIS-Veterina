@@ -40,7 +40,6 @@ class MyDatabase
 
   public static function disconnect() {
     self::$PDO = null;
-    unset(self::$PDO);
     self::$isConnected = false;
   }
 

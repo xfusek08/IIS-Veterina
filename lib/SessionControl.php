@@ -5,20 +5,18 @@ require_once("Database.php");
 
 /* Singleton class to control session related operations */
 class SessionControl {
-  private static $_wasStarted = false;
-
   public static function startSession() {
-    if (!self::$_wasStarted) {
-      session_start();
+    session_start();
+    if (isset($_GET['logout'])) {
+      self::logout();
+    } else {
       MyDatabase::connect();
     }
   }
 
   public static function destroySession() {
-    if (self::$_wasStarted) {
-      session_destroy();
-      MyDatabase::disconnect();
-    }
+    session_destroy();
+    MyDatabase::disconnect();
   }
 
   public static function isLogged() {
