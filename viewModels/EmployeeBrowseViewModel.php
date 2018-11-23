@@ -3,7 +3,7 @@
 require_once("viewModels/ViewModelBase.php");
 
 class EmployeeBrowseViewModel extends ViewModelBase {
-  public $employees = array();
+  public $Employees = array();  // probably just result of concrete sql
 
   public function loadFromGet() {}
 

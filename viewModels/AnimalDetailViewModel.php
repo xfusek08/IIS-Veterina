@@ -1,21 +1,26 @@
 <?php
 
+require_once("DBEntities/AnimalEntity.php");
 require_once("viewModels/ViewModelBase.php");
-require_once("models/AnimalModel.php");
 
 class AnimalDetailViewModel extends ViewModelBase {
-  public $isEdit;
-  public $animal = null;
-  public $treatments = array();
+  public $IsEdit;
+  public $Animal = null;
+  public $Treatments = array(); // sql result or array of Treatement entities ?
+  public $Examinations = array(); // sql result or array of Treatement entities ?
 
   public function __construct() {
     $this->isEdit = false;
-    $this->animal = new AnimalModel();
+    $this->animal = new AnimalEntity();
   }
 
   public function loadFromGet() {
     if (isset($_GET['pk'])) {
-      // TODO: Load by pk
+      $pk = intval($_GET['pk']);
+      $this->animal = new AnimalEntity($pk);
+      echo("<div>Animal pk: " . $pk . '</div>');
+      echo("<div>Animal load: " . (($this->animal->IsLoadSuccess) ? 'ano ': 'ne') . '</div>');
+      echo("<div>Animal loaded name: " . $this->animal->getColumnByName('ani_name')->getValueAsString() . '</div>');
       if (isset($_GET['edit'])) {
         $this->isEdit = true;
       }
@@ -24,5 +29,7 @@ class AnimalDetailViewModel extends ViewModelBase {
 
   public function processAjax() {}
 
-  public function processPost() {}
+  public function processPost() {
+    $this->animal->loadFromPostData();
+  }
 }

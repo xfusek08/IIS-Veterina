@@ -1,402 +1,401 @@
 <?php
-abstract class DatabaseEntity
-{
-  public $i_iPK;
-  public $i_sTableName;
-  public $i_sPKColName;
 
-  public $i_aColumns = array();
-  public $i_bLoad_Success;
-  public $i_eSaveToDBResult;
+class DataType {
+  const None = 0;
+  const String = 1;
+  const Integer = 2;
+  const Float = 3;
+  const Date = 4;
+  const DateTrnc = 5;
+  const Timestamp = 6;
+  const Bool = 7;
+}
 
-  private $i_iColCount;
+class SaveToDBResult {
+  const None = 0;
+  const OK = 1;
+  const Error = 2;
+  const InvalidData = 3;
+}
 
-  public function __construct($a_iPK = 0, $ExternTransaction = false)
-  {
-    $this->i_iPK = $a_iPK;
+abstract class DatabaseEntity {
+  public $PK;
+  public $TableName;
+  public $PKColName;
 
-    $this->i_bLoad_Success = false;
-    $this->i_eSaveToDBResult = SaveToDBResult::None;
-    $this->DefColumns();
-    $this->i_iColCount = count($this->i_aColumns);
+  public $Columns = array();
+  public $IsLoadSuccess;
+  public $SaveToDBResult;
 
-    if ($this->i_iPK > 0)
-      $this->i_bLoad_Success = $this->InitFromDB($ExternTransaction);
+  public function __construct($pk = 0, $externalTransaction = false) {
+    $this->PK = $pk;
+    $this->PKColName = strtolower($this->PKColName);
+    $this->IsLoadSuccess = false;
+    $this->SaveToDBResult = SaveToDBResult::None;
+    $this->defColumns();
+
+    if ($this->PK > 0)
+      $this->IsLoadSuccess = $this->initFromDB($externalTransaction);
   }
-  public function InitFromDB($ExternTransaction)
-  {
-    if ($this->i_iPK < 1 || $this->i_sTableName == '' || $this->i_sPKColName == '')
+
+  public function initFromDB($externalTransaction) {
+    if ($this->PK < 1 || $this->TableName == '' || $this->PKColName == '')
       return false;
 
     $SQL = 'select ';
-    for ($i = 0; $i < $this->i_iColCount; $i++)
-    {
-      $SQL .= $this->i_aColumns[$i]->GetSelectSQL();
-      if ($i + 1 < $this->i_iColCount)
-       $SQL .= ', ';
+    for ($i = 0; $i < count($this->Columns); $i++) {
+      $SQL .= $this->Columns[$i]->getSelectSQL();
+      if ($i + 1 < count($this->Columns))
+        $SQL .= ', ';
     }
 
-    $SQL .= ' from '. $this->i_sTableName . ' where ' . $this->i_sPKColName . ' = ?';
+    $SQL .= ' from '. $this->TableName . ' where ' . $this->PKColName . ' = ?';
 
     $fields = null;
-    if(!MyDatabase::RunQuery($fields, $SQL, $ExternTransaction, $this->i_iPK))
+    if(!MyDatabase::runQuery($fields, $SQL, $externalTransaction, $this->PK))
       return false;
 
     if (count($fields) == 0 || count($fields) > 1)
       return false;
 
-    for ($i = 0; $i < $this->i_iColCount; $i++)
-    {
-      if (!$this->i_aColumns[$i]->SetValueFromString(strval($fields[0][$this->i_aColumns[$i]->i_sName])))
-      {
+    for ($i = 0; $i < count($this->Columns); $i++) {
+      if (!$this->Columns[$i]->setValueFromString(strval($fields[0][$this->Columns[$i]->ColName]))) {
         Logging::WriteLog(LogType::Error,
-            'Database entity initialization error on index: ' . $i .' entity name: ' . $this->i_aColumns[$i]->i_sName);
+            'Database entity initialization error on index: ' . $i .' entity name: ' . $this->Columns[$i]->ColName);
         return false;
       }
     }
     return true;
   }
-  public function SaveToDB($ExternalTrans)
-  {
-    $this->i_eSaveToDBResult = SaveToDBResult::OK;
-    if (!$this->IsDataValid())
-    {
-      $this->i_eSaveToDBResult = SaveToDBResult::InvalidData;
+
+  public function saveToDB($externalTransaction) {
+    $this->SaveToDBResult = SaveToDBResult::OK;
+    if (!$this->isDataValid()) {
+      $this->SaveToDBResult = SaveToDBResult::InvalidData;
       return false;
     }
-    $v_aCols = array();
-
-    for ($i = 0; $i < $this->i_iColCount; $i++)
-    {
-      if (!is_a($this->i_aColumns[$i], 'SQLColumn')) // pokud se nejedna o vypocteny spoupec
-        $v_aCols[] = $this->i_aColumns[$i];
-    }
-
-    $params = array();
-    for ($i = 0; $i < count($v_aCols); $i++)
-      $params[] = $v_aCols[$i]->GetValueAsString(false);
 
     $SQL = '';
-    if ($this->i_iPK > 0) // update
-    {
-      $SQL = 'update ' . $this->i_sTableName . ' set ';
-      for ($i = 0; $i < count($v_aCols); $i++)
-      {
-        $SQL .= $v_aCols[$i]->i_sName . ' = ?';
-        if ($i + 1 < count($v_aCols))
-          $SQL .= ', ';
-      }
-      $SQL .= ' where ' . $this->i_sPKColName . ' = ?';
+    $cols = array();
+    $params = array();
 
-      $params[] = $this->i_iPK;
+    // load cols with $this->Columns and filter out SQLColumn
+    foreach ($this->Columns as $col) {
+      if (!is_a($col, 'SQLColumn'))
+        $cols[] = $col;
     }
-    else // insert
-    {
-      $SQL = 'insert into ' . $this->i_sTableName . ' (';
-      for ($i = 0; $i < count($v_aCols); $i++)
-      {
-        $SQL .= $v_aCols[$i]->i_sName;
-        if ($i + 1 < count($v_aCols))
+
+    // load params for sql
+    foreach ($cols as $col)
+      $params[] = $col->getValueAsString(false);
+
+    // UPDATE
+    if ($this->PK > 0) {
+      $SQL = 'update ' . $this->TableName . ' set ';
+      for ($i = 0; $i < count($cols); $i++) {
+        $SQL .= $cols[$i]->ColName . ' = ?';
+        if ($i + 1 < count($cols))
           $SQL .= ', ';
       }
+      $SQL .= ' where ' . $this->PKColName . ' = ?';
+      $params[] = $this->PK;
+
+    } else { // INSERT
+      $SQL = 'insert into ' . $this->TableName . ' (';
+      for ($i = 0; $i < count($cols); $i++) {
+        $SQL .= $cols[$i]->ColName;
+        if ($i + 1 < count($cols))
+          $SQL .= ', ';
+      }
+
       $SQL .= ') values(';
-      for ($i = 0; $i < count($v_aCols); $i++)
-      {
+      for ($i = 0; $i < count($cols); $i++) {
         $SQL .= '?';
-        if ($i + 1 < count($v_aCols))
+        if ($i + 1 < count($cols))
           $SQL .= ', ';
       }
-      $SQL .= ') returning ' . $this->i_sPKColName . ';';
+      $SQL .= ') returning ' . $this->PKColName . ';';
     }
 
     $fields = null;
 
-    if (!MyDatabase::RunQuery($fields, $SQL, $ExternalTrans, $params))
-    {
-      $this->i_eSaveToDBResult = SaveToDBResult::Error;
+    if (!MyDatabase::runQuery($fields, $SQL, $externalTransaction, $params)) {
+      $this->SaveToDBResult = SaveToDBResult::Error;
       return false;
     }
 
-    if ($this->i_iPK == 0)
-    {
-      if (count($fields) == 0)
-      {
-        $this->i_eSaveToDBResult = SaveToDBResult::Error;
+    if ($this->PK == 0) {
+      if (count($fields) == 0) {
+        $this->SaveToDBResult = SaveToDBResult::Error;
         return false;
       }
-
-      $this->i_iPK = intval($fields[0][0]);
+      $this->PK = intval($fields[0][0]);
     }
 
     return true;
   }
-  public function DeleteFromDB($ExternalTrans)
-  {
-    if ($this->i_iPK < 1)
+
+  public function deleteFromDB($externalTransaction) {
+    if ($this->PK < 1)
       return true;
 
-    $SQL = 'delete from ' . $this->i_sTableName . ' where ' . $this->i_sPKColName . ' = ?';
+    $SQL = 'delete from ' . $this->TableName . ' where ' . $this->PKColName . ' = ?';
     $fields = null;
-    if (!MyDatabase::RunQuery($fields, $SQL, $ExternalTrans, $this->i_iPK))
+    if (!MyDatabase::runQuery($fields, $SQL, $externalTransaction, $this->PK))
       return false;
     return true;
   }
-  public function GetAsXML($Formated = true)
-  {
-    $res = '<' . strtolower($this->i_sTableName) . '>';
-    $res .= '<pk>' . $this->i_iPK . '</pk>';
-    for ($i = 0; $i < $this->i_iColCount; $i++)
-    {
+
+  public function getAsXML($formated = true) {
+    $res = '<' . $this->TableName . '>';
+    $res .= '<pk>' . $this->PK . '</pk>';
+    foreach ($this->Columns as $col) {
       $res .=
-        '<' . strtolower($this->i_aColumns[$i]->i_sName) . '>' .
-          $this->i_aColumns[$i]->GetValueAsString($Formated) .
-        '</' . strtolower($this->i_aColumns[$i]->i_sName) . '>';
+        '<' . $col->ColName . '>' .
+          $col->getValueAsString($formated) .
+        '</' . $col->ColName . '>';
     }
-    $res .= '</' . strtolower($this->i_sTableName) . '>';
+    $res .= '</' . $this->TableName . '>';
     return $res;
   }
-  public function LoadFromPostData($a_sPrefix = '')
-  {
+
+  // TODO: get as JSON
+
+  public function loadFromPostData($prefix = '') {
     $counter = 0;
-    for ($i = 0; $i < $this->i_iColCount; $i++)
-    {
-      if (isset($_POST[$a_sPrefix . strtolower($this->i_aColumns[$i]->i_sName)]))
-      {
-        $this->i_aColumns[$i]->SetValueFromString($_POST[$a_sPrefix . strtolower($this->i_aColumns[$i]->i_sName)]);
+    foreach ($this->Columns as $col) {
+      if (isset($_POST[$prefix . $col->ColName])) {
+        $col->setValueFromString($_POST[$prefix . $col->ColName]);
         $counter++;
-      }
-      else if ($this->i_aColumns[$i]->i_tDataType == DataType::Bool)
-       $this->i_aColumns[$i]->SetValue(false);
+      } else if ($col->DataType == DataType::Bool)
+       $col->setValue(false);
     }
     return $counter;
   }
-  public function GetColumnByName($a_sColName)
-  {
-    $a_sColName = strtoupper($a_sColName);
-    for ($i = 0; $i < count($this->i_aColumns); $i++)
-      if ($this->i_aColumns[$i]->i_sName === $a_sColName)
-        return $this->i_aColumns[$i];
+
+  public function getColumnByName($colName) {
+    foreach ($this->Columns as $col)
+      if ($col->ColName === $colName)
+        return $col;
 
     return null;
   }
-  public function IsDataValid()
-  {
-    for ($i = 0; $i < count($this->i_aColumns); $i++)
-      if (!$this->i_aColumns[$i]->i_bValid)
+
+  public function isDataValid() {
+    foreach ($this->Columns as $col)
+      if (!$col->IsValid)
         return false;
 
     return true;
   }
-  public function GetInvalidDataXML($a_sPrefix = '')
-  {
+
+  public function getInvalidDataXML($prefix = '') {
     $res = '<invaliddata>';
-    for ($i = 0; $i < count($this->i_aColumns); $i++)
-      if (!$this->i_aColumns[$i]->i_bValid)
-      {
+    foreach ($this->Columns as $col) {
+      if (!$col->IsValid) {
         $res .=
-        '<input name="' . $a_sPrefix . strtolower($this->i_aColumns[$i]->i_sName) . '" '.
-          'message="' . $this->i_aColumns[$i]->GetInvalidDataMessage() . '" />';
+        '<input name="' . $prefix . $col->ColName . '" '.
+          'message="' . $col->getInvalidDataMessage() . '" />';
       }
+    }
     $res .= '</invaliddata>';
     return $res;
   }
-  protected function AddColumn($a_tDataType, $a_sName, $a_bNotNull = false, $a_sDefValueString = '')
-  {
-    if ($this->GetColumnByName($a_sName) !== null)
-        return $this->GetColumnByName($a_sName);
-    $col = new DBEntColumn($a_tDataType, $a_sName, $a_bNotNull, $a_sDefValueString);
-    $this->i_aColumns[] = $col;
+
+  // TODO: getInvalidDataJSON
+
+  protected function addColumn($dataType, $name, $isNotNull = false, $defValueString = '') {
+    if ($this->getColumnByName($name) !== null)
+        return $this->getColumnByName($name);
+    $col = new DBEntColumn($dataType, $name, $isNotNull, $defValueString);
+    $this->Columns[] = $col;
     return $col;
   }
-  protected function AddSQLColumn($a_tDataType, $a_sName, $a_sSQL)
-  {
-    if ($this->GetColumnByName($a_sName) !== null)
-        return $this->GetColumnByName($a_sName);
-    $col = new SQLColumn($a_tDataType, $a_sName, $a_sSQL);
-    $this->i_aColumns[] = $col;
+
+  protected function addSQLColumn($dataType, $name, $stringSQL) {
+    if ($this->getColumnByName($name) !== null)
+        return $this->getColumnByName($name);
+    $col = new SQLColumn($dataType, $name, $stringSQL);
+    $this->Columns[] = $col;
     return $col;
   }
-  protected abstract function DefColumns();
+
+  protected abstract function defColumns();
 }
-class DBEntColumn
-{
-  private $i_xValue;
-  public $i_bNotNull;
 
-  public $i_sName;
-  public $i_bValid;
-  public $i_sInvalidDataMsg;
-  public $i_bUnformated;
+class DBEntColumn {
+  private $_valueVar;
 
-  public $i_tDataType;
-  public function __construct($a_tDataType, $a_sName, $a_bNotNull = false, $a_sDefValueString = '')
-  {
-    $this->i_sInvalidDataMsg = '';
-    $this->i_bUnformated = false;
-    $this->i_bValid = false;
-    $this->i_tDataType = $a_tDataType;
-    $this->i_bNotNull = $a_bNotNull;
-    $this->i_sName = strtoupper($a_sName);
-    $this->SetValueFromString($a_sDefValueString);
-  }
-  public function GetValue()
-  {
-    return $this->i_xValue;
-  }
-  public function GetInvalidDataMessage()
-  {
-    return $this->i_sInvalidDataMsg;
-  }
-  public function GetSelectSQL()
-  {
-    return $this->i_sName;
-  }
-  public function SetValue($a_xValue)
-  {
-    $this->i_bValid = true;
+  public $IsNotNull;
+  public $ColName;
+  public $IsValid;
+  public $InvalidDataMsg;
+  public $IsUnformated;
+  public $DataType;
 
-    if ($this->i_tDataType == DataType::Bool)
-      $this->i_xValue = BoolTo01($a_xValue);
+  public function __construct($dataType, $name, $isNotNull = false, $defValueString = '') {
+    $this->InvalidDataMsg = '';
+    $this->IsUnformated = false;
+    $this->IsValid = false;
+    $this->DataType = $dataType;
+    $this->IsNotNull = $isNotNull;
+    $this->ColName = strtolower($name);
+    $this->setValueFromString($defValueString);
+  }
+
+ public function getValue() {
+    return $this->_valueVar;
+  }
+
+  public function getInvalidDataMessage() {
+    return $this->InvalidDataMsg;
+  }
+
+  public function getSelectSQL() {
+    return $this->ColName;
+  }
+
+  public function setValue($valueVar) {
+    $this->IsValid = true;
+
+    if ($this->DataType == DataType::Bool)
+      $this->_valueVar = BoolTo01($valueVar);
     else
-      $this->i_xValue = $a_xValue;
+      $this->_valueVar = $valueVar;
 
-    if ($a_xValue === '')
-      $this->i_xValue = null;
+    if ($valueVar === '')
+      $this->_valueVar = null;
 
-    if ($this->i_xValue === null)
-    {
-      if ($this->i_bNotNull)
-      {
-        $this->i_bValid = false;
-        $this->i_sInvalidDataMsg = 'Položka je povinná.';
+    if ($this->_valueVar === null) {
+      if ($this->IsNotNull) {
+        $this->IsValid = false;
+        $this->InvalidDataMsg = 'Položka je povinná.';
       }
-      return $this->i_bValid;
+      return $this->IsValid;
     }
-    switch ($this->i_tDataType)
-    {
+
+    switch ($this->DataType) {
       case DataType::String:
-        $this->i_bValid = is_string($this->i_xValue);
+        $this->IsValid = is_string($this->_valueVar);
         break;
       case DataType::Integer:
-        $this->i_bValid = is_int($this->i_xValue);
+        $this->IsValid = is_int($this->_valueVar);
         break;
       case DataType::Float:
-        $this->i_bValid = is_float($this->i_xValue);
+        $this->IsValid = is_float($this->_valueVar);
         break;
       case DataType::Date:
       case DataType::DateTrnc:
       case DataType::Timestamp:
-        $this->i_bValid = IsTimestamp($this->i_xValue);
+        $this->IsValid = IsTimestamp($this->_valueVar);
         break;
       case DataType::Bool:
-        $this->i_bValid = $this->i_xValue === 1 || $this->i_xValue === 0;
+        $this->IsValid = $this->_valueVar === 1 || $this->_valueVar === 0;
         break;
     }
 
-    if (!$this->i_bValid)
-    {
-      $this->i_sInvalidDataMsg = 'Chyba ve validaci';
+    if (!$this->IsValid) {
+      $this->InvalidDataMsg = 'Chyba ve validaci';
       Logging::WriteLog(LogType::Announcement,
-          'DBEntColumn.SetValue() - invalid got datatype. name="' . $this->i_sName . '" '.
-          'value="' . $this->i_xValue . '" NotNull="' . BoolTo01Str($this->i_bNotNull) . '"');
+          'DBEntColumn.setValue() - invalid got datatype. name="' . $this->ColName . '" '.
+          'value="' . $this->_valueVar . '" NotNull="' . BoolTo01Str($this->IsNotNull) . '"');
     }
 
-    return $this->i_bValid;
+    return $this->IsValid;
   }
-  public function SetValueFromString($a_sValue)
-  {
-    if ($this->i_tDataType == DataType::Bool)
-      return $this->SetValue(BoolTo01(boolval($a_sValue)));
+
+  public function setValueFromString($valueString) {
+    if ($this->DataType == DataType::Bool)
+      return $this->setValue(BoolTo01(boolval($valueString)));
 
     // pokud neni string tak nic nemenime a zapiseme upozorneni
-    if (!is_string($a_sValue) && $a_sValue !== null)
+    if (!is_string($valueString) && $valueString !== null)
     {
       Logging::WriteLog(LogType::Announcement,
-        'DBEntColumn.SetValueFromString() - Trying to store non string value. name="' . $this->i_sName . '" '.
-          'value="' . $this->GetValue() . '" NotNull="' . BoolTo01Str($this->i_bNotNull) . '"');
-      return $this->i_bValid;
+        'DBEntColumn.setValueFromString() - Trying to store non string value. name="' . $this->ColName . '" '.
+          'value="' . $this->getValue() . '" NotNull="' . BoolTo01Str($this->IsNotNull) . '"');
+      return $this->IsValid;
     }
 
     // prazdny string odpovida hodnote null
-    if ($a_sValue == '' || $a_sValue === null)
-      return $this->SetValue(null);
+    if ($valueString == '' || $valueString === null)
+      return $this->setValue(null);
 
-    switch ($this->i_tDataType)
+    switch ($this->DataType)
     {
-      case DataType::String: $this->SetValue($a_sValue); break;
+      case DataType::String: $this->setValue($valueString); break;
       case DataType::Integer:
-        $val = str_replace(' ', '', $a_sValue);
+        $val = str_replace(' ', '', $valueString);
         if (is_numeric ($val))
-          $this->SetValue(intval($val));
+          $this->setValue(intval($val));
         else
         {
-          $this->i_bValid = false;
-          $this->i_sInvalidDataMsg = 'Položka není platné celé číslo.';
+          $this->IsValid = false;
+          $this->InvalidDataMsg = 'Položka není platné celé číslo.';
         }
         break;
       case DataType::Float:
-        $val = str_replace(',', '.', $a_sValue);
+        $val = str_replace(',', '.', $valueString);
         $val = str_replace(' ', '', $val);
         if (is_numeric ($val))
-          $this->SetValue(floatval($val));
+          $this->setValue(floatval($val));
         else
         {
-          $this->i_bValid = false;
-          $this->i_sInvalidDataMsg = 'Položka není platné desetinné číslo.';
+          $this->IsValid = false;
+          $this->InvalidDataMsg = 'Položka není platné desetinné číslo.';
         }
         break;
       case DataType::Date:
       case DataType::DateTrnc:
       case DataType::Timestamp:
-        if (strtotime($a_sValue) == false)
+        if (strtotime($valueString) == false)
         {
-          $this->i_bValid = false;
-          $this->i_sInvalidDataMsg = 'Položka není platný časový údaj.';
+          $this->IsValid = false;
+          $this->InvalidDataMsg = 'Položka není platný časový údaj.';
         }
         else
-          $this->SetValue(strtotime($a_sValue));
+          $this->setValue(strtotime($valueString));
         break;
     }
-    return $this->i_bValid;
+    return $this->IsValid;
   }
-  public function GetValueAsString($a_bformated = true)
-  {
-    if ($this->GetValue() === null)
+
+  public function getValueAsString($isFormated = true) {
+    if ($this->getValue() === null)
       return '';
 
-    switch ($this->i_tDataType)
-    {
+    switch ($this->DataType) {
       case DataType::String:
-        return $this->GetValue();
+        return $this->getValue();
       case DataType::Integer:
-        if (!$a_bformated || $this->i_bUnformated) return strval($this->GetValue());
-        return number_format($this->GetValue(), 0, '', ' ');
+        if (!$isFormated || $this->IsUnformated) return strval($this->getValue());
+        return number_format($this->getValue(), 0, '', ' ');
       case DataType::Float:
-        if (!$a_bformated || $this->i_bUnformated)
-          return number_format($this->GetValue(), 2, '.', '');
-        return number_format($this->GetValue(), 2, ',', ' ');
+        if (!$isFormated || $this->IsUnformated)
+          return number_format($this->getValue(), 2, '.', '');
+        return number_format($this->getValue(), 2, ',', ' ');
       case DataType::Date:
-        return date(DATE_FORMAT, $this->GetValue());
+        return date(DATE_FORMAT, $this->getValue());
       case DataType::DateTrnc:
-        return date('d.m.', $this->GetValue());
+        return date('d.m.', $this->getValue());
       case DataType::Timestamp:
-        return date(DATE_TIME_FORMAT, $this->GetValue());
+        return date(DATE_TIME_FORMAT, $this->getValue());
       case DataType::Bool:
-        return BoolTo01Str($this->GetValue());
+        return BoolTo01Str($this->getValue());
     }
   }
 }
-class SQLColumn extends DBEntColumn
-{
+
+class SQLColumn extends DBEntColumn {
   public $i_sSQL;
-  public function __construct($a_tDataType, $a_sName, $a_sSQL)
-  {
-    parent::__construct($a_tDataType, $a_sName);
-    $this->i_sSQL = $a_sSQL;
-    $this->i_bValid = true;
+
+  public function __construct($dataType, $name, $stringSQL) {
+    parent::__construct($dataType, $name);
+    $this->i_sSQL = $stringSQL;
+    $this->IsValid = true;
   }
-  public function GetSelectSQL()
-  {
-    return '(' . $this->i_sSQL . ') as ' . $this->i_sName;
+
+  public function getSelectSQL() {
+    return '(' . $this->i_sSQL . ') as ' . $this->ColName;
   }
 }

@@ -3,7 +3,7 @@
 require_once("viewModels/ViewModelBase.php");
 
 class OwnerBrowseViewModel extends ViewModelBase {
-  public $owners = array();
+  public $Owners = array(); // probably just result of concrete sql
 
   public function loadFromGet() {}
 

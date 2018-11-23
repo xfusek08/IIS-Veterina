@@ -23,7 +23,7 @@
       <table>
         <tr>
           <td>Jméno:</td>
-          <td><input name="name" type="text" value="<?= $actVM->name ?>"/></td>
+          <td><input name="name" type="text" value="<?= $actVM->Name ?>"/></td>
         </tr>
         <tr>
           <td>Heslo:</td>
@@ -35,6 +35,6 @@
       </div>
     </form>
     <hr>
-    <div><?= $actVM->message ?></div>
+    <div><?= $actVM->Message ?></div>
   </body>
 </html>

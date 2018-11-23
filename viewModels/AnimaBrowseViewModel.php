@@ -1,9 +1,10 @@
 <?php
 
+require_once("DBEntities/AnimalEntity.php");
 require_once("viewModels/ViewModelBase.php");
 
 class AnimaBrowseViewModel extends ViewModelBase {
-  public $animals = array();
+  public $Animals = array(); // probably just result of concrete sql
 
   public function loadFromGet() {}
 

@@ -3,7 +3,7 @@
 require_once("viewModels/ViewModelBase.php");
 
 class MedicamentBrowseViewModel extends ViewModelBase {
-  public $medicaments = array();
+  public $Medicaments = array();  // probably just result of concrete sql
 
   public function loadFromGet() {}
 

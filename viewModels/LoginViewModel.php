@@ -3,13 +3,13 @@
 require_once("viewModels/ViewModelBase.php");
 
 class LoginViewModel extends ViewModelBase {
-  public $name = "";
-  public $message = "";
+  public $Name = "";
+  public $Message = "";
 
   public function loadFromGet() {
-    $this->message = "";
+    $this->Message = "";
     if (isset($_GET["message"])) {
-      $this->message = urldecode($_GET["message"]);
+      $this->Message = urldecode($_GET["message"]);
     }
   }
 
@@ -17,17 +17,17 @@ class LoginViewModel extends ViewModelBase {
 
   public function processPost() {
     if (isset($_POST["name"]) && isset($_POST["psw"])) {
-      $this->name = $_POST["name"];
+      $this->Name = $_POST["name"];
       $psw = $_POST["psw"];
 
-      if ($this->name == "" || $psw == "") {
-        $this->message = "Jméno a heslo nesmí být prázdné.";
-      } else if (SessionControl::login($this->name, $psw)) {
+      if ($this->Name == "" || $psw == "") {
+        $this->Message = "Jméno a heslo nesmí být prázdné.";
+      } else if (SessionControl::login($this->Name, $psw)) {
         SessionControl::navigate(MAIN_PAGE);
       } else {
-        $this->message = "Chybný uživatel.";
+        $this->Message = "Chybný uživatel.";
       }
     } else
-      $this->message = "Chybná data.";
+      $this->Message = "Chybná data.";
   }
 }
