@@ -181,6 +181,13 @@ abstract class DatabaseEntity {
     return null;
   }
 
+  public function getColumnStringValue($colName) {
+    $col = $this->getColumnByName($colName);
+    if ($col != null)
+      return $col->getValueAsString();
+    return "unknown";
+  }
+
   public function isDataValid() {
     foreach ($this->Columns as $col)
       if (!$col->IsValid)

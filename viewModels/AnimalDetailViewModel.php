@@ -20,7 +20,7 @@ class AnimalDetailViewModel extends ViewModelBase {
       $this->animal = new AnimalEntity($pk);
       echo("<div>Animal pk: " . $pk . '</div>');
       echo("<div>Animal load: " . (($this->animal->IsLoadSuccess) ? 'ano ': 'ne') . '</div>');
-      echo("<div>Animal loaded name: " . $this->animal->getColumnByName('ani_name')->getValueAsString() . '</div>');
+      echo("<div>Animal loaded name: " . $this->animal->getColumnStringValue('ani_name') . '</div>');
       if (isset($_GET['edit'])) {
         $this->isEdit = true;
       }

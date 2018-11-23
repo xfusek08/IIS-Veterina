@@ -10,7 +10,14 @@ class AnimalEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
+    $this->addColumn(DataType::Int, 'ani_owner', true);
+    $this->addColumn(DataType::Int, 'ani_species', true);
+    $this->addColumn(DataType::String, 'ani_state', true, 'A');
+    $this->addColumn(DataType::String, 'ani_description');
     $this->addColumn(DataType::String, 'ani_name', true);
-    // TODO: all columns
+    $this->addColumn(DataType::String, 'ani_sex');
+    $this->addColumn(DataType::Int, 'ani_weight');
+    $this->addColumn(DataType::Date, 'ani_birthday');
+    $this->addColumn(DataType::Int, 'ani_race');
   }
 }
