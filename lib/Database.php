@@ -30,7 +30,7 @@ class MyDatabase
       }
       catch (PDOException $e)
       {
-        Logging::WriteLog(LogType::Error, "Database connection error; " . $e->getMessage());
+        Log::WriteLog(LogType::Error, "Database connection error; " . $e->getMessage());
         echo $e->getMessage() . '</br>';
         die("Database connection failed");
       }
@@ -43,15 +43,15 @@ class MyDatabase
     self::$isConnected = false;
   }
 
-  public static function runQuery(&$fields, $SQL, $externalTransaction, $params = false)
+  public static function runQuery(&$fields, $SQL, $isExternalTransaction, $params = false)
   {
-    Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
-    Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
+    Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
+    Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
 
     $fields = null;
     try
     {
-      if (!$externalTransaction)
+      if (!$isExternalTransaction)
         self::$PDO->beginTransaction();
 
       $query = self::$PDO->prepare($SQL);
@@ -67,17 +67,17 @@ class MyDatabase
 
       $fields = $query->fetchAll();
 
-      Logging::WriteLog(LogType::Announcement, "MyDatabase->runQuery; results:". PHP_EOL . print_r($fields, true));
+      Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; results:". PHP_EOL . print_r($fields, true));
 
-      if (!$externalTransaction)
+      if (!$isExternalTransaction)
         self::$PDO->commit();
     }
     catch(PDOException $e)
     {
-      Logging::WriteLog(LogType::Error, "MyDatabase->runQuery; " . $e->getMessage());
-      Logging::WriteLog(LogType::Error, "MyDatabase->runQuery; SQL: " . $SQL);
-      if (!$externalTransaction) {
-        Logging::WriteLog(LogType::Announcement, "RollBack");
+      Log::WriteLog(LogType::Error, "MyDatabase->runQuery; " . $e->getMessage());
+      Log::WriteLog(LogType::Error, "MyDatabase->runQuery; SQL: " . $SQL);
+      if (!$isExternalTransaction) {
+        Log::WriteLog(LogType::Announcement, "RollBack");
         self::$PDO->rollBack();
       }
       $fields = $e->errorInfo[1];

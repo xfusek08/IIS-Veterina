@@ -1,27 +1,22 @@
 <?php
 require_once("Settings.php");
 
-class LogType
-{
+class LogType {
   const Announcement = 0;
   const Error = 1;
   const Event = 2;
 }
 
-class Logging
-{
+class Log {
   public static $FullLogFileName;
   public static $LogFileName;
 
-  public static function Init()
-  {
-    if (!file_exists(LOG_FOLDER))
-    {
+  public static function Init() {
+    if (!file_exists(LOG_FOLDER)) {
       mkdir(LOG_FOLDER);
     }
 
-    if (file_exists(self::$FullLogFileName) && self::IsNewFile())
-    {
+    if (file_exists(self::$FullLogFileName) && self::IsNewFile()) {
       $File = fopen(self::$FullLogFileName, "a");
       self::WriteLogLine($File, "File ended.");
       fclose($File);
@@ -31,29 +26,23 @@ class Logging
     self::$LogFileName = self::GetActFileName();
     self::$FullLogFileName = LOG_FOLDER . "/" . self::GetActFileName();
 
-    try
-    {
-      if (!file_exists(self::$FullLogFileName))
-      {
+    try {
+      if (!file_exists(self::$FullLogFileName)) {
         $File = fopen(self::$FullLogFileName, "a");
         self::WriteLogLine($File, "File created: " . self::$FullLogFileName);
         fclose($File);
       }
     }
-    catch (Exception $e)
-    {
+    catch (Exception $e) {
       die("Error during log initialization.");
     }
   }
 
-  public static function WriteLog($LogType, $Text)
-  {
+  public static function WriteLog($LogType, $Text) {
     self::Init();
-    try
-    {
+    try {
       $Type = "";
-      switch($LogType)
-      {
+      switch($LogType) {
         case LogType::Error:        $Type = "Error"; break;
         case LogType::Announcement: $Type = "Announcement"; break;
         case LogType::Event:        $Type = "Event"; break;
@@ -63,25 +52,22 @@ class Logging
       self::WriteLogLine($File, $Type . ": " . $Text);
       fclose($File);
     }
-    catch (Exception $e)
-    {
+    catch (Exception $e) {
       die("Error during log.");
     }
   }
 
-  private static function GetActFileName()
-  {
+  private static function GetActFileName() {
     return "RPLog_" . date("Ymd") . ".log";
   }
 
-  private static function IsNewFile()
-  {
+  private static function IsNewFile() {
     return (self::$LogFileName != self::GetActFileName());
   }
-  private static function WriteLogLine($File, $Text)
-  {
+
+  private static function WriteLogLine($File, $Text) {
     fwrite($File, date('[' .DATE_TIME_FORMAT. ']') . " " . $Text . PHP_EOL);
   }
 }
 
-Logging::Init();
+Log::Init();

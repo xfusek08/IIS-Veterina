@@ -1,5 +1,8 @@
 <?php
 
+require_once("lib/Logs.php");
+require_once("lib/utils.php");
+
 class DataType {
   const None = 0;
   const String = 1;
@@ -27,7 +30,7 @@ abstract class DatabaseEntity {
   public $IsLoadSuccess;
   public $SaveToDBResult;
 
-  public function __construct($pk = 0, $externalTransaction = false) {
+  public function __construct($pk = 0, $isExternalTransaction = false) {
     $this->PK = $pk;
     $this->PKColName = strtolower($this->PKColName);
     $this->IsLoadSuccess = false;
@@ -35,24 +38,17 @@ abstract class DatabaseEntity {
     $this->defColumns();
 
     if ($this->PK > 0)
-      $this->IsLoadSuccess = $this->initFromDB($externalTransaction);
+      $this->IsLoadSuccess = $this->initFromDB($isExternalTransaction);
   }
 
-  public function initFromDB($externalTransaction) {
+  public function initFromDB($isExternalTransaction) {
     if ($this->PK < 1 || $this->TableName == '' || $this->PKColName == '')
       return false;
 
-    $SQL = 'select ';
-    for ($i = 0; $i < count($this->Columns); $i++) {
-      $SQL .= $this->Columns[$i]->getSelectSQL();
-      if ($i + 1 < count($this->Columns))
-        $SQL .= ', ';
-    }
-
-    $SQL .= ' from '. $this->TableName . ' where ' . $this->PKColName . ' = ?';
+    $SQL = $this->getSelectSQL() . " where $this->PKColName = ?";
 
     $fields = null;
-    if(!MyDatabase::runQuery($fields, $SQL, $externalTransaction, $this->PK))
+    if(!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $this->PK))
       return false;
 
     if (count($fields) == 0 || count($fields) > 1)
@@ -60,15 +56,22 @@ abstract class DatabaseEntity {
 
     for ($i = 0; $i < count($this->Columns); $i++) {
       if (!$this->Columns[$i]->setValueFromString(strval($fields[0][$this->Columns[$i]->ColName]))) {
-        Logging::WriteLog(LogType::Error,
-            'Database entity initialization error on index: ' . $i .' entity name: ' . $this->Columns[$i]->ColName);
+        Log::WriteLog(LogType::Error,
+          "Database entity initialization error on index: $i entity name: " . $this->Columns[$i]->ColName);
         return false;
       }
     }
     return true;
   }
 
-  public function saveToDB($externalTransaction) {
+  public function getSelectSQL() {
+    $cols = array();
+    foreach ($this->Columns as $col)
+      $cols[] = $col->getSelectSQL();
+    return 'select ' . implode(', ', $cols) . ' from ' . $this->TableName;
+  }
+
+  public function saveToDB($isExternalTransaction) {
     $this->SaveToDBResult = SaveToDBResult::OK;
     if (!$this->isDataValid()) {
       $this->SaveToDBResult = SaveToDBResult::InvalidData;
@@ -81,45 +84,29 @@ abstract class DatabaseEntity {
 
     // load cols with $this->Columns and filter out SQLColumn
     foreach ($this->Columns as $col) {
-      if (!is_a($col, 'SQLColumn'))
-        $cols[] = $col;
+      if (!is_a($col, 'SQLColumn')) {
+        $cols[] = $col->ColName;
+        $params[] = $col->getValueAsString(false);
+      }
     }
-
-    // load params for sql
-    foreach ($cols as $col)
-      $params[] = $col->getValueAsString(false);
 
     // UPDATE
     if ($this->PK > 0) {
-      $SQL = 'update ' . $this->TableName . ' set ';
-      for ($i = 0; $i < count($cols); $i++) {
-        $SQL .= $cols[$i]->ColName . ' = ?';
-        if ($i + 1 < count($cols))
-          $SQL .= ', ';
-      }
-      $SQL .= ' where ' . $this->PKColName . ' = ?';
+      $SQL =
+        'update ' . $this->TableName . ' set ' . implode(' = ?, ', $cols) .
+        ' where ' . $this->PKColName . ' = ?';
       $params[] = $this->PK;
 
     } else { // INSERT
-      $SQL = 'insert into ' . $this->TableName . ' (';
-      for ($i = 0; $i < count($cols); $i++) {
-        $SQL .= $cols[$i]->ColName;
-        if ($i + 1 < count($cols))
-          $SQL .= ', ';
-      }
-
-      $SQL .= ') values(';
-      for ($i = 0; $i < count($cols); $i++) {
-        $SQL .= '?';
-        if ($i + 1 < count($cols))
-          $SQL .= ', ';
-      }
-      $SQL .= ') returning ' . $this->PKColName . ';';
+      $SQL =
+        'insert into ' . $this->TableName . ' (' . implode(', ', $cols) . ')' .
+        ' values (' . str_repeat('?, ', count($cols)) . ')' .
+        ' returning ' . $this->PKColName . ';';
     }
 
     $fields = null;
 
-    if (!MyDatabase::runQuery($fields, $SQL, $externalTransaction, $params)) {
+    if (!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $params)) {
       $this->SaveToDBResult = SaveToDBResult::Error;
       return false;
     }
@@ -135,27 +122,27 @@ abstract class DatabaseEntity {
     return true;
   }
 
-  public function deleteFromDB($externalTransaction) {
+  public function deleteFromDB($isExternalTransaction) {
     if ($this->PK < 1)
       return true;
 
     $SQL = 'delete from ' . $this->TableName . ' where ' . $this->PKColName . ' = ?';
     $fields = null;
-    if (!MyDatabase::runQuery($fields, $SQL, $externalTransaction, $this->PK))
+    if (!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $this->PK))
       return false;
     return true;
   }
 
   public function getAsXML($formated = true) {
-    $res = '<' . $this->TableName . '>';
-    $res .= '<pk>' . $this->PK . '</pk>';
+    $res = '<' . $this->TableName . '>' . PHP_EOL;
+    $res .= '<pk>' . $this->PK . '</pk>' . PHP_EOL;
     foreach ($this->Columns as $col) {
       $res .=
-        '<' . $col->ColName . '>' .
-          $col->getValueAsString($formated) .
-        '</' . $col->ColName . '>';
+        '<' . $col->ColName . '>'  . PHP_EOL .
+          $col->getValueAsString($formated)  . PHP_EOL .
+        '</' . $col->ColName . '>' . PHP_EOL;
     }
-    $res .= '</' . $this->TableName . '>';
+    $res .= '</' . $this->TableName . '>' . PHP_EOL;
     return $res;
   }
 
@@ -221,7 +208,7 @@ abstract class DatabaseEntity {
 
   protected function addSQLColumn($dataType, $name, $stringSQL) {
     if ($this->getColumnByName($name) !== null)
-        return $this->getColumnByName($name);
+      return $this->getColumnByName($name);
     $col = new SQLColumn($dataType, $name, $stringSQL);
     $this->Columns[] = $col;
     return $col;
@@ -303,7 +290,7 @@ class DBEntColumn {
 
     if (!$this->IsValid) {
       $this->InvalidDataMsg = 'Chyba ve validaci';
-      Logging::WriteLog(LogType::Announcement,
+      Log::WriteLog(LogType::Announcement,
           'DBEntColumn.setValue() - invalid got datatype. name="' . $this->ColName . '" '.
           'value="' . $this->_valueVar . '" NotNull="' . BoolTo01Str($this->IsNotNull) . '"');
     }
@@ -316,9 +303,8 @@ class DBEntColumn {
       return $this->setValue(BoolTo01(boolval($valueString)));
 
     // pokud neni string tak nic nemenime a zapiseme upozorneni
-    if (!is_string($valueString) && $valueString !== null)
-    {
-      Logging::WriteLog(LogType::Announcement,
+    if (!is_string($valueString) && $valueString !== null) {
+      Log::WriteLog(LogType::Announcement,
         'DBEntColumn.setValueFromString() - Trying to store non string value. name="' . $this->ColName . '" '.
           'value="' . $this->getValue() . '" NotNull="' . BoolTo01Str($this->IsNotNull) . '"');
       return $this->IsValid;
@@ -328,15 +314,13 @@ class DBEntColumn {
     if ($valueString == '' || $valueString === null)
       return $this->setValue(null);
 
-    switch ($this->DataType)
-    {
+    switch ($this->DataType) {
       case DataType::String: $this->setValue($valueString); break;
       case DataType::Integer:
         $val = str_replace(' ', '', $valueString);
         if (is_numeric ($val))
           $this->setValue(intval($val));
-        else
-        {
+        else {
           $this->IsValid = false;
           $this->InvalidDataMsg = 'Položka není platné celé číslo.';
         }
@@ -346,8 +330,7 @@ class DBEntColumn {
         $val = str_replace(' ', '', $val);
         if (is_numeric ($val))
           $this->setValue(floatval($val));
-        else
-        {
+        else {
           $this->IsValid = false;
           $this->InvalidDataMsg = 'Položka není platné desetinné číslo.';
         }
@@ -355,8 +338,7 @@ class DBEntColumn {
       case DataType::Date:
       case DataType::DateTrnc:
       case DataType::Timestamp:
-        if (strtotime($valueString) == false)
-        {
+        if (strtotime($valueString) == false) {
           $this->IsValid = false;
           $this->InvalidDataMsg = 'Položka není platný časový údaj.';
         }

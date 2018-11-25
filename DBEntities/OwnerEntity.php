@@ -3,10 +3,10 @@
 require_once("lib/DatabaseEntity.php");
 
 class OwnerEntity extends DatabaseEntity {
-  public function __construct($pk = 0, $externalTransaction = false) {
+  public function __construct($pk = 0, $isExternalTransaction = false) {
     $this->TableName = 'Owner';
     $this->PKColName = 'own_pk';
-    parent::__construct($pk, $externalTransaction);
+    parent::__construct($pk, $isExternalTransaction);
   }
 
   protected function defColumns() {

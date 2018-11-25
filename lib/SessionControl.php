@@ -34,17 +34,17 @@ class SessionControl {
 
   public static function login($userName, $password) {
     $loginRes = null;
-    Logging::WriteLog(LogType::Announcement, "Login attempt for user: \"$userName\"");
+    Log::WriteLog(LogType::Announcement, "Login attempt for user: \"$userName\"");
     if (!MyDatabase::getOneValue($loginRes, LOGIN_SQL, array($userName, $password))) {
       self::navigate(LOGIN_PAGE . "?message=" . urlencode(STR_DATABASE_ERROR));
     }
     $loginRes = intval($loginRes);
     if ($loginRes > 0) {
-      Logging::WriteLog(LogType::Announcement, "Login successful");
+      Log::WriteLog(LogType::Announcement, "Login successful");
       $_SESSION['userPK'] = $loginRes;
       return true;
     }
-    Logging::WriteLog(LogType::Announcement, "Login failed");
+    Log::WriteLog(LogType::Announcement, "Login failed");
     return false;
   }
 
@@ -54,7 +54,7 @@ class SessionControl {
   }
 
   public static function navigate($pageURL) {
-    Logging::WriteLog(LogType::Announcement, "Forced navigation to: \"" . $pageURL . "\".");
+    Log::WriteLog(LogType::Announcement, "Forced navigation to: \"" . $pageURL . "\".");
     header("Refresh:0; url=" . $pageURL);
     die();
   }

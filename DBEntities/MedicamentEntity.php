@@ -3,10 +3,10 @@
 require_once("lib/DatabaseEntity.php");
 
 class MedicamentEntity extends DatabaseEntity {
-  public function __construct($pk = 0, $externalTransaction = false) {
+  public function __construct($pk = 0, $isExternalTransaction = false) {
     $this->TableName = 'Medicament';
     $this->PKColName = 'med_pk';
-    parent::__construct($pk, $externalTransaction);
+    parent::__construct($pk, $isExternalTransaction);
   }
 
   protected function defColumns() {
