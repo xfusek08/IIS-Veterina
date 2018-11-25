@@ -11,6 +11,7 @@
   <head>
   </head>
   <body>
+    <?php include 'menu.view.php';?>
     Animal Detail
   </body>
 </html>

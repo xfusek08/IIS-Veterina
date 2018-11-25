@@ -9,9 +9,14 @@
 
 <html>
   <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Styles/baseStyles.css">
+    <link rel="stylesheet" type="text/css" href="Styles/aniBrowseStyle.css">
   </head>
   <body>
-    Animal browser
+    <?php include 'menu.view.php';?>
+    <h1>Seznam zvířat</h1>
+    <input type="text" placeholder="Vyhledat..." name="">
     <table>
       <thead>
         <th>Majitel</th>

@@ -11,10 +11,11 @@
   $actVM = SessionControl::initViewModel("LoginViewModel");
 ?>
 
-<!-- TODO: headers -->
 <html>
   <head>
-  <!-- TODO: headers -->
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="Styles/baseStyles.css">
+  <link rel="stylesheet" type="text/css" href="Styles/loginStyle.css">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   <body>
@@ -31,7 +32,7 @@
         </tr>
       </table>
       <div>
-        <input type="submit" name="post_submit" value="Přihlásit"/>
+        <input type="submit" name="post_submit" value="Přihlásit" class="log_button"/>
       </div>
     </form>
     <hr>

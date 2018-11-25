@@ -1,0 +1,35 @@
+body {
+  padding: 0; 
+  margin: 0;
+}
+
+h1 {
+  margin: 0%;
+  padding: 0.5em;
+  text-align: center;
+}
+
+.menu {
+  vertical-align: middle;
+  margin-left: 1%;
+  margin-right: 2%;
+  float: left;
+  width: 7em;
+  height: 100%;
+  position: relative;
+  border-right: 1px solid black;
+}
+
+.menu_table {
+  list-style-type: none;
+  margin: 0;
+  padding: 0.5%;
+  margin-top: 5%;
+  position: fixed;
+}
+
+.menu_choice {
+  margin-top: 30%;
+  text-align: left;
+  font-size: 1.5em;
+}

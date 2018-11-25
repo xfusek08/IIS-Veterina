@@ -1,0 +1,12 @@
+table {
+  margin: auto;
+}
+
+.log_button {
+  display: block;
+  margin: auto;
+  margin-top: 0.5em;
+  width: 5.5em;
+  height: 2em;
+  font-size: 12.5pt;
+}
