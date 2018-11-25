@@ -7,14 +7,13 @@
   $actVM = SessionControl::pageInitRoutine("AnimaBrowseViewModel");
 ?>
 
-<html>
+<html lang="cz">
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="Styles/baseStyles.css">
+    <?php require_once("baseHeader.php");?>
     <link rel="stylesheet" type="text/css" href="Styles/aniBrowseStyle.css">
   </head>
   <body>
-    <?php include 'menu.view.php';?>
+    <?php include 'menu.php';?>
     <h1>Seznam zvířat</h1>
     <input type="text" placeholder="Vyhledat..." name="">
     <table>

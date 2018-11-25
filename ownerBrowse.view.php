@@ -7,10 +7,12 @@
   $actVM = SessionControl::pageInitRoutine("OwnerBrowseViewModel");
 ?>
 
-<html>
+<html lang="cz">
   <head>
+    <?php require_once("baseHeader.php");?>
   </head>
   <body>
+    <?php include 'menu.php';?>
     Owner browser
   </body>
 </html>

@@ -11,12 +11,10 @@
   $actVM = SessionControl::initViewModel("LoginViewModel");
 ?>
 
-<html>
+<html lang="cz">
   <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="Styles/baseStyles.css">
-  <link rel="stylesheet" type="text/css" href="Styles/loginStyle.css">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <?php require_once("baseHeader.php");?>
+    <link rel="stylesheet" type="text/css" href="Styles/loginStyle.css">
   </head>
   <body>
     <h1>Přihlášení</h1>

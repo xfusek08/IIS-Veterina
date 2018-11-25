@@ -7,11 +7,12 @@
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
 ?>
 
-<html>
+<html lang="cz">
   <head>
+    <?php require_once("baseHeader.php");?>
   </head>
   <body>
-    <?php include 'menu.view.php';?>
+    <?php include 'menu.php';?>
     Animal Detail
   </body>
 </html>

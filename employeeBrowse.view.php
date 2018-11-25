@@ -7,10 +7,12 @@
   $actVM = SessionControl::pageInitRoutine("EmployeeBrowseViewModel");
 ?>
 
-<html>
+<html lang="cz">
   <head>
+    <?php require_once("baseHeader.php");?>
   </head>
   <body>
+    <?php include 'menu.php';?>
     Employee browser
   </body>
 </html>

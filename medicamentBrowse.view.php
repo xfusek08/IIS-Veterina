@@ -7,10 +7,12 @@
   $actVM = SessionControl::pageInitRoutine("MedicamentBrowseViewModel");
 ?>
 
-<html>
+<html lang="cz">
   <head>
+    <?php require_once("baseHeader.php");?>
   </head>
   <body>
+    <?php include 'menu.php';?>
     Medicament browser
   </body>
 </html>
