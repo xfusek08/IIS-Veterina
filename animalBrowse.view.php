@@ -26,8 +26,9 @@
         <th>Počet aktivních léčeb</th>
       </thead>
       <tbody>
+      <tr style="color: gray"><th class="table_part" colspan="4">S plánovaným vyšetřením</th><th class="table_part">Naplánované vyšetření</th><th class="table_part"></tr>
       <?php while(($actEnt = $actVM->AnimalWithPlanedExamBrowser->getNext()) != null) { ?>
-        <tr pk="<?= $actEnt->getColumnStringValue('ani_pk') ?>">
+        <tr class="table_select" pk="<?= $actEnt->getColumnStringValue('ani_pk') ?>">
           <td><?= $actEnt->getColumnStringValue('ownername') ?></td>
           <td><?= $actEnt->getColumnStringValue('spe_name') ?></td>
           <td><?= $actEnt->getColumnStringValue('ani_name') ?></td>
@@ -36,10 +37,9 @@
           <td><?= $actEnt->getColumnStringValue('treatmentcnt') ?></td>
         </tr>
       <?php } ?>
-      <tr><th colspan="7"><th></tr>
-      <tr style="color: gray"><th colspan="4">Bez plánovaného vyšetření</th><th>Poslední vyšetření</th><th/></tr>
+      <tr style="color: gray"><th class="table_part" colspan="4">Bez plánovaného vyšetření</th><th class="table_part">Poslední vyšetření</th><th class="table_part"></tr>
       <?php while(($actEnt = $actVM->AnimalWithoutPlanedExamBrowser->getNext()) != null) { ?>
-        <tr pk="<?= $actEnt->getColumnStringValue('ani_pk') ?>">
+        <tr class="table_select" pk="<?= $actEnt->getColumnStringValue('ani_pk') ?>">
           <td><?= $actEnt->getColumnStringValue('ownername') ?></td>
           <td><?= $actEnt->getColumnStringValue('spe_name') ?></td>
           <td><?= $actEnt->getColumnStringValue('ani_name') ?></td>
@@ -48,6 +48,7 @@
           <td><?= $actEnt->getColumnStringValue('treatmentcnt') ?></td>
         </tr>
       <?php } ?>
+        <tr><th class="table_add table_select" colspan="7">Přidat zvíře</th></tr>
       </tbody>
     </table>
   </body>

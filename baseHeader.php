@@ -1,4 +1,3 @@
-<meta charset="utf-8">
 <meta name="description" content="Veterinární klinika">
 <meta name="author" content="Jaromír Franěk, Petr Fusek">
 
