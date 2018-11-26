@@ -47,7 +47,7 @@ table tr ~ tr{
 }
 
 table .table_select:hover {
-  background-color: yellow;
+  background-color: rgb(135, 255, 79);
 }
 
 .table_part {
@@ -86,6 +86,6 @@ input {
   text-align: left;
 }
 
-.table_add {
-  padding: 0.5em;
+table .table_add {
+  padding: 1em;
 }
