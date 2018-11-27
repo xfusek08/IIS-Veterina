@@ -18,5 +18,8 @@ class ExaminationEntity extends DatabaseEntity {
     $this->addColumn(DataType::Float,     'exa_price', true);
     $this->addColumn(DataType::Bool,      'exa_occurred', true);
     $this->addColumn(DataType::String,    'exa_final_report');
+
+    $this->addSQLColumn(DataType::String, 'exa_type_text',
+      "select exa_text from Examination_type where exa_shortcut = exa_type");
   }
 }

@@ -68,11 +68,17 @@ abstract class DatabaseEntity {
     $cols = array();
     foreach ($this->Columns as $col)
       $cols[] = $col->getSelectSQL();
-    return 'select ' . implode(', ', $cols) . ' from ' . $this->TableName;
+    return "select " . implode(', ', $cols) . ' from ' . $this->TableName;
   }
 
   public function saveToDB($isExternalTransaction) {
     $this->SaveToDBResult = SaveToDBResult::OK;
+
+    if ($this->TableName == '' || $this->PKColName == '') {
+      $this->SaveToDBResult = SaveToDBResult::Error;
+      return false;
+    }
+
     if (!$this->isDataValid()) {
       $this->SaveToDBResult = SaveToDBResult::InvalidData;
       return false;
@@ -123,6 +129,10 @@ abstract class DatabaseEntity {
   }
 
   public function deleteFromDB($isExternalTransaction) {
+    if ($this->TableName == '' || $this->PKColName == '') {
+      return false;
+    }
+
     if ($this->PK < 1)
       return true;
 
@@ -138,8 +148,8 @@ abstract class DatabaseEntity {
     $res .= '<pk>' . $this->PK . '</pk>' . PHP_EOL;
     foreach ($this->Columns as $col) {
       $res .=
-        '<' . $col->ColName . '>'  . PHP_EOL .
-          $col->getValueAsString($formated)  . PHP_EOL .
+        '<' . $col->ColName . '>' .
+          $col->getValueAsString($formated).
         '</' . $col->ColName . '>' . PHP_EOL;
     }
     $res .= '</' . $this->TableName . '>' . PHP_EOL;

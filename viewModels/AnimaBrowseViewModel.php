@@ -10,16 +10,16 @@ class AnimaBrowseViewModel extends ViewModelBase {
 
   public function loadFromGet() {
     $this->AnimalWithPlanedExamBrowser = new DBEntityBrowser(
-      "AnimalBrowseEntity",   // selected entity class
-      "ani_state = 'A'",      // where contition
-      "exabegin",             // order by
-      "exabegin > now()"      // having condition
+      "AnimalBrowseEntity", // selected entity class
+      "ani_state = 'A'",    // where condition
+      "exabegin",           // order by
+      "exabegin > now()"    // having condition
     );
     $this->AnimalWithoutPlanedExamBrowser = new DBEntityBrowser(
-      "AnimalBrowseEntity",   // selected entity class
-      "ani_state = 'A'",      // where contition
-      "exabegin desc",        // order by
-      "exabegin < now()"      // having condition
+      "AnimalBrowseEntity", // selected entity class
+      "ani_state = 'A'",    // where condition
+      "exabegin desc",      // order by
+      "exabegin < now()"    // having condition
     );
     $this->AnimalWithPlanedExamBrowser->openBrowser();
     $this->AnimalWithoutPlanedExamBrowser->openBrowser();

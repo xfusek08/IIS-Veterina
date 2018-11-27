@@ -18,14 +18,12 @@ class AnimalEntity extends DatabaseEntity {
     $this->addColumn(DataType::String,    'ani_sex');
     $this->addColumn(DataType::Integer,   'ani_weight');
     $this->addColumn(DataType::Date,      'ani_birthday');
-    $this->addColumn(DataType::Integer,    'ani_race');
+    $this->addColumn(DataType::Integer,   'ani_race');
 
     $this->addSQLColumn(DataType::String, 'ani_state_text',
       'select ast_text from Animal_state where ast_shortcut = ani_state');
-    $this->addSQLColumn(DataType::String, 'ani_state_text',
+    $this->addSQLColumn(DataType::String, 'ani_sex_text',
       'select asex_description from Animal_state where asex_shortcut = ani_sex');
-    $this->addSQLColumn(DataType::String, 'ownername',
-      "select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where  = ani_owner");
-
-  }
+    $this->addSQLColumn(DataType::String, 'owner_name',
+      "select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where own_pk = ani_owner");  }
 }

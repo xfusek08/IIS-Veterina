@@ -18,6 +18,7 @@ class DBEntityBrowser {
   public $IsOpen = false;
   public $IsLoadedAll = false;
   public $Loaded = 0;
+  public $Params = array();
 
   public function __construct($entityTypeString, $whereSQL = '', $orderBySQL = '', $havingSQL = '') {
     $this->EntityTypeString = $entityTypeString;
@@ -75,13 +76,20 @@ class DBEntityBrowser {
     return $res;
   }
 
+  public function addParams($params) {
+    if (!is_array($params))
+      $this->Params = array_merge($this->Params, $params);
+    else
+      $this->Params[] = $params;
+  }
+
   private function loadData($skip = 0, $count = 0) {
     if ($this->IsLoadedAll)
       return 0;
 
     $SQL = $this->buildBrowserSelectSQL($skip , $count);
     $DBFields = null;
-    if (!MyDatabase::RunQuery($DBFields, $SQL, false)) {
+    if (!MyDatabase::RunQuery($DBFields, $SQL, $this->Params)) {
       Log::WriteLog(LogType::Error, 'DBEntityBrowser->loadData - error on select.');
       return -1;
     }
@@ -90,6 +98,7 @@ class DBEntityBrowser {
     $resultFields = array();
     foreach ($DBFields as $DBRow) {
       $dataEntity = new $this->EntityTypeString();
+      $dataEntity->PK = intval($DBRow[$dataEntity->PKColName]);
       foreach ($dataEntity->Columns as $col) {
         if (!$col->setValueFromString(strval($DBRow[$col->ColName]))) {
           Log::WriteLog(LogType::Error, "DBEntityBrowser->loadData - error on loading values at colum: $col->ColName.");
