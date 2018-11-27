@@ -13,3 +13,7 @@
   border-bottom: 1px solid black;
   height: 3em;
 }
+
+#chosen_detail_2 {
+  visibility: hidden;
+}
