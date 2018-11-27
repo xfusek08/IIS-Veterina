@@ -1,16 +1,28 @@
 <?php
 
+require_once("lib/DBEntityBrowser.php");
+
 require_once("DBEntities/TreatmentEntity.php");
 require_once("DBEntities/MedOnTreatBrowseEntity.php");
 require_once("DBEntities/ExamOnTreatBrowseEntity.php");
-require_once("lib/DBEntityBrowser.php");
+
+require_once("models/MedicamentOnTreatmentModel.php");
+require_once("models/ExamOnTreatmentModel.php");
+
 require_once("viewModels/ViewModelBase.php");
 
 class TreatmentDisplayViewModel extends ViewModelBase {
+  public $Caption = '';
+  public $State = '';
+  public $Prognosis = '';
+  public $Medicaments = array();  // array of MedicamentOnTreatmentModel
+  public $Examinations = array(); // array of ExamOnTreatmentModel
+
   public $IsEdit = false;
-  public $Treatment = null;
-  public $MedicamentsBrowser = null;
-  public $ExaminationsBrowser = null;
+
+  private $TreatmentEnt = null;
+  private $MedicamentsBrowser = null;
+  private $ExaminationsBrowser = null;
 
   public function __construct() {
     $this->Init();
@@ -43,5 +55,9 @@ class TreatmentDisplayViewModel extends ViewModelBase {
     else
       $this->IsEdit = true;
     $this->init($pk);
+  }
+
+  public function loadData() {
+
   }
 }
