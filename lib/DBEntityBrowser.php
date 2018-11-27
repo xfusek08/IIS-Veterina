@@ -77,7 +77,7 @@ class DBEntityBrowser {
   }
 
   public function addParams($params) {
-    if (!is_array($params))
+    if (is_array($params))
       $this->Params = array_merge($this->Params, $params);
     else
       $this->Params[] = $params;
@@ -89,7 +89,7 @@ class DBEntityBrowser {
 
     $SQL = $this->buildBrowserSelectSQL($skip , $count);
     $DBFields = null;
-    if (!MyDatabase::RunQuery($DBFields, $SQL, $this->Params)) {
+    if (!MyDatabase::RunQuery($DBFields, $SQL, false, $this->Params)) {
       Log::WriteLog(LogType::Error, 'DBEntityBrowser->loadData - error on select.');
       return -1;
     }

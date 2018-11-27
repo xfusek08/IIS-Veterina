@@ -30,6 +30,9 @@
       <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2)"/>
     </div>
     <div class="chosen_detail">
+    <?php
+      $actVM->LoadTreatmentsHTML();
+    ?>
     </div>
   </body>
 </html>

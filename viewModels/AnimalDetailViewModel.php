@@ -3,28 +3,64 @@
 require_once("DBEntities/AnimalEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
 require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/TreatmentDisplayViewModel.php");
+require_once("TreatmentDisplay.view.php");
 
 class AnimalDetailViewModel extends ViewModelBase {
+  public $Name = '';
+  public $OwnerName = '';
+  public $Vek = '';
+  public $Species = '';
+  public $Sex = '';
+  public $Weight = '';
+  public $State = '';
+  public $Birthday = '';
+
   public $IsEdit = false;
-  public $Animal = null;
-  public $TreatmentsBrowser = null;
-  public $ExaminationBrowser = null;
+
+  private $AnimalEnt = null;
+  private $TreatmentsBrowser = null;
+  private $ExaminationBrowser = null;
 
   public function __construct() {
-    $this->Animal = new AnimalEntity();
+    $this->AnimalEnt = new AnimalEntity();
+  }
+
+  public function init($pk) {
+    $this->AnimalEnt = new AnimalEntity($pk);
+    $this->IsEdit = $pk == 0;
+
+    $this->TreatmentsBrowser = new DBEntityBrowser(
+      "TreatmentEntity",
+      "tre_animal = ?",
+      "tre_caption"
+    );
+    $this->TreatmentsBrowser->addParams($pk);
+    $this->TreatmentsBrowser->openBrowser();
   }
 
   public function loadFromGet() {
     $pk = 0;
     if (isset($_GET['pk']))
       $pk = intval($_GET['pk']);
-    $this->Animal = new AnimalEntity($pk);
-    $this->IsEdit = $pk == 0;
+    $this->init($pk);
   }
 
   public function processAjax() {}
 
   public function processPost() {
-    $this->Animal->loadFromPostData();
+    $this->AnimalEnt->loadFromPostData();
+  }
+
+  public function LoadTreatmentsHTML() {
+    if ($this->TreatmentsBrowser->Loaded == 0) {
+      echo "Žádné léčby";
+    } else {
+      while(($actTreat = $this->TreatmentsBrowser->getNext()) != null) {
+        $vm = new TreatmentDisplayViewModel();
+        $vm->init($actTreat->getColumnByName('tre_pk')->getValue());
+        BuildTreatmentViewDiv($vm);
+      }
+    }
   }
 }

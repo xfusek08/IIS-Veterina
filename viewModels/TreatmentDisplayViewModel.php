@@ -1,11 +1,12 @@
 <?php
 
 require_once("DBEntities/TreatmentEntity.php");
-require_once("DBEntities/MedOnTreatBrowseEntity");
+require_once("DBEntities/MedOnTreatBrowseEntity.php");
+require_once("DBEntities/ExamOnTreatBrowseEntity.php");
 require_once("lib/DBEntityBrowser.php");
 require_once("viewModels/ViewModelBase.php");
 
-class TreatmentDetailViewModel extends ViewModelBase {
+class TreatmentDisplayViewModel extends ViewModelBase {
   public $IsEdit = false;
   public $Treatment = null;
   public $MedicamentsBrowser = null;
@@ -26,14 +27,13 @@ class TreatmentDetailViewModel extends ViewModelBase {
     $this->MedicamentsBrowser->addParams($pk);
     $this->MedicamentsBrowser->openBrowser();
 
-    // $this->ExaminationsBrowser = new DBEntityBrowser(
-    //   "ExaminationEntity",
-    //   "treatment_pk = ?",
-    //   "exa_begin_date_time"
-    // );
-
-    // $this->MedicamentsBrowser->addParams($pk);
-    // $this->MedicamentsBrowser->openBrowser();
+    $this->ExaminationsBrowser = new DBEntityBrowser(
+      "ExamOnTreatBrowseEntity",
+      "treatment_pk = ?",
+      "exa_begin_date_time desc"
+    );
+    $this->MedicamentsBrowser->addParams($pk);
+    $this->MedicamentsBrowser->openBrowser();
   }
 
   public function loadFromGet() {
