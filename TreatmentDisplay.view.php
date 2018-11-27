@@ -12,9 +12,9 @@
   <h2>Předepsané léky</h2><hr/>
   <table>
     <thead>
-      <th>Název<th>
-      <th>Délka užívání<th>
-      <th>Dávkování<th>
+      <th>Název</th>
+      <th>Délka užívání</th>
+      <th>Dávkování</th>
     </thead>
     <tbody>
       <?php while(($actEnt = $actVM->MedicamentsBrowser->getNext()) != null) { ?>
@@ -30,7 +30,7 @@
   </table>
   <h2>Spjatá vyšetření</h2><hr/>
   <div style="margin-left: 30px; margin-right: 30px;">
-    <?php while(($actEnt = $actVM->MedicamentsBrowser->getNext()) != null) { ?>
+    <?php while(($actEnt = $actVM->ExaminationsBrowser->getNext()) != null) { ?>
       <div class="examination">
         <div class="header">
           <?= $actEnt->getColumnStringValue('exa_begin_date_time') ?>

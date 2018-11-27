@@ -17,16 +17,14 @@
   </head>
   <body>
     <?php include 'menu.php';?>
-    <h1><?= $actVM->Animal->getColumnStringValue('ani_name') ?></h1>
+    <h1><?= $actVM->AnimalName ?></h1>
     <div class="anim_detail">
-      <p>Jmémo majitele: <?= $actVM->Animal->getColumnStringValue('owner_name') ?></p>
-      <p>Druh: <?= $actVM->Animal->getColumnStringValue('ani_species_text') ?></p>
-      <p>Pohlaví: <?= $actVM->Animal->getColumnStringValue('ani_sex_text') ?></p>
-      <p>Váha: <?= $actVM->Animal->getColumnStringValue('ani_weight') ?> kg</p>
-      <p>Stav: <?= $actVM->Animal->getColumnStringValue('ani_state_text') ?></p>
-      <div id="age_hold">
-        <p>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></p>
-      </div>
+      <p>Jmémo majitele: <?= $actVM->OwnerName ?></p>
+      <p>Druh: <?= $actVM->Species ?></p>
+      <p>Pohlaví: <?= $actVM->Sex ?></p>
+      <p>Váha: <?= $actVM->Weight ?> kg</p>
+      <p>Stav: <?= $actVM->State ?></p>
+      <p>Datum narození: <?= $actVM->Birthday ?> (<?= $actVM->Age ?>)</p>
     <div class="swap_buttons">
       <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
       <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2)"/>

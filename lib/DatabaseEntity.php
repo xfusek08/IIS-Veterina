@@ -263,7 +263,7 @@ class DBEntColumn {
     $this->IsValid = true;
 
     if ($this->DataType == DataType::Bool)
-      $this->_valueVar = BoolTo01($valueVar);
+      $this->_valueVar = $valueVar == true;
     else
       $this->_valueVar = $valueVar;
 
@@ -294,7 +294,7 @@ class DBEntColumn {
         $this->IsValid = IsTimestamp($this->_valueVar);
         break;
       case DataType::Bool:
-        $this->IsValid = $this->_valueVar === 1 || $this->_valueVar === 0;
+        $this->IsValid = $this->_valueVar === true || $this->_valueVar === false;
         break;
     }
 
@@ -302,7 +302,7 @@ class DBEntColumn {
       $this->InvalidDataMsg = 'Chyba ve validaci';
       Log::WriteLog(LogType::Announcement,
           'DBEntColumn.setValue() - invalid got datatype. name="' . $this->ColName . '" '.
-          'value="' . $this->_valueVar . '" NotNull="' . BoolTo01Str($this->IsNotNull) . '"');
+          'value="' . $this->_valueVar . '" NotNull="' . boolToANStr($this->IsNotNull) . '"');
     }
 
     return $this->IsValid;
@@ -310,13 +310,13 @@ class DBEntColumn {
 
   public function setValueFromString($valueString) {
     if ($this->DataType == DataType::Bool)
-      return $this->setValue(BoolTo01(boolval($valueString)));
+      return $this->setValue(strToBool($valueString));
 
     // pokud neni string tak nic nemenime a zapiseme upozorneni
     if (!is_string($valueString) && $valueString !== null) {
       Log::WriteLog(LogType::Announcement,
         'DBEntColumn.setValueFromString() - Trying to store non string value. name="' . $this->ColName . '" '.
-          'value="' . $this->getValue() . '" NotNull="' . BoolTo01Str($this->IsNotNull) . '"');
+          'value="' . $this->getValue() . '" NotNull="' . boolToANStr($this->IsNotNull) . '"');
       return $this->IsValid;
     }
 
@@ -381,7 +381,7 @@ class DBEntColumn {
       case DataType::Timestamp:
         return date(DATE_TIME_FORMAT, $this->getValue());
       case DataType::Bool:
-        return BoolTo01Str($this->getValue());
+        return boolToANStr($this->getValue());
     }
   }
 }

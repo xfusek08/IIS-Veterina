@@ -1,25 +1,20 @@
 <?php
 
-function BoolTo01Str($var) {
-  if (boolval($var))
-    return '1';
+function boolToANStr($var) {
+  if ($var == true)
+    return 'A';
   else
-    return '0';
+    return 'N';
 }
 
-function Str01ToBoolInt($var) {
-  if ($var === '1')
-    return 1;
-  else if ($var === '0')
-    return 0;
-  return null;
-}
-
-function BoolTo01($var) {
-  if (boolval($var))
-    return 1;
+function strToBool($str) {
+  $trueMatches = array(
+    'a', 'ano', 'true', 'yes', 'y', '1'
+  );
+  if (in_array($str, $trueMatches))
+    return true;
   else
-    return 0;
+    return false;
 }
 
 function IsTimestamp($var) {

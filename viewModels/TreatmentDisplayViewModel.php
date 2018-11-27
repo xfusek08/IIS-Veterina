@@ -32,8 +32,8 @@ class TreatmentDisplayViewModel extends ViewModelBase {
       "treatment_pk = ?",
       "exa_begin_date_time desc"
     );
-    $this->MedicamentsBrowser->addParams($pk);
-    $this->MedicamentsBrowser->openBrowser();
+    $this->ExaminationsBrowser->addParams($pk);
+    $this->ExaminationsBrowser->openBrowser();
   }
 
   public function loadFromGet() {

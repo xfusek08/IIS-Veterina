@@ -7,14 +7,14 @@ require_once("viewModels/TreatmentDisplayViewModel.php");
 require_once("TreatmentDisplay.view.php");
 
 class AnimalDetailViewModel extends ViewModelBase {
-  public $Name = '';
+  public $AnimalName = '';
   public $OwnerName = '';
-  public $Vek = '';
   public $Species = '';
   public $Sex = '';
   public $Weight = '';
   public $State = '';
   public $Birthday = '';
+  public $Age = '';
 
   public $IsEdit = false;
 
@@ -33,7 +33,7 @@ class AnimalDetailViewModel extends ViewModelBase {
     $this->TreatmentsBrowser = new DBEntityBrowser(
       "TreatmentEntity",
       "tre_animal = ?",
-      "tre_caption"
+      "tre_priority"
     );
     $this->TreatmentsBrowser->addParams($pk);
     $this->TreatmentsBrowser->openBrowser();
@@ -44,12 +44,22 @@ class AnimalDetailViewModel extends ViewModelBase {
     if (isset($_GET['pk']))
       $pk = intval($_GET['pk']);
     $this->init($pk);
+    $this->loadData();
   }
 
   public function processAjax() {}
 
-  public function processPost() {
-    $this->AnimalEnt->loadFromPostData();
+  public function processPost() {}
+
+  public function loadData() {
+    $this->AnimalName = $this->AnimalEnt->getColumnStringValue('ani_name');
+    $this->OwnerName  = $this->AnimalEnt->getColumnStringValue('owner_name');
+    $this->Species    = $this->AnimalEnt->getColumnStringValue('ani_species_text');
+    $this->Sex        = $this->AnimalEnt->getColumnStringValue('ani_sex_text');
+    $this->Weight     = $this->AnimalEnt->getColumnStringValue('ani_weight');
+    $this->State      = $this->AnimalEnt->getColumnStringValue('ani_state_text');
+    $this->Birthday   = $this->AnimalEnt->getColumnStringValue('ani_birthday');
+    $this->Age        = $this->calculateAgeOfAnimal();
   }
 
   public function LoadTreatmentsHTML() {
@@ -62,5 +72,13 @@ class AnimalDetailViewModel extends ViewModelBase {
         BuildTreatmentViewDiv($vm);
       }
     }
+  }
+
+  private function calculateAgeOfAnimal() {
+    $birthday = $this->AnimalEnt->getColumnByName('ani_birthday')->getValue();
+    $date = new DateTime();
+    $date->setTimestamp($birthday);
+    $now = new DateTime();
+    return $now->diff($date)->y;
   }
 }

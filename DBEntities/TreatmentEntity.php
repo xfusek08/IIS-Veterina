@@ -19,5 +19,7 @@ class TreatmentEntity extends DatabaseEntity {
 
     $this->addSQLColumn(DataType::String, 'tre_state_text',
       'select tst_text from Treatment_state where tst_shortcut = tre_state');
+    $this->addSQLColumn(DataType::String, 'tre_priority',
+      'select tst_priority from Treatment_state where tst_shortcut = tre_state');
   }
 }

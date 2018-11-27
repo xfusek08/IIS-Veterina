@@ -1,8 +1,8 @@
-[27.11.2018 20:16:52] File created: log/RPLog_20181127.log
-[27.11.2018 20:16:52] Announcement: MyDatabase->runQuery; SQL:select ani_owner, ani_species, ani_state, ani_description, ani_name, ani_sex, ani_weight, ani_birthday, ani_race, (select spe_name  from Animal_species where spe_pk  = ani_species) as ani_species_text, (select ast_text from Animal_state where ast_shortcut = ani_state) as ani_state_text, (select asex_description from Animal_sex where asex_shortcut = ani_sex) as ani_sex_text, (select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where own_pk = ani_owner) as owner_name from Animal where ani_pk = ?
-[27.11.2018 20:16:52] Announcement: MyDatabase->runQuery; params:
+[27.11.2018 21:11:05] File created: log/RPLog_20181127.log
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select ani_owner, ani_species, ani_state, ani_description, ani_name, ani_sex, ani_weight, ani_birthday, ani_race, (select spe_name  from Animal_species where spe_pk  = ani_species) as ani_species_text, (select ast_text from Animal_state where ast_shortcut = ani_state) as ani_state_text, (select asex_description from Animal_sex where asex_shortcut = ani_sex) as ani_sex_text, (select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where own_pk = ani_owner) as owner_name from Animal where ani_pk = ?
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 1
-[27.11.2018 20:16:52] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
 Array
 (
     [0] => Array
@@ -37,359 +37,173 @@ Array
 
 )
 
-[27.11.2018 20:16:52] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_animal = ? order by tre_caption LIMIT 0, 20
-[27.11.2018 20:16:52] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:52] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_animal = ? order by tre_caption LIMIT 0, 20
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 Array
 (
+    [0] => 1
 )
 
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; SQL:select ani_pk, (concat(own_surname, ' ', coalesce(own_name, ''))) as ownername, spe_name, ani_name, asex_description, (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin, (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt from Animal left join Owner on own_pk = ani_owner left join Animal_species on spe_pk = ani_species left join Animal_sex on asex_shortcut = ani_sex where ani_state = 'A' having exabegin > now() order by exabegin LIMIT 0, 20
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
 Array
 (
     [0] => Array
         (
-            [ani_pk] => 1
-            [0] => 1
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Pes
-            [2] => Pes
-            [ani_name] => Hopik
-            [3] => Hopik
-            [asex_description] => Samec
-            [4] => Samec
-            [exabegin] => 2019-04-20 08:00:00
-            [5] => 2019-04-20 08:00:00
-            [treatmentcnt] => 2
-            [6] => 2
-        )
-
-)
-
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; SQL:select ani_pk, (concat(own_surname, ' ', coalesce(own_name, ''))) as ownername, spe_name, ani_name, asex_description, (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin, (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt from Animal left join Owner on own_pk = ani_owner left join Animal_species on spe_pk = ani_species left join Animal_sex on asex_shortcut = ani_sex where ani_state = 'A' having exabegin < now() order by exabegin desc LIMIT 0, 20
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; results:
-Array
-(
-    [0] => Array
-        (
-            [ani_pk] => 3
-            [0] => 3
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Pes
-            [2] => Pes
-            [ani_name] => Bobik
-            [3] => Bobik
-            [asex_description] => Samice
-            [4] => Samice
-            [exabegin] => 2018-11-26 15:00:00
-            [5] => 2018-11-26 15:00:00
-            [treatmentcnt] => 0
-            [6] => 0
+            [tre_pk] => 2
+            [0] => 2
+            [tre_animal] => 1
+            [1] => 1
+            [tre_state] => F
+            [2] => F
+            [tre_caption] => Angine
+            [3] => Angine
+            [tre_prognosis] => Taking antibiotics.
+            [4] => Taking antibiotics.
+            [tre_price] => 156.00
+            [5] => 156.00
+            [tre_state_text] => Ukončená
+            [6] => Ukončená
         )
 
     [1] => Array
         (
-            [ani_pk] => 2
-            [0] => 2
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Kočka
-            [2] => Kočka
-            [ani_name] => Cica
-            [3] => Cica
-            [asex_description] => Samice
-            [4] => Samice
-            [exabegin] => 1998-01-01 17:00:00
-            [5] => 1998-01-01 17:00:00
-            [treatmentcnt] => 0
-            [6] => 0
-        )
-
-)
-
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; SQL:select ani_owner, ani_species, ani_state, ani_description, ani_name, ani_sex, ani_weight, ani_birthday, ani_race, (select spe_name  from Animal_species where spe_pk  = ani_species) as ani_species_text, (select ast_text from Animal_state where ast_shortcut = ani_state) as ani_state_text, (select asex_description from Animal_sex where asex_shortcut = ani_sex) as ani_sex_text, (select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where own_pk = ani_owner) as owner_name from Animal where ani_pk = ?
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; params:
-3
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; results:
-Array
-(
-    [0] => Array
-        (
-            [ani_owner] => 2
-            [0] => 2
-            [ani_species] => 3
-            [1] => 3
-            [ani_state] => A
-            [2] => A
-            [ani_description] => 
-            [3] => 
-            [ani_name] => Bobik
-            [4] => Bobik
-            [ani_sex] => F
-            [5] => F
-            [ani_weight] => 120
-            [6] => 120
-            [ani_birthday] => 2018-11-05
-            [7] => 2018-11-05
-            [ani_race] => 
-            [8] => 
-            [ani_species_text] => Pes
-            [9] => Pes
-            [ani_state_text] => Active
-            [10] => Active
-            [ani_sex_text] => Samice
-            [11] => Samice
-            [owner_name] => Mokry David
-            [12] => Mokry David
-        )
-
-)
-
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_animal = ? order by tre_caption LIMIT 0, 20
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:55] Announcement: MyDatabase->runQuery; results:
-Array
-(
-)
-
-[27.11.2018 20:16:56] Announcement: MyDatabase->runQuery; SQL:select ani_pk, (concat(own_surname, ' ', coalesce(own_name, ''))) as ownername, spe_name, ani_name, asex_description, (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin, (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt from Animal left join Owner on own_pk = ani_owner left join Animal_species on spe_pk = ani_species left join Animal_sex on asex_shortcut = ani_sex where ani_state = 'A' having exabegin > now() order by exabegin LIMIT 0, 20
-[27.11.2018 20:16:56] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:56] Announcement: MyDatabase->runQuery; results:
-Array
-(
-    [0] => Array
-        (
-            [ani_pk] => 1
+            [tre_pk] => 1
             [0] => 1
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Pes
-            [2] => Pes
-            [ani_name] => Hopik
-            [3] => Hopik
-            [asex_description] => Samec
-            [4] => Samec
-            [exabegin] => 2019-04-20 08:00:00
-            [5] => 2019-04-20 08:00:00
-            [treatmentcnt] => 2
-            [6] => 2
+            [tre_animal] => 1
+            [1] => 1
+            [tre_state] => U
+            [2] => U
+            [tre_caption] => Worms
+            [3] => Worms
+            [tre_prognosis] => Taking anti-worm pills.
+            [4] => Taking anti-worm pills.
+            [tre_price] => 200.00
+            [5] => 200.00
+            [tre_state_text] => Urgentní
+            [6] => Urgentní
         )
 
 )
 
-[27.11.2018 20:16:56] Announcement: MyDatabase->runQuery; SQL:select ani_pk, (concat(own_surname, ' ', coalesce(own_name, ''))) as ownername, spe_name, ani_name, asex_description, (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin, (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt from Animal left join Owner on own_pk = ani_owner left join Animal_species on spe_pk = ani_species left join Animal_sex on asex_shortcut = ani_sex where ani_state = 'A' having exabegin < now() order by exabegin desc LIMIT 0, 20
-[27.11.2018 20:16:56] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:56] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select medicament_pk, treatment_pk, med_name, med_type, med_price, mot_dosage, mot_usage_time from Medicament_on_Treatment left join Medicament on med_pk = medicament_pk where treatment_pk = ? order by med_name LIMIT 0, 20
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 Array
 (
-    [0] => Array
-        (
-            [ani_pk] => 3
-            [0] => 3
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Pes
-            [2] => Pes
-            [ani_name] => Bobik
-            [3] => Bobik
-            [asex_description] => Samice
-            [4] => Samice
-            [exabegin] => 2018-11-26 15:00:00
-            [5] => 2018-11-26 15:00:00
-            [treatmentcnt] => 0
-            [6] => 0
-        )
-
-    [1] => Array
-        (
-            [ani_pk] => 2
-            [0] => 2
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Kočka
-            [2] => Kočka
-            [ani_name] => Cica
-            [3] => Cica
-            [asex_description] => Samice
-            [4] => Samice
-            [exabegin] => 1998-01-01 17:00:00
-            [5] => 1998-01-01 17:00:00
-            [treatmentcnt] => 0
-            [6] => 0
-        )
-
+    [0] => 0
 )
 
-[27.11.2018 20:16:57] Announcement: MyDatabase->runQuery; SQL:select ani_owner, ani_species, ani_state, ani_description, ani_name, ani_sex, ani_weight, ani_birthday, ani_race, (select spe_name  from Animal_species where spe_pk  = ani_species) as ani_species_text, (select ast_text from Animal_state where ast_shortcut = ani_state) as ani_state_text, (select asex_description from Animal_sex where asex_shortcut = ani_sex) as ani_sex_text, (select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where own_pk = ani_owner) as owner_name from Animal where ani_pk = ?
-[27.11.2018 20:16:57] Announcement: MyDatabase->runQuery; params:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
+Array
+(
+)
+
+[27.11.2018 21:11:05] Announcement: DBEntColumn.setValue() - invalid got datatype. name="exa_occurred" value="" NotNull="N"
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_pk = ?
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 2
-[27.11.2018 20:16:57] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
 Array
 (
     [0] => Array
         (
-            [ani_owner] => 2
+            [tre_pk] => 2
             [0] => 2
-            [ani_species] => 4
-            [1] => 4
-            [ani_state] => A
-            [2] => A
-            [ani_description] => Davids dead cat.
-            [3] => Davids dead cat.
-            [ani_name] => Cica
-            [4] => Cica
-            [ani_sex] => F
-            [5] => F
-            [ani_weight] => 9
-            [6] => 9
-            [ani_birthday] => 1980-01-01
-            [7] => 1980-01-01
-            [ani_race] => Bombay
-            [8] => Bombay
-            [ani_species_text] => Kočka
-            [9] => Kočka
-            [ani_state_text] => Active
-            [10] => Active
-            [ani_sex_text] => Samice
-            [11] => Samice
-            [owner_name] => Mokry David
-            [12] => Mokry David
+            [tre_animal] => 1
+            [1] => 1
+            [tre_state] => F
+            [2] => F
+            [tre_caption] => Angine
+            [3] => Angine
+            [tre_prognosis] => Taking antibiotics.
+            [4] => Taking antibiotics.
+            [tre_price] => 156.00
+            [5] => 156.00
+            [tre_state_text] => Ukončená
+            [6] => Ukončená
         )
 
 )
 
-[27.11.2018 20:16:57] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_animal = ? order by tre_caption LIMIT 0, 20
-[27.11.2018 20:16:57] Announcement: MyDatabase->runQuery; params:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select medicament_pk, treatment_pk, med_name, med_type, med_price, mot_dosage, mot_usage_time from Medicament_on_Treatment left join Medicament on med_pk = medicament_pk where treatment_pk = ? order by med_name LIMIT 0, 20
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
+Array
+(
+    [0] => 2
+)
 
-[27.11.2018 20:16:57] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
 Array
 (
 )
 
-[27.11.2018 20:16:59] Announcement: MyDatabase->runQuery; SQL:select ani_pk, (concat(own_surname, ' ', coalesce(own_name, ''))) as ownername, spe_name, ani_name, asex_description, (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin, (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt from Animal left join Owner on own_pk = ani_owner left join Animal_species on spe_pk = ani_species left join Animal_sex on asex_shortcut = ani_sex where ani_state = 'A' having exabegin > now() order by exabegin LIMIT 0, 20
-[27.11.2018 20:16:59] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:59] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: DBEntColumn.setValue() - invalid got datatype. name="exa_occurred" value="" NotNull="N"
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select medicament_pk, treatment_pk, med_name, med_type, med_price, mot_dosage, mot_usage_time from Medicament_on_Treatment left join Medicament on med_pk = medicament_pk where treatment_pk = ? order by med_name LIMIT 0, 20
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 Array
 (
-    [0] => Array
-        (
-            [ani_pk] => 1
-            [0] => 1
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Pes
-            [2] => Pes
-            [ani_name] => Hopik
-            [3] => Hopik
-            [asex_description] => Samec
-            [4] => Samec
-            [exabegin] => 2019-04-20 08:00:00
-            [5] => 2019-04-20 08:00:00
-            [treatmentcnt] => 2
-            [6] => 2
-        )
-
+    [0] => 0
 )
 
-[27.11.2018 20:16:59] Announcement: MyDatabase->runQuery; SQL:select ani_pk, (concat(own_surname, ' ', coalesce(own_name, ''))) as ownername, spe_name, ani_name, asex_description, (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin, (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt from Animal left join Owner on own_pk = ani_owner left join Animal_species on spe_pk = ani_species left join Animal_sex on asex_shortcut = ani_sex where ani_state = 'A' having exabegin < now() order by exabegin desc LIMIT 0, 20
-[27.11.2018 20:16:59] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:16:59] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
 Array
 (
-    [0] => Array
-        (
-            [ani_pk] => 3
-            [0] => 3
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Pes
-            [2] => Pes
-            [ani_name] => Bobik
-            [3] => Bobik
-            [asex_description] => Samice
-            [4] => Samice
-            [exabegin] => 2018-11-26 15:00:00
-            [5] => 2018-11-26 15:00:00
-            [treatmentcnt] => 0
-            [6] => 0
-        )
-
-    [1] => Array
-        (
-            [ani_pk] => 2
-            [0] => 2
-            [ownername] => Mokry David
-            [1] => Mokry David
-            [spe_name] => Kočka
-            [2] => Kočka
-            [ani_name] => Cica
-            [3] => Cica
-            [asex_description] => Samice
-            [4] => Samice
-            [exabegin] => 1998-01-01 17:00:00
-            [5] => 1998-01-01 17:00:00
-            [treatmentcnt] => 0
-            [6] => 0
-        )
-
 )
 
-[27.11.2018 20:17:02] Announcement: MyDatabase->runQuery; SQL:select ani_owner, ani_species, ani_state, ani_description, ani_name, ani_sex, ani_weight, ani_birthday, ani_race, (select spe_name  from Animal_species where spe_pk  = ani_species) as ani_species_text, (select ast_text from Animal_state where ast_shortcut = ani_state) as ani_state_text, (select asex_description from Animal_sex where asex_shortcut = ani_sex) as ani_sex_text, (select concat(own_surname, ' ', coalesce(own_name, '')) from Owner where own_pk = ani_owner) as owner_name from Animal where ani_pk = ?
-[27.11.2018 20:17:02] Announcement: MyDatabase->runQuery; params:
+[27.11.2018 21:11:05] Announcement: DBEntColumn.setValue() - invalid got datatype. name="exa_occurred" value="" NotNull="N"
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_pk = ?
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 1
-[27.11.2018 20:17:02] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
 Array
 (
     [0] => Array
         (
-            [ani_owner] => 2
-            [0] => 2
-            [ani_species] => 3
-            [1] => 3
-            [ani_state] => A
-            [2] => A
-            [ani_description] => Davids dog.
-            [3] => Davids dog.
-            [ani_name] => Hopik
-            [4] => Hopik
-            [ani_sex] => M
-            [5] => M
-            [ani_weight] => 10
-            [6] => 10
-            [ani_birthday] => 1990-01-01
-            [7] => 1990-01-01
-            [ani_race] => Korean Jindo Dog
-            [8] => Korean Jindo Dog
-            [ani_species_text] => Pes
-            [9] => Pes
-            [ani_state_text] => Active
-            [10] => Active
-            [ani_sex_text] => Samec
-            [11] => Samec
-            [owner_name] => Mokry David
-            [12] => Mokry David
+            [tre_pk] => 1
+            [0] => 1
+            [tre_animal] => 1
+            [1] => 1
+            [tre_state] => U
+            [2] => U
+            [tre_caption] => Worms
+            [3] => Worms
+            [tre_prognosis] => Taking anti-worm pills.
+            [4] => Taking anti-worm pills.
+            [tre_price] => 200.00
+            [5] => 200.00
+            [tre_state_text] => Urgentní
+            [6] => Urgentní
         )
 
 )
 
-[27.11.2018 20:17:02] Announcement: MyDatabase->runQuery; SQL:select tre_pk, tre_animal, tre_state, tre_caption, tre_prognosis, tre_price, (select tst_text from Treatment_state where tst_shortcut = tre_state) as tre_state_text from Treatment where tre_animal = ? order by tre_caption LIMIT 0, 20
-[27.11.2018 20:17:02] Announcement: MyDatabase->runQuery; params:
-
-[27.11.2018 20:17:02] Announcement: MyDatabase->runQuery; results:
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; SQL:select medicament_pk, treatment_pk, med_name, med_type, med_price, mot_dosage, mot_usage_time from Medicament_on_Treatment left join Medicament on med_pk = medicament_pk where treatment_pk = ? order by med_name LIMIT 0, 20
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; params:
 Array
 (
+    [0] => 1
 )
 
+[27.11.2018 21:11:05] Announcement: MyDatabase->runQuery; results:
+Array
+(
+    [0] => Array
+        (
+            [medicament_pk] => 1
+            [0] => 1
+            [treatment_pk] => 1
+            [1] => 1
+            [med_name] => Vermox
+            [2] => Vermox
+            [med_type] => 1
+            [3] => 1
+            [med_price] => 150.00
+            [4] => 150.00
+            [mot_dosage] => 2 pills a day
+            [5] => 2 pills a day
+            [mot_usage_time] => 6 days
+            [6] => 6 days
+        )
+
+)
+
+[27.11.2018 21:11:05] Announcement: DBEntColumn.setValue() - invalid got datatype. name="exa_occurred" value="" NotNull="N"
