@@ -25,8 +25,7 @@
       <p>Váha: <?= $actVM->Animal->getColumnStringValue('ani_weight') ?> kg</p>
       <p>Stav: <?= $actVM->Animal->getColumnStringValue('ani_state_text') ?></p>
       <div id="age_hold">
-      <div>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></div><div id="ani_age"></div>
-      </div>
+      <div>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></div>
     </div>
     <div class="swap_buttons">
       <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
@@ -36,7 +35,3 @@
     </div>
   </body>
 </html>
-
-<script>
-window.onload = ageLoad( "<?= $actVM->Animal->getColumnStringValue('ani_birthday') ?>" );
-</script>
