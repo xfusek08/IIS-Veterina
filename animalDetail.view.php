@@ -11,6 +11,7 @@
   <head>
     <?php require_once("baseHeader.php");?>
     <link rel="stylesheet" type="text/css" href="Styles/aniStyle.css">
+    <link rel="stylesheet" type="text/css" href="Styles/aniDetailStyle.css">
     <script src="scripts/jQuery.js"></script>
     <script src="scripts/baseScripts.js"></script>
   </head>
@@ -21,10 +22,11 @@
       <p>Jmémo majitele: <?= $actVM->Animal->getColumnStringValue('owner_name') ?></p>
       <p>Druh: <?= $actVM->Animal->getColumnStringValue('ani_species_text') ?></p>
       <p>Pohlaví: <?= $actVM->Animal->getColumnStringValue('ani_sex_text') ?></p>
-      <p>Váha: <?= $actVM->Animal->getColumnStringValue('ani_weight') ?></p>
+      <p>Váha: <?= $actVM->Animal->getColumnStringValue('ani_weight') ?> kg</p>
       <p>Stav: <?= $actVM->Animal->getColumnStringValue('ani_state_text') ?></p>
-      <p>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></p>
-    </div>
+      <div id="age_hold">
+        <p>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></p>
+      </div>
     <div class="swap_buttons">
       <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
       <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2)"/>
