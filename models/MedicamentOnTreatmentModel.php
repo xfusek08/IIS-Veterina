@@ -1,7 +1,8 @@
 <?php
 
 class MedicamentOnTreatmentModel {
-  public $Pk = 0;
+  public $MedPk = 0;
+  public $TrePk = 0;
   public $Name = '';
   public $UsageTime = '';
   public $Dosage = '';

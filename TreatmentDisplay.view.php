@@ -20,7 +20,7 @@
     <tbody>
       <?php foreach ($actVM->Medicaments as $actMed) { ?>
         <tr>
-          <td><a href="?pk=<?= $actMed->Pk ?>"><?= $actMed->Name ?></a></td>
+          <td><a href="?pk=<?= $actMed->MedPk ?>"><?= $actMed->Name ?></a></td>
           <td><?= $actMed->UsageTime ?></td>
           <td><?= $actMed->Dosage ?></td>
         </tr>

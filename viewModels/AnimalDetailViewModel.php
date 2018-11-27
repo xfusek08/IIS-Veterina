@@ -69,6 +69,7 @@ class AnimalDetailViewModel extends ViewModelBase {
       while(($actTreat = $this->TreatmentsBrowser->getNext()) != null) {
         $vm = new TreatmentDisplayViewModel();
         $vm->init($actTreat->getColumnByName('tre_pk')->getValue());
+        $vm->loadData();
         BuildTreatmentViewDiv($vm);
       }
     }
