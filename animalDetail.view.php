@@ -25,8 +25,8 @@
       <p>Váha: <?= $actVM->Animal->getColumnStringValue('ani_weight') ?> kg</p>
       <p>Stav: <?= $actVM->Animal->getColumnStringValue('ani_state_text') ?></p>
       <div id="age_hold">
-      <div>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></div>
-    </div>
+        <p>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></p>
+      </div>
     <div class="swap_buttons">
       <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
       <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2)"/>
