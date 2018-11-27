@@ -11,8 +11,8 @@ h1 {
 
 .menu {
   vertical-align: middle;
-  margin-left: 1%;
-  margin-right: 4%;
+  margin-left: 0.5em;
+  margin-right: 2em;
   float: left;
   width: 7em;
   height: 100%;
