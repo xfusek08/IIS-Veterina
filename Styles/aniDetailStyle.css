@@ -1,0 +1,7 @@
+#age_hold {
+  display: block;
+}
+
+#age_hold div {
+  display: inline;
+}

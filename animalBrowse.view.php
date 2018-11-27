@@ -23,7 +23,7 @@
         <th>Druh</th>
         <th>Jméno</th>
         <th>Pohlaví</th>
-        <th>Termín příštího vyšetření</th>
+        <th>Termín vyšetření</th>
         <th>Počet aktivních léčeb</th>
       </thead>
       <tbody>
@@ -49,7 +49,6 @@
           <td><?= $actEnt->getColumnStringValue('treatmentcnt') ?></td>
         </tr>
       <?php } ?>
-        <tr><th class="table_add table_select" colspan="7">Přidat zvíře</th></tr>
       </tbody>
     </table>
   </body>

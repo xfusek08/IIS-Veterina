@@ -23,6 +23,7 @@
         <th>Pohlaví</th>
       </thead>
       <tbody>
+      <tr><th class="table_add table_select" colspan="4">Přidat zvíře</th></tr>
       </tbody>
     </table>
   </body>
