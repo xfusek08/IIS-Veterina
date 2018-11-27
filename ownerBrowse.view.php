@@ -13,6 +13,17 @@
   </head>
   <body>
     <?php include 'menu.php';?>
-    Owner browser
+    <h1>Seznam majitelů</h1>
+    <input type="text" placeholder="Vyhledat..." name="">
+    <table>
+      <thead>
+        <th>Jméno</th>
+        <th>Adresa</th>
+        <th>Telefon</th>
+        <th>Pohlaví</th>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </body>
 </html>

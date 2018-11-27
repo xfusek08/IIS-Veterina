@@ -12,7 +12,18 @@
     <?php require_once("baseHeader.php");?>
   </head>
   <body>
-    <?php include 'menu.php';?>
-    Medicament browser
+  <?php include 'menu.php';?>
+    <h1>Seznam léků</h1>
+    <input type="text" placeholder="Vyhledat..." name="">
+    <table>
+      <thead>
+        <th>Název</th>
+        <th>Typ</th>
+        <th>Cena</th>
+        <th>Výrobce</th>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </body>
 </html>

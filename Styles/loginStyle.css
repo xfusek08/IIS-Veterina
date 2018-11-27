@@ -1,5 +1,22 @@
 table {
   margin: auto;
+  border: none;
+}
+
+table th:last-child {
+  border: none;
+}
+
+table td:last-child {
+  border: none;
+}
+
+table tr td ~ td {
+  border: none;
+}
+
+table tr ~ tr{
+  border: none;
 }
 
 .log_button {
@@ -9,4 +26,5 @@ table {
   width: 5.5em;
   height: 2em;
   font-size: 12.5pt;
+  text-align: center;
 }
