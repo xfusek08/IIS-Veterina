@@ -5,5 +5,9 @@ function changePage(spk, url)
 
 function swapTables(toSwap)
 {
-  console.log(toSwap);
+  var choose = document.getElementById("chosen_detail");
+  if(toSwap == 1)
+    choose.innerHTML("$actVM->LoadTreatmentsHTML();");
+  else
+    choose.innerHTML("$actVM->LoadMedicamentsHTML();");
 }
