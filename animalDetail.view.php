@@ -16,14 +16,14 @@
   </head>
   <body>
     <?php include 'menu.php';?>
-    <h1><?php $actVM->animal->getColumnStringValue('ani_name') ?></h1>
+    <h1><?= $actVM->Animal->getColumnStringValue('ani_name') ?></h1>
     <div class="anim_detail">
-      <p>Jmémo majitele: <?php $actVM->animal->getColumnStringValue('ani_owner') ?></p>
-      <p>Druh: <?php $actVM->animal->getColumnStringValue('ani_species') ?></p>
-      <p>Pohlaví: <?php $actVM->animal->getColumnStringValue('ani_sex') ?></p>
-      <p>Váha: <?php $actVM->animal->getColumnStringValue('ani_weight') ?></p>
-      <p>Stav: <?php $actVM->animal->getColumnStringValue('ani_state') ?></p>
-      <p>Datum narození: <?php $actVM->animal->getColumnStringValue('ani_birthday') ?></p>
+      <p>Jmémo majitele: <?= $actVM->Animal->getColumnStringValue('owner_name') ?></p>
+      <p>Druh: <?= $actVM->Animal->getColumnStringValue('ani_species_text') ?></p>
+      <p>Pohlaví: <?= $actVM->Animal->getColumnStringValue('ani_sex_text') ?></p>
+      <p>Váha: <?= $actVM->Animal->getColumnStringValue('ani_weight') ?></p>
+      <p>Stav: <?= $actVM->Animal->getColumnStringValue('ani_state_text') ?></p>
+      <p>Datum narození: <?= $actVM->Animal->getColumnStringValue('ani_birthday') ?></p>
     </div>
     <div class="swap_buttons">
       <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>

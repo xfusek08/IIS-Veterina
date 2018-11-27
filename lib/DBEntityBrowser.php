@@ -98,7 +98,6 @@ class DBEntityBrowser {
     $resultFields = array();
     foreach ($DBFields as $DBRow) {
       $dataEntity = new $this->EntityTypeString();
-      $dataEntity->PK = intval($DBRow[$dataEntity->PKColName]);
       foreach ($dataEntity->Columns as $col) {
         if (!$col->setValueFromString(strval($DBRow[$col->ColName]))) {
           Log::WriteLog(LogType::Error, "DBEntityBrowser->loadData - error on loading values at colum: $col->ColName.");

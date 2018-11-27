@@ -14,7 +14,7 @@ class AnimalBrowseEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
-    $this->addSQLColumn(DataType::Integer,    'ani_pk');
+    $this->addColumn(DataType::Integer,       'ani_pk');
     $this->addSQLColumn(DataType::String,     'ownername',
       "concat(own_surname, ' ', coalesce(own_name, ''))");
     $this->addColumn(DataType::String,        'spe_name');

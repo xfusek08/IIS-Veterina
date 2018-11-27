@@ -365,9 +365,10 @@ class DBEntColumn {
 
     switch ($this->DataType) {
       case DataType::String:
-        return $this->getValue();
+        return strval($this->getValue());
       case DataType::Integer:
-        if (!$isFormated || $this->IsUnformated) return strval($this->getValue());
+        if (!$isFormated || $this->IsUnformated)
+          return strval($this->getValue());
         return number_format($this->getValue(), 0, '', ' ');
       case DataType::Float:
         if (!$isFormated || $this->IsUnformated)
