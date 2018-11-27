@@ -6,6 +6,7 @@ class AnimalBrowseEntity extends DatabaseEntity {
   public function __construct() {
     $this->TableName =
       'Animal' .
+      ' left join Animal_state on ast_shortcut = ani_state' .
       ' left join Owner on own_pk = ani_owner'.
       ' left join Animal_species on spe_pk = ani_species'.
       ' left join Animal_sex on asex_shortcut = ani_sex';
@@ -19,6 +20,7 @@ class AnimalBrowseEntity extends DatabaseEntity {
       "concat(own_surname, ' ', coalesce(own_name, ''))");
     $this->addColumn(DataType::String,        'spe_name');
     $this->addColumn(DataType::String,        'ani_name');
+    $this->addColumn(DataType::String,        'ast_text');
     $this->addColumn(DataType::String,        'asex_description');
     $this->addSQLColumn(DataType::Timestamp,  'exabegin',
       'select max(exa_begin_date_time) from Examination where exa_animal = ani_pk');

@@ -2,9 +2,9 @@
   ini_set("default_charset", "utf-8");
 
   require_once("lib/SessionControl.php");
-  require_once("viewModels/AnimaBrowseViewModel.php");
+  require_once("viewModels/AnimalBrowseViewModel.php");
 
-  $actVM = SessionControl::pageInitRoutine("AnimaBrowseViewModel");
+  $actVM = SessionControl::pageInitRoutine("AnimalBrowseViewModel");
 ?>
 
 <html lang="cz">
@@ -32,25 +32,25 @@
       </thead>
       <tbody>
       <tr style="color: gray"><th class="table_part" colspan="4">S plánovaným vyšetřením</th><th class="table_part">Naplánované vyšetření</th><th class="table_part"></tr>
-      <?php while(($actEnt = $actVM->AnimalWithPlanedExamBrowser->getNext()) != null) { ?>
-        <tr class="table_select" onclick="changePage(<?= $actEnt->getColumnStringValue('ani_pk') ?>, 'animalDetail.view.php')">
-          <td><?= $actEnt->getColumnStringValue('ownername') ?></td>
-          <td><?= $actEnt->getColumnStringValue('spe_name') ?></td>
-          <td><?= $actEnt->getColumnStringValue('ani_name') ?></td>
-          <td><?= $actEnt->getColumnStringValue('asex_description') ?></td>
-          <td><?= $actEnt->getColumnStringValue('exabegin') ?></td>
-          <td><?= $actEnt->getColumnStringValue('treatmentcnt') ?></td>
+      <?php foreach ($actVM->AnimalsPlanned as $actAnimal ) { ?>
+        <tr class="table_select" onclick="changePage(<?= $actAnimal->Pk ?>, 'animalDetail.view.php')">
+          <td><?= $actAnimal->OwnerName ?></td>
+          <td><?= $actAnimal->Species ?></td>
+          <td><?= $actAnimal->AnimalName ?></td>
+          <td><?= $actAnimal->Sex ?></td>
+          <td><?= $actAnimal->LatestExamination ?></td>
+          <td><?= $actAnimal->TreatmentNumber ?></td>
         </tr>
       <?php } ?>
       <tr style="color: gray"><th class="table_part" colspan="4">Bez plánovaného vyšetření</th><th class="table_part">Poslední vyšetření</th><th class="table_part"></tr>
-      <?php while(($actEnt = $actVM->AnimalWithoutPlanedExamBrowser->getNext()) != null) { ?>
-        <tr class="table_select" onclick="changePage(<?= $actEnt->getColumnStringValue('ani_pk') ?>, 'animalDetail.view.php')">
-          <td><?= $actEnt->getColumnStringValue('ownername') ?></td>
-          <td><?= $actEnt->getColumnStringValue('spe_name') ?></td>
-          <td><?= $actEnt->getColumnStringValue('ani_name') ?></td>
-          <td><?= $actEnt->getColumnStringValue('asex_description') ?></td>
-          <td><?= $actEnt->getColumnStringValue('exabegin') ?></td>
-          <td><?= $actEnt->getColumnStringValue('treatmentcnt') ?></td>
+      <?php foreach ($actVM->AnimalsNotPlanned as $actAnimal ) { ?>
+        <tr class="table_select" onclick="changePage(<?= $actAnimal->Pk ?>, 'animalDetail.view.php')">
+          <td><?= $actAnimal->OwnerName ?></td>
+          <td><?= $actAnimal->Species ?></td>
+          <td><?= $actAnimal->AnimalName ?></td>
+          <td><?= $actAnimal->Sex ?></td>
+          <td><?= $actAnimal->LatestExamination ?></td>
+          <td><?= $actAnimal->TreatmentNumber ?></td>
         </tr>
       <?php } ?>
       </tbody>

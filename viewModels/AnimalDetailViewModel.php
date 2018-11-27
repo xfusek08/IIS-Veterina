@@ -2,8 +2,10 @@
 
 require_once("DBEntities/AnimalEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
+
 require_once("viewModels/ViewModelBase.php");
 require_once("viewModels/TreatmentDisplayViewModel.php");
+
 require_once("TreatmentDisplay.view.php");
 
 class AnimalDetailViewModel extends ViewModelBase {
