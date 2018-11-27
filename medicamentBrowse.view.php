@@ -14,7 +14,10 @@
   <body>
   <?php include 'menu.php';?>
     <h1>Seznam léků</h1>
-    <input type="text" placeholder="Vyhledat..." name="">
+    <form action="" method="get">
+      <input type="text" value="" placeHolder="Vyhledat..." name="search">
+      <input type="submit" name="searchButton" class="searchButton">
+    </form>
     <table>
       <thead>
         <th>Název</th>

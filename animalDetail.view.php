@@ -11,7 +11,6 @@
   <head>
     <?php require_once("baseHeader.php");?>
     <link rel="stylesheet" type="text/css" href="Styles/aniStyle.css">
-    <link rel="stylesheet" type="text/css" href="Styles/aniDetailStyle.css">
     <script src="scripts/jQuery.js"></script>
     <script src="scripts/baseScripts.js"></script>
   </head>
