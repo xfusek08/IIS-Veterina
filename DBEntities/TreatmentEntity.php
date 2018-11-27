@@ -10,10 +10,10 @@ class TreatmentEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
-    $this->addColumn(DataType::Int,    'tre_animal', true);
-    $this->addColumn(DataType::String, 'tre_state', true);
-    $this->addColumn(DataType::String, 'tre_caption', true);
-    $this->addColumn(DataType::String, 'tre_prognosis');
-    $this->addColumn(DataType::Float,  'tre_price', true);
+    $this->addColumn(DataType::Integer, 'tre_animal', true);
+    $this->addColumn(DataType::String,  'tre_state', true);
+    $this->addColumn(DataType::String,  'tre_caption', true);
+    $this->addColumn(DataType::String,  'tre_prognosis');
+    $this->addColumn(DataType::Float,   'tre_price', true);
   }
 }

@@ -10,8 +10,8 @@ class EmployeeEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
-    $this->addColumn(DataType::Int,     'emp_state'   , true);
-    $this->addColumn(DataType::Int,     'emp_position', true, 'W');
+    $this->addColumn(DataType::Integer, 'emp_state'   , true);
+    $this->addColumn(DataType::Integer, 'emp_position', true, 'W');
     $this->addColumn(DataType::String,  'emp_name');
     $this->addColumn(DataType::String,  'emp_surname' , true);
     $this->addColumn(DataType::String,  'emp_sex'     , true);

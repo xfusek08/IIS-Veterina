@@ -1,6 +1,5 @@
 <?php
-class MyDatabase
-{
+class MyDatabase {
   const DUPLICATE_CODE = 1062;
   public static $DBFullPath = DATABASE_FULL_CONN_STR;
   public static $UserName = DATABASE_USER;
@@ -9,11 +8,8 @@ class MyDatabase
   public static $isConnected = false;
 
 
-  public static function connect()
-  {
-    if (!isset(self::$PDO))
-    {
-
+  public static function connect() {
+    if (!isset(self::$PDO)) {
       $settings = array(
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", // with firebird has issues with datetime types in query
@@ -21,15 +17,13 @@ class MyDatabase
         PDO::ATTR_AUTOCOMMIT => 0
       );
 
-      try
-      {
+      try {
         self::$PDO = new PDO(DATABASE_FULL_CONN_STR,
           self::$UserName,
           self::$Password,
           $settings);
       }
-      catch (PDOException $e)
-      {
+      catch (PDOException $e) {
         Log::WriteLog(LogType::Error, "Database connection error; " . $e->getMessage());
         echo $e->getMessage() . '</br>';
         die("Database connection failed");
@@ -43,14 +37,12 @@ class MyDatabase
     self::$isConnected = false;
   }
 
-  public static function runQuery(&$fields, $SQL, $isExternalTransaction, $params = false)
-  {
+  public static function runQuery(&$fields, $SQL, $isExternalTransaction, $params = false) {
     Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
     Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
 
     $fields = null;
-    try
-    {
+    try {
       if (!$isExternalTransaction)
         self::$PDO->beginTransaction();
 
@@ -72,8 +64,7 @@ class MyDatabase
       if (!$isExternalTransaction)
         self::$PDO->commit();
     }
-    catch(PDOException $e)
-    {
+    catch(PDOException $e) {
       Log::WriteLog(LogType::Error, "MyDatabase->runQuery; " . $e->getMessage());
       Log::WriteLog(LogType::Error, "MyDatabase->runQuery; SQL: " . $SQL);
       if (!$isExternalTransaction) {
@@ -86,8 +77,7 @@ class MyDatabase
     return true;
   }
 
-  public static function getOneValue(&$Val, $SQL, $params = false)
-  {
+  public static function getOneValue(&$Val, $SQL, $params = false) {
     $fields = null;
 
     if (!self::runQuery($fields, $SQL, false, $params)) {

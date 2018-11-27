@@ -31,21 +31,3 @@ class AnimalBrowseEntity extends DatabaseEntity {
     return false;
   }
 }
-
-/*
-
-select
-  ani_pk,
-  concat(own_surname, ' ', coalesce(own_name, '')) as ownername,
-  spe_name,
-  ani_name,
-  ani_sex,
-  (select max(exa_begin_date_time) from Examination where exa_animal = ani_pk) as exabegin,
-  (select count(*) from Treatment where tre_animal = ani_pk) as treatmentcnt
-from
-  Animal
-  left join Owner on own_pk = ani_owner
-  left join Animal_species on spe_pk = ani_species
-order by exabegin desc
-
-*/
