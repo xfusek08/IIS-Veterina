@@ -66,7 +66,7 @@ class SessionControl {
     else if (self::isPostRequest())
       $actVM->processPost();
     else
-      $actVM->loadFromGet();
+      $actVM->ProcessGet();
     return $actVM;
   }
 

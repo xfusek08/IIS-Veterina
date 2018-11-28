@@ -6,7 +6,7 @@ class LoginViewModel extends ViewModelBase {
   public $Name = "";
   public $Message = "";
 
-  public function loadFromGet() {
+  public function ProcessGet() {
     $this->Message = "";
     if (isset($_GET["message"])) {
       $this->Message = urldecode($_GET["message"]);

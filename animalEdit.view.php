@@ -4,6 +4,7 @@
   require_once("lib/SessionControl.php");
   require_once("viewModels/AnimalDetailViewModel.php");
 
+  $_GET['edit'] = '';
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
 ?>
 
@@ -20,30 +21,52 @@
       <form action="" method="post">
         <h1><?= $actVM->AnimalName ?></h1>
         <div class="anim_detail">
-          <p>Jmémo: <input type="text" value="<?= $actVM->AnimalName ?>" name="AnimalName"></p>
-          <p>Jmémo majitele: <input type="text" value="<?= $actVM->OwnerName ?>" name="OwnerName"></p>
-          <p>Druh: <input type="text" value="<?= $actVM->Species ?>" name="Species">
-            <select type="text" name="Species">
-              <?php //while() ?>
-            </select>
+          <p>Jmémo zvířete: <input type="text" value="<?= $actVM->AnimalName ?>" name="ani_name">
+            <?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_name'] : '' ?>
           </p>
+          <p>Majitel: <?= $actVM->OwnerName ?></p>
+          <p>Druh:
+            <select type="text" name="ani_species">
+              <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
+              <option value="<?=  $key ?>"
+                      <?php if ($actVM->Species == $value) echo "selected" ?> >
+                <?= $value ?>
+              </option>
+              <?php } ?>
+            </select>
+            <?= (isset($actVM->Errors['ani_species'])) ? $actVM->Errors['ani_species'] : '' ?>
+          </p>
+          <p>Rasa: <input type="text" value="<?= $actVM->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_race'] : '' ?></p>
           <p>Pohlaví:
-            <select type="text" name="Sex">
-              <option value="Samec" <?php if($actVM->Sex == "Samec"){echo "selected";} ?> >Samec</option>
-              <option value="Samice" <?php if($actVM->Sex == "Samice"){echo "selected";} ?> >Samice</option>
+            <select type="text" name="ani_sex">
+              <?php foreach($actVM->SexSelect as $key => $value) {?>
+              <option value="<?= $key ?>"
+                      <?php if ($actVM->Sex == $value) echo "selected" ?> >
+                <?= $value ?>
+              </option>
+              <?php } ?>
             </select>
+            <?= (isset($actVM->Errors['ani_sex'])) ? $actVM->Errors['ani_sex'] : '' ?>
           </p>
-          <p>Váha: <input type="text" value="<?= $actVM->Weight ?>" name="Weight"> kg</p>
+          <p>Váha: <input type="text" value="<?= $actVM->Weight ?>" name="ani_weight"> kg
+            <?= (isset($actVM->Errors['ani_weight'])) ? $actVM->Errors['ani_weight'] : '' ?>
+          </p>
           <p>Stav:
-            <select type="text" name="State">
-              <option value="Aktivní" <?php if($actVM->State == "Aktivní"){echo "selected";} ?> >Aktivní</option>
-              <option value="Neaktivní" <?php if($actVM->State == "Neaktivní"){echo "selected";} ?> >Neaktivní</option>
-              <option value="Mrtvé" <?php if($actVM->State == "Mrtvé"){echo "selected";} ?> >Mrtvé</option>
+            <select type="text" name="ani_state">
+              <?php foreach($actVM->StateSelect as $key => $value) {?>
+              <option value="<?= $key ?>"
+                      <?php if ($actVM->State == $value) echo "selected" ?> >
+                <?= $value ?>
+              </option>
+              <?php } ?>
             </select>
+            <?= (isset($actVM->Errors['ani_state'])) ? $actVM->Errors['ani_state'] : '' ?>
           </p>
-          <p>Datum narození: <input type="text" value="<?= $actVM->Birthday ?>" name="Birthday"></p>
+          <p>Datum narození: <input type="text" value="<?= $actVM->Birthday ?>" name="ani_birthday">
+            <?= (isset($actVM->Errors['ani_birthday'])) ? $actVM->Errors['ani_birthday'] : '' ?>
+          </p>
         </div>
-          <input type="submit" action="" name="submit_sav" value="Uložit" class="swap_button" />
+          <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>
     </div>
   </body>

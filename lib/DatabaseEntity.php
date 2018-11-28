@@ -71,7 +71,7 @@ abstract class DatabaseEntity {
     return "select " . implode(', ', $cols) . ' from ' . $this->TableName;
   }
 
-  public function saveToDB($isExternalTransaction) {
+  public function saveToDB($isExternalTransaction = false) {
     $this->SaveToDBResult = SaveToDBResult::OK;
 
     if ($this->TableName == '' || $this->PKColName == '') {
@@ -99,10 +99,10 @@ abstract class DatabaseEntity {
     // UPDATE
     if ($this->PK > 0) {
       $SQL =
-        'update ' . $this->TableName . ' set ' . implode(' = ?, ', $cols) .
+        'update ' . $this->TableName . ' set ' . implode(' = ?, ', $cols) . ' = ?' .
         ' where ' . $this->PKColName . ' = ?';
       $params[] = $this->PK;
-
+      echo $SQL;
     } else { // INSERT
       $SQL =
         'insert into ' . $this->TableName . ' (' . implode(', ', $cols) . ')' .
@@ -206,7 +206,14 @@ abstract class DatabaseEntity {
     return $res;
   }
 
-  // TODO: getInvalidDataJSON
+  public function getInvalidData($prefix = '') {
+    $res = array();
+    foreach ($this->Columns as $col) {
+      if (!$col->IsValid)
+        $res[$prefix . $col->ColName] = $col->getInvalidDataMessage();
+    }
+    return $res;
+  }
 
   protected function addColumn($dataType, $name, $isNotNull = false, $defValueString = '') {
     if ($this->getColumnByName($name) !== null)

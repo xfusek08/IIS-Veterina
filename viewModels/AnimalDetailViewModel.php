@@ -8,52 +8,85 @@ require_once("viewModels/TreatmentDisplayViewModel.php");
 
 require_once("TreatmentDisplay.view.php");
 
+
 class AnimalDetailViewModel extends ViewModelBase {
   public $AnimalName = '';
   public $OwnerName = '';
   public $Species = '';
+  public $Race = '';
   public $Sex = '';
   public $Weight = '';
   public $State = '';
   public $Birthday = '';
   public $Age = '';
-  public $Pk = 0;
+  public $AnimalPk = 0;
+  public $OwnerPk = 0;
+
+  public $SexSelect = array();
+  public $SpeciesSelect = array();
+  public $StateSelect = array();
+
+  public $Errors = array();
 
   public $IsEdit = false;
 
   private $AnimalEnt = null;
-  private $TreatmentsBrowser = null;
-  private $ExaminationBrowser = null;
 
   public function __construct() {
     $this->AnimalEnt = new AnimalEntity();
   }
 
-  public function init($pk) {
-    $this->AnimalEnt = new AnimalEntity($pk);
-    $this->IsEdit = $pk == 0;
-    $this->Pk = $pk;
-
-    $this->TreatmentsBrowser = new DBEntityBrowser(
-      "TreatmentEntity",
-      "tre_animal = ?",
-      "tre_priority"
-    );
-    $this->TreatmentsBrowser->addParams($pk);
-    $this->TreatmentsBrowser->openBrowser();
-  }
-
-  public function loadFromGet() {
-    $pk = 0;
-    if (isset($_GET['pk']))
-      $pk = intval($_GET['pk']);
-    $this->init($pk);
+  public function ProcessGet() {
+    $this->loadGetData();
+    if ($this->IsEdit)
+      $this->initEdit();
+    else
+      $this->initView();
     $this->loadData();
   }
 
-  public function processAjax() {}
+  public function processPost() {
+    $this->loadGetData();
+    $this->AnimalEnt->loadFromPostData();
+    if (!$this->AnimalEnt->isDataValid()) {
+      $this->Errors = $this->AnimalEnt->GetInvalidData();
+      echo '<pre>', var_dump($this->Errors) , '</pre>';
+      $this->initEdit();
+    }
+    else {
+      if (!$this->AnimalEnt->saveToDB()) {
+        die('save failed');
+      }
+      die('save sucessfull');
 
-  public function processPost() {}
+      // redirect or error notification
+    }
+  }
+
+  public function loadGetData() {
+    $this->OwnerPk = 0;
+    $this->AnimalPk = 0;
+    if (isset($_GET['pk']))
+      $this->AnimalPk = intval($_GET['pk']);
+    if (isset($_GET['onwnerpk']))
+      $this->OwnerPk = intval($_GET['onwnerpk']);
+    $this->IsEdit = isset($_GET['edit']) || $this->AnimalPk == 0;
+    $this->AnimalEnt = new AnimalEntity($this->AnimalPk);
+  }
+
+  public function initView() {
+
+  }
+
+  public function initEdit() {
+    if ($this->AnimalPk == 0 && $this->OwnerPk < 1)
+      die("Can't create new animal without knowing owner pk.");
+
+    $this->SexSelect = $this->LoadEditSelectData("select asex_shortcut, asex_description from Animal_sex order by asex_description");
+    $this->SpeciesSelect = $this->LoadEditSelectData("select spe_pk, spe_name from Animal_species order by spe_name");
+    $this->StateSelect = $this->LoadEditSelectData("select ast_shortcut , ast_text from Animal_state order by ast_text");
+    $this->loadData();
+  }
 
   public function loadData() {
     $this->AnimalName = $this->AnimalEnt->getColumnStringValue('ani_name');
@@ -63,14 +96,23 @@ class AnimalDetailViewModel extends ViewModelBase {
     $this->Weight     = $this->AnimalEnt->getColumnStringValue('ani_weight');
     $this->State      = $this->AnimalEnt->getColumnStringValue('ani_state_text');
     $this->Birthday   = $this->AnimalEnt->getColumnStringValue('ani_birthday');
+    $this->Race       = $this->AnimalEnt->getColumnStringValue('ani_race');
     $this->Age        = $this->calculateAgeOfAnimal();
   }
 
   public function LoadTreatmentsHTML() {
-    if ($this->TreatmentsBrowser->Loaded == 0) {
+    $browser = new DBEntityBrowser(
+      "TreatmentEntity",
+      "tre_animal = ?",
+      "tre_priority"
+    );
+    $browser->addParams($this->AnimalPk);
+    $browser->openBrowser();
+
+    if ($browser->Loaded == 0) {
       echo "Žádné léčby";
     } else {
-      while(($actTreat = $this->TreatmentsBrowser->getNext()) != null) {
+      while(($actTreat = $browser->getNext()) != null) {
         $vm = new TreatmentDisplayViewModel();
         $vm->init($actTreat->getColumnByName('tre_pk')->getValue());
         $vm->loadData();

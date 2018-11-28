@@ -49,7 +49,7 @@ class TreatmentDisplayViewModel extends ViewModelBase {
     $this->ExamOnTreBrowser->openBrowser();
   }
 
-  public function loadFromGet() {
+  public function ProcessGet() {
     $pk = 0;
     if (isset($_GET['pk']))
       $pk = intval($_GET['pk']);

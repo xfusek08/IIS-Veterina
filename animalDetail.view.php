@@ -4,6 +4,7 @@
   require_once("lib/SessionControl.php");
   require_once("viewModels/AnimalDetailViewModel.php");
 
+  unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
 ?>
 
@@ -20,8 +21,8 @@
       <h1><?= $actVM->AnimalName ?></h1>
       <div class="page_buttons">
         <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
-        <input type="submit" name="submit_edi" value="Upravit" class="swap_button" 
-        onclick="changePage(<?= $actVM->Pk ?>, 'animalEdit.view.php')">
+        <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
+        onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalEdit.view.php')">
       </div>
       <div class="anim_detail">
         <p>Jmémo majitele: <?= $actVM->OwnerName ?></p>

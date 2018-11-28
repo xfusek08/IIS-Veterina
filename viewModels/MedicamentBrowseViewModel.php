@@ -23,7 +23,7 @@ class MedicamentBrowseViewModel extends ViewModelBase {
     $this->MedicamentBrowser->openBrowser();
   }
 
-  public function loadFromGet() {
+  public function ProcessGet() {
     if (isset($_GET['search']))
       $this->SearchString = $_GET['search'];
     $this->init();

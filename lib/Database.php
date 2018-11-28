@@ -37,7 +37,7 @@ class MyDatabase {
     self::$isConnected = false;
   }
 
-  public static function runQuery(&$fields, $SQL, $isExternalTransaction, $params = false) {
+  public static function runQuery(&$fields, $SQL, $isExternalTransaction = false, $params = false) {
     Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; SQL:" . $SQL);
     Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; params:". PHP_EOL . print_r($params, true));
 
