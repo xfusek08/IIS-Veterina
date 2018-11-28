@@ -3,6 +3,11 @@ function changePage(spk, url)
   $(location).attr('href', url +"?pk=" + spk);
 }
 
+function changeToNew(spk, owner, url)
+{
+  $(location).attr('href', url +"?pk=" + spk + "&" + owner);
+}
+
 function swapTables(toSwap)
 {
   var choose;

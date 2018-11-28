@@ -17,6 +17,7 @@ class AnimalDetailViewModel extends ViewModelBase {
   public $State = '';
   public $Birthday = '';
   public $Age = '';
+  public $Pk = 0;
 
   public $IsEdit = false;
 
@@ -31,6 +32,7 @@ class AnimalDetailViewModel extends ViewModelBase {
   public function init($pk) {
     $this->AnimalEnt = new AnimalEntity($pk);
     $this->IsEdit = $pk == 0;
+    $this->Pk = $pk;
 
     $this->TreatmentsBrowser = new DBEntityBrowser(
       "TreatmentEntity",

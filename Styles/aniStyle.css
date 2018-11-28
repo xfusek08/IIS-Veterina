@@ -17,3 +17,8 @@
 #chosen_detail_2 {
   visibility: hidden;
 }
+
+.page_buttons .swap_button {
+  float: right;
+  margin-right: 1em;
+}
