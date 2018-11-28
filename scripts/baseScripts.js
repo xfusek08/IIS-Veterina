@@ -3,11 +3,26 @@ function changePage(spk, url)
   $(location).attr('href', url +"?pk=" + spk);
 }
 
+function changeToNew(spk, owner, url)
+{
+  $(location).attr('href', url +"?pk=" + spk + "&" + owner);
+}
+
 function swapTables(toSwap)
 {
-  var choose = document.getElementById("chosen_detail");
+  var choose;
   if(toSwap == 1)
-    choose.innerHTML("$actVM->LoadTreatmentsHTML();");
+  {
+    choose = document.getElementById("chosen_detail_1");
+    choose.style.visibility = "visible";
+    choose = document.getElementById("chosen_detail_2");
+    choose.style.visibility = "hidden";
+  }
   else
-    choose.innerHTML("$actVM->LoadMedicamentsHTML();");
+  {
+    choose = document.getElementById("chosen_detail_2");
+    choose.style.visibility = "visible";
+    choose = document.getElementById("chosen_detail_1");
+    choose.style.visibility = "hidden";
+  }
 }

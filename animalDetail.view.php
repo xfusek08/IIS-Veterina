@@ -18,6 +18,11 @@
     <?php include 'menu.php';?>
     <div class="content">
       <h1><?= $actVM->AnimalName ?></h1>
+      <div class="page_buttons">
+        <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
+        <input type="submit" name="submit_edi" value="Upravit" class="swap_button" 
+        onclick="changePage(<?= $actVM->Pk ?>, 'animalEdit.view.php')">
+      </div>
       <div class="anim_detail">
         <p>Jmémo majitele: <?= $actVM->OwnerName ?></p>
         <p>Druh: <?= $actVM->Species ?></p>
@@ -29,10 +34,11 @@
         <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
         <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2)"/>
       </div>
-      <div id="chosen_detail">
-        <?php
-          $actVM->LoadTreatmentsHTML();
-        ?>
+      <div id="chosen_detail_1">
+        <?php $actVM->LoadTreatmentsHTML(); ?>
+      </div>
+      <div id="chosen_detail_2">
+        <?php $actVM->LoadMedicamentsHTML(); ?>
       </div>
     </div>
   </body>

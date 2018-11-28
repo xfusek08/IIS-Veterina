@@ -33,7 +33,7 @@
       </thead>
       <tbody>
       <tr style="color: gray"><th class="table_part" colspan="4">S plánovaným vyšetřením</th><th class="table_part">Naplánované vyšetření</th><th class="table_part"></tr>
-      <?php foreach ($actVM->AnimalsPlanned as $actAnimal ) { ?>
+      <?php foreach ($actVM->AnimalsPlanned as $actAnimal) { ?>
         <tr class="table_select" onclick="changePage(<?= $actAnimal->Pk ?>, 'animalDetail.view.php')">
           <td><?= $actAnimal->OwnerName ?></td>
           <td><?= $actAnimal->Species ?></td>
