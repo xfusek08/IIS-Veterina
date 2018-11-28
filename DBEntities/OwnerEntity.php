@@ -10,6 +10,7 @@ class OwnerEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
+    $this->addColumn(DataType::Integer, 'own_pk');
     $this->addColumn(DataType::String, 'own_name');
     $this->addColumn(DataType::String, 'own_surname', true);
     $this->addColumn(DataType::String, 'own_sex');

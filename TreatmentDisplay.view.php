@@ -43,12 +43,14 @@
           <td><?= $actExam->Hour ?></td>
           <td><?= $actExam->Ocurred ?></td>
         </tr>
+        <?php if ($actExam->Ocurred == 'A') { ?>
         <tr>
           <td>Průběžná diagnóza:</td>
           <td colspan="3">
             <textarea readonly><?= $actExam->Diagnosis ?></textarea>
           </td>
         </tr>
+        <?php } ?>
       <?php } ?>
     </tbody>
   </table>

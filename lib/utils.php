@@ -11,7 +11,7 @@ function strToBool($str) {
   $trueMatches = array(
     'a', 'ano', 'true', 'yes', 'y', '1'
   );
-  if (in_array($str, $trueMatches))
+  if (in_array(strtolower($str), $trueMatches))
     return true;
   else
     return false;

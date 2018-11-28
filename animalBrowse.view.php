@@ -19,7 +19,7 @@
     <div class="content">
     <h1>Seznam zvířat</h1>
     <form action="" method="get">
-      <input type="text" value="" placeHolder="Vyhledat..." name="search">
+      <input type="text" value="<?= $actVM->SearchString ?>" placeHolder="Vyhledat..." name="search">
       <input type="submit" name="searchButton" class="searchButton">
     </form>
     <table>

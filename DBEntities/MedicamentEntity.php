@@ -10,6 +10,7 @@ class MedicamentEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
+    $this->addColumn(DataType::Integer,   'med_pk');
     $this->addColumn(DataType::Integer,   'med_type',             true);
     $this->addColumn(DataType::String,    'med_name',             true);
     $this->addColumn(DataType::Float,     'med_price',            true);

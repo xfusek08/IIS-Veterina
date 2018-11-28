@@ -17,7 +17,7 @@
     <div class="content">
     <h1>Seznam léků</h1>
       <form action="" method="get">
-        <input type="text" value="" placeHolder="Vyhledat..." name="search">
+        <input type="text" value="<?= $actVM->SearchString ?>" placeHolder="Vyhledat..." name="search">
         <input type="submit" name="searchButton" class="searchButton">
       </form>
       <table>
@@ -33,7 +33,7 @@
               <td><?= $medicament->Name ?></td>
               <td><?= $medicament->Type ?></td>
               <td><?= $medicament->Price ?></td>
-              <td><?= $medicament->Company ?></td>
+              <td><?= $medicament->Producer ?></td>
             </tr>
           <?php } ?>
           <tr><th class="table_add table_select" colspan="4">Přidat lék</th></tr>

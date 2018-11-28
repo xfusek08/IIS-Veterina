@@ -17,7 +17,7 @@
     <div class="content">
       <h1>Seznam majitelů</h1>
       <form action="" method="get">
-        <input type="text" value="" placeHolder="Vyhledat..." name="search">
+        <input type="text" value="<?= $actVM->SearchString ?>" placeHolder="Vyhledat..." name="search">
         <input type="submit" name="searchButton" class="searchButton">
       </form>
       <table>
@@ -34,8 +34,8 @@
           <tr class="table_select" onclick="changePage(<?= $owner->Pk ?>, 'ownerDetail.view.php')">
             <td><?= $owner->Name ?></td>
             <td><?= $owner->Surname ?></td>
-            <td><?= $owner->Adress ?></td>
-            <td><?= $owner->Telefon ?></td>
+            <td><?= $owner->Address ?></td>
+            <td><?= $owner->Telephone ?></td>
             <td><?= $owner->Sex ?></td>
             <td><?= $owner->IsActive ?></td>
           </tr>

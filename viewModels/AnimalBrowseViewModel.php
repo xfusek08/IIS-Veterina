@@ -10,6 +10,7 @@ require_once("viewModels/ViewModelBase.php");
 class AnimalBrowseViewModel extends ViewModelBase {
   public $AnimalsPlanned = array(); // array of AnimalBrowseModel
   public $AnimalsNotPlanned = array(); // array of AnimalBrowseModel
+  public $SearchString = '';
 
   private $AniPlanBrowser   = null;
   private $AniNPlanBrowser  = null;
@@ -33,6 +34,8 @@ class AnimalBrowseViewModel extends ViewModelBase {
   }
 
   public function loadFromGet() {
+    if (isset($_GET['search']))
+      $this->SearchString = $_GET['search'];
     $this->init();
     $this->loadData();
   }
@@ -44,11 +47,16 @@ class AnimalBrowseViewModel extends ViewModelBase {
   public function loadData() {
     // TODO: filtrace na stav ??
     while (($aniBrEnt = $this->AniPlanBrowser->getNext()) != null) {
-      $this->AnimalsPlanned[] = $this->aniBrEntToBrMod($aniBrEnt);
+      $model = $this->aniBrEntToBrMod($aniBrEnt);
+      if ($this->SearchString == '' || strpos(strtolower($model->AnimalName . $model->OwnerName . $model->LatestExamination), strtolower($this->SearchString)) !== false)
+        $this->AnimalsPlanned[] = $model;
     }
+
     // TODO: filtrace na stav ??
     while (($aniBrEnt = $this->AniNPlanBrowser->getNext()) != null) {
-      $this->AnimalsNotPlanned[] = $this->aniBrEntToBrMod($aniBrEnt);
+      $model = $this->aniBrEntToBrMod($aniBrEnt);
+      if ($this->SearchString == '' || strpos(strtolower($model->AnimalName . $model->OwnerName . $model->LatestExamination), strtolower($this->SearchString)) !== false)
+        $this->AnimalsNotPlanned[] = $model;
     }
   }
 

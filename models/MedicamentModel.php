@@ -5,5 +5,5 @@ class MedicamentModel {
   public $Name = '';
   public $Type = '';
   public $Price = '';
-  public $Company = '';
+  public $Producer = '';
 }
