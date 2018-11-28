@@ -1,5 +1,8 @@
 <?php
 
+require_once("lib/Settings.php");
+require_once("lib/SessionControl.php");
+
 require_once("DBEntities/AnimalEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
 
@@ -21,6 +24,7 @@ class AnimalDetailViewModel extends ViewModelBase {
   public $Age = '';
   public $AnimalPk = 0;
   public $OwnerPk = 0;
+  public $Message = '';
 
   public $SexSelect = array();
   public $SpeciesSelect = array();
@@ -50,16 +54,15 @@ class AnimalDetailViewModel extends ViewModelBase {
     $this->AnimalEnt->loadFromPostData();
     if (!$this->AnimalEnt->isDataValid()) {
       $this->Errors = $this->AnimalEnt->GetInvalidData();
-      echo '<pre>', var_dump($this->Errors) , '</pre>';
+      $this->Message = STR_MSG_FORM_INVALID_DATA;
       $this->initEdit();
     }
     else {
       if (!$this->AnimalEnt->saveToDB()) {
-        die('save failed');
+        $this->Message = STR_MSG_SAVE_FAILED;
       }
-      die('save sucessfull');
-
-      // redirect or error notification
+      $this->Message = STR_MSG_SAVE_FAILED;
+      SessionControl::navigate("animalDetail.view.php?pk=$this->AnimalPk");
     }
   }
 

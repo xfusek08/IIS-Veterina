@@ -26,3 +26,6 @@ define("LOGIN_SQL", "select emp_pk from Employee where emp_username = ? and emp_
 
 // STRINGS
 define("STR_DATABASE_ERROR" , "Chyba databáze");
+define("STR_MSG_FORM_INVALID_DATA" , "Formulář obsahuje nevalidní data.");
+define("STR_MSG_SAVE_FAILED" , "Selhalo uložení do databáze");
+define("STR_MSG_SAVED" , "Uloženo");

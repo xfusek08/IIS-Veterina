@@ -57,7 +57,10 @@ class MyDatabase {
       else
         $query->execute($params);
 
-      $fields = $query->fetchAll();
+      if ($query->columnCount() > 0)
+        $fields = $query->fetchAll();
+      else
+        $fields = array();
 
       Log::WriteLog(LogType::Announcement, "MyDatabase->runQuery; results:". PHP_EOL . print_r($fields, true));
 

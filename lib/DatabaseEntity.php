@@ -102,7 +102,6 @@ abstract class DatabaseEntity {
         'update ' . $this->TableName . ' set ' . implode(' = ?, ', $cols) . ' = ?' .
         ' where ' . $this->PKColName . ' = ?';
       $params[] = $this->PK;
-      echo $SQL;
     } else { // INSERT
       $SQL =
         'insert into ' . $this->TableName . ' (' . implode(', ', $cols) . ')' .
