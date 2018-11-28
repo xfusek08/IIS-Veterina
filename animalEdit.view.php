@@ -66,7 +66,7 @@
             <?= (isset($actVM->Errors['ani_birthday'])) ? $actVM->Errors['ani_birthday'] : '' ?>
           </p>
         </div>
-          <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
+        <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>
     </div>
   </body>

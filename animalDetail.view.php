@@ -32,14 +32,14 @@
         <p>Stav: <?= $actVM->State ?></p>
         <p>Datum narození: <?= $actVM->Birthday ?> (<?= $actVM->Age ?>)</p>
       <div class="swap_buttons">
-        <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
-        <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2)"/>
+        <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1, 2)"/>
+        <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button" onclick="swapTables(2, 2)"/>
       </div>
       <div id="chosen_detail_1">
         <?php $actVM->LoadTreatmentsHTML(); ?>
       </div>
       <div id="chosen_detail_2">
-        <?php $actVM->LoadMedicamentsHTML(); ?>
+        <?php $actVM->LoadExaminationHTML(); ?>
       </div>
     </div>
   </body>

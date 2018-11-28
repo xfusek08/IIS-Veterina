@@ -30,19 +30,42 @@
         <p>Naúčtováno: <?= $actVM->Price ?></p>
         <p>Výsledná zpráva: <?= $actVM->Report ?></p>
       <div class="swap_buttons">
-        <input type="submit" name="submit_ch" value="Léčby" class="swap_button" onclick="swapTables(1)"/>
-        <input type="submit" name="submit_ch" value="Zahájít léčbu" class="swap_button" onclick="swapTables(2)"/>
-        <input type="submit" name="submit_ch" value="Připojit k léčbě" class="swap_button" onclick="swapTables(3)"/>
-        <input type="submit" name="submit_ch" value="Ukončit léčbu" class="swap_button" onclick=""/>
+        <input type="submit" name="submit_ch" value="Léčba" class="swap_button" onclick="swapTables(1, 4)"/>
+        <input type="submit" name="submit_ch" value="Zahájít léčbu" class="swap_button" onclick="swapTables(2, 4)"/>
+        <input type="submit" name="submit_ch" value="Připojit k léčbě" class="swap_button" onclick="swapTables(3, 4)"/>
+        <input type="submit" name="submit_ch" value="Ukončit léčbu" class="swap_button" onclick="swapTables(4, 4)"/>
       </div>
       <div id="chosen_detail_1">
-        
+        <p><?= $actVM->Treatment->Caption ?></p>
+        <p>Stav: <?= $actVM->Treatment->State ?></p>
+        <p>Cena: <?= $actVM->Treatment->Price ?></p>
+        <div>Prognóza</div>
+        <textarea readonly><?= $actVM->Treatment->Prognosis ?></textarea>
       </div>
       <div id="chosen_detail_2">
-        
+        <form action="" method="post">
+          <div class="tre_detail">
+            <p>Označení: <input type="text" value="<?= $actVM->Treatment->Caption ?>" name="tre_caption">
+              <?= (isset($actVM->Errors['tre_caption'])) ? $actVM->Errors['tre_caption'] : '' ?>
+            </p>
+            <p>Stav: <input type="text" value="<?= $actVM->Treatment->State ?>" name="tre_state">
+              <?= (isset($actVM->Errors['tre_state'])) ? $actVM->Errors['tre_state'] : '' ?>
+            </p>
+            <p>Cena: <input type="text" value="<?= $actVM->Treatment->Price ?>" name="tre_price">
+              <?= (isset($actVM->Errors['tre_price'])) ? $actVM->Errors['tre_price'] : '' ?>
+            </p>
+            <p>Prognóza: <input type="text" value="<?= $actVM->Treatment->Prognosis ?>" name="tre_prognosis">
+              <?= (isset($actVM->Errors['tre_prognosis'])) ? $actVM->Errors['tre_prognosis'] : '' ?>
+            </p>
+          </div>
+          <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
+        </form>
       </div>
       <div id="chosen_detail_3">
-        
+        <?php $actVM->LoadTreatmentsHTML(); ?>
+      </div>
+      <div id="chosen_detail_4">
+        <?php $actVM->LoadTreatmentsHTML(); ?>
       </div>
     </div>
   </body>

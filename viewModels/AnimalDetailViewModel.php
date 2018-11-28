@@ -121,6 +121,10 @@ class AnimalDetailViewModel extends ViewModelBase {
     }
   }
 
+  public function LoadExaminationHTML() {
+    //ExaminationDisplay.view.php
+  }
+
   private function calculateAgeOfAnimal() {
     $birthday = $this->AnimalEnt->getColumnByName('ani_birthday')->getValue();
     $date = new DateTime();
