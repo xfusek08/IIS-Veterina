@@ -11,6 +11,8 @@
   <head>
     <?php require_once("baseHeader.php");?>
     <link rel="stylesheet" type="text/css" href="Styles/browStyles.css">
+    <script src="scripts/jQuery.js"></script>
+    <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
     <?php include 'menu.php';?>
@@ -40,7 +42,7 @@
             <td><?= $owner->IsActive ?></td>
           </tr>
         <?php } ?>
-        <tr><th class="table_add table_select" colspan="6">Přidat vlastníka</th></tr>
+        <tr onclick="changePage(0, 'ownerEdit.view.php')"><th class="table_add table_select" colspan="6">Přidat vlastníka</th></tr>
         </tbody>
       </table>
       </div>

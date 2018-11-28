@@ -2,9 +2,9 @@
   ini_set("default_charset", "utf-8");
 
   require_once("lib/SessionControl.php");
-  require_once("viewModels/OwnerDetailViewModel.php");
+  require_once("viewModels/MedicamentDetailViewModel.php");
 
-  $actVM = SessionControl::pageInitRoutine("OwnerDetailViewModel");
+  $actVM = SessionControl::pageInitRoutine("MedicamentDetailViewModel");
 ?>
 
 <html lang="cz">
@@ -21,14 +21,15 @@
       <div class="page_buttons">
         <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
         <input type="submit" name="submit_edi" value="Upravit" class="swap_button" 
-        onclick="changePage(<?= $actVM->Pk ?>, 'ownerEdit.view.php')">
+        onclick="changePage(<?= $actVM->Pk ?>, 'medicamentEdit.view.php')">
       </div>
-      <div class="owner_detail">
-        <p>Adresa: <?= $actVM->Address ?></p>
-        <p>Pohlaví: <?= $actVM->Sex ?></p>
-        <p>Telefonní číslo: <?= $actVM->Number ?></p>
+      <div class="medicament_detail">
+        <p>Typ: <?= $actVM->Type ?></p>
+        <p>Cena: <?= $actVM->Price ?></p>
+        <p>Výrobce: <?= $actVM->Producer ?></p>
+        <p>Složení: <?= $actVM->Substance ?></p>
       <div>
-        <?php $actVM->LoadAnimalsHTML(); ?>
+        <?php $actVM->LoadSpeciesHTML(); ?>
       </div>
     </div>
   </body>

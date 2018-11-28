@@ -11,6 +11,8 @@
   <head>
     <?php require_once("baseHeader.php");?>
     <link rel="stylesheet" type="text/css" href="Styles/browStyles.css">
+    <script src="scripts/jQuery.js"></script>
+    <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
   <?php include 'menu.php';?>
@@ -29,14 +31,14 @@
         </thead>
         <tbody>
           <?php foreach($actVM->Medicaments as $medicament) { ?>
-            <tr class="table_select" onclick="changePage(<?= $medicament->Pk ?>, 'ownerDetail.view.php')">
+            <tr class="table_select" onclick="changePage(<?= $medicament->Pk ?>, 'medicamentDetail.view.php')">
               <td><?= $medicament->Name ?></td>
               <td><?= $medicament->Type ?></td>
               <td><?= $medicament->Price ?></td>
               <td><?= $medicament->Producer ?></td>
             </tr>
           <?php } ?>
-          <tr><th class="table_add table_select" colspan="4">Přidat lék</th></tr>
+          <tr onclick="changePage(0, 'medicamentEdit.view.php')" ><th class="table_add table_select" colspan="4">Přidat lék</th></tr>
         </tbody>
       </table>
     </div>
