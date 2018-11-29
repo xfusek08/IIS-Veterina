@@ -23,7 +23,7 @@
         <input type="submit" name="searchButton" class="searchButton">
       </form>
       <table>
-        <thead>
+        <thead class="bor_bot">
           <th>Název</th>
           <th>Typ</th>
           <th>Cena</th>

@@ -23,7 +23,7 @@
         <input type="submit" name="searchButton" class="searchButton">
       </form>
       <table>
-        <thead>
+        <thead class="bor_bot">
           <th>Jméno</th>
           <th>Příjmení</th>
           <th>Adresa</th>

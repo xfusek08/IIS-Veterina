@@ -10,7 +10,7 @@
 <html lang="cz">
   <head>
     <?php require_once("baseHeader.php");?>
-    <link rel="stylesheet" type="text/css" href="Styles/aniStyle.css">
+    <link rel="stylesheet" type="text/css" href="Styles/detailStyle.css">
     <script src="scripts/jQuery.js"></script>
     <script src="scripts/baseScripts.js"></script>
   </head>
@@ -30,10 +30,10 @@
         <p>Naúčtováno: <?= $actVM->Price ?></p>
         <p>Výsledná zpráva: <?= $actVM->Report ?></p>
       <div class="swap_buttons">
-        <input type="submit" name="submit_ch" value="Léčba" class="swap_button" onclick="swapTables(1, 4)"/>
-        <input type="submit" name="submit_ch" value="Zahájít léčbu" class="swap_button" onclick="swapTables(2, 4)"/>
-        <input type="submit" name="submit_ch" value="Připojit k léčbě" class="swap_button" onclick="swapTables(3, 4)"/>
-        <input type="submit" name="submit_ch" value="Ukončit léčbu" class="swap_button" onclick="swapTables(4, 4)"/>
+        <input type="submit" name="submit_ch" value="Léčba" class="swap_button to_swap" onclick="swapTables(1, 4)"/>
+        <input type="submit" name="submit_ch" value="Zahájít léčbu" class="swap_button to_swap" onclick="swapTables(2, 4)"/>
+        <input type="submit" name="submit_ch" value="Připojit k léčbě" class="swap_button to_swap" onclick="swapTables(3, 4)"/>
+        <input type="submit" name="submit_ch" value="Ukončit léčbu" class="swap_button to_swap" onclick="swapTables(4, 4)"/>
       </div>
       <div id="chosen_detail_1">
         <p><?= $actVM->Treatment->Caption ?></p>
@@ -42,7 +42,7 @@
         <div>Prognóza</div>
         <textarea readonly><?= $actVM->Treatment->Prognosis ?></textarea>
       </div>
-      <div id="chosen_detail_2">
+      <div id="chosen_detail_2" class="hidden">
         <form action="" method="post">
           <div class="tre_detail">
             <p>Označení: <input type="text" value="<?= $actVM->Treatment->Caption ?>" name="tre_caption">
@@ -61,10 +61,10 @@
           <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         </form>
       </div>
-      <div id="chosen_detail_3">
+      <div id="chosen_detail_3" class="hidden">
         <?php $actVM->LoadTreatmentsHTML(); ?>
       </div>
-      <div id="chosen_detail_4">
+      <div id="chosen_detail_4" class="hidden">
         <?php $actVM->LoadTreatmentsHTML(); ?>
       </div>
     </div>

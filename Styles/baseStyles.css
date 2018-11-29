@@ -1,40 +1,58 @@
 body {
   padding: 0; 
   margin: 0;
+  background-color: rgb(77, 226, 226);
 }
 
 h1 {
   margin: 0%;
   padding: 0.5em;
   text-align: center;
+  user-select: none;
+}
+
+p {
+  font-size: 1.2em;
 }
 
 .menu {
   vertical-align: middle;
   margin-left: 0.5em;
-  position: absolute;
 }
 
 .content {
-  border-left: 1px solid black;
-  margin-left: 7em;
+  border-left: 3px solid black;
+  margin-left: 8em;
   padding-left: 2em; 
   min-height: 100%;
   padding-bottom: 1em;
+  background-color: whitesmoke;
 }
 
 .menu_table {
   list-style-type: none;
   margin: 0;
   padding: 0.5%;
-  margin-top: 5%;
-  position: fixed;
+  margin-top: 6.5em;;
+  margin-left: 0.5em;;
+  float: left;
 }
 
 .menu_choice {
   margin-top: 30%;
   text-align: left;
   font-size: 1.5em;
+  
+}
+
+a {
+  text-decoration:none;
+  color: black;
+  user-select: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 table {
@@ -50,7 +68,8 @@ table tr ~ tr{
 }
 
 table .table_select:hover {
-  background-color: rgb(135, 255, 79);
+  background-color: rgb(77, 226, 226);
+  cursor: pointer;
 }
 
 .table_part {
@@ -82,7 +101,7 @@ table tr td ~ td {
 }
 
 input {
-  background-color: rgba(233, 231, 231, 0.11);
+  background-color: rgba(172, 172, 172, 0.11);
   width: 30em;
   height: 2.5em;
   border: rgba(167, 167, 167, 0.788) solid 0.1em;

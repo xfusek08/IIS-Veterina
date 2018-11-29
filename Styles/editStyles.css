@@ -1,0 +1,37 @@
+input {
+  width: 15em;
+}
+
+h1 {
+  text-align: left;
+}
+
+p {
+  margin-top: 2;
+}
+
+.swap_button {
+  display: block;
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+  width: 5.5em;
+  height: 2em;
+  font-size: 12.5pt;
+  text-align: center;
+}
+
+.right {
+  margin-left: 0.2em;
+}
+
+.anim_detail {
+  float: left;
+}
+
+.block {
+  display: block;
+}
+
+input {
+  height: 1.95em;
+}
