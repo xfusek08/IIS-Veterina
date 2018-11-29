@@ -1,18 +1,16 @@
 <?php
 
-require_once("lib/Settings.php");
 require_once("lib/SessionControl.php");
 
 require_once("DBEntities/AnimalEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/EditableDetailViewModelBase.php");
 require_once("viewModels/TreatmentDisplayViewModel.php");
 
 require_once("TreatmentDisplay.view.php");
 
-
-class AnimalDetailViewModel extends ViewModelBase {
+class AnimalDetailViewModel extends EditableDetailViewModelBase {
   public $AnimalName = '';
   public $OwnerName = '';
   public $Species = '';
@@ -22,63 +20,27 @@ class AnimalDetailViewModel extends ViewModelBase {
   public $State = '';
   public $Birthday = '';
   public $Age = '';
+  public $Message = '';
   public $AnimalPk = 0;
   public $OwnerPk = 0;
-  public $Message = '';
 
   public $SexSelect = array();
   public $SpeciesSelect = array();
   public $StateSelect = array();
 
-  public $Errors = array();
-
-  public $IsEdit = false;
-
-  private $AnimalEnt = null;
-
   public function __construct() {
-    $this->AnimalEnt = new AnimalEntity();
-  }
-
-  public function ProcessGet() {
-    $this->loadGetData();
-    if ($this->IsEdit)
-      $this->initEdit();
-    else
-      $this->initView();
-    $this->loadData();
-  }
-
-  public function processPost() {
-    $this->loadGetData();
-    $this->AnimalEnt->loadFromPostData();
-    if (!$this->AnimalEnt->isDataValid()) {
-      $this->Errors = $this->AnimalEnt->GetInvalidData();
-      $this->Message = STR_MSG_FORM_INVALID_DATA;
-      $this->initEdit();
-    }
-    else {
-      if (!$this->AnimalEnt->saveToDB()) {
-        $this->Message = STR_MSG_SAVE_FAILED;
-      }
-      $this->Message = STR_MSG_SAVE_FAILED;
-      SessionControl::navigate("animalDetail.view.php?pk=$this->AnimalPk");
-    }
+    parent::__construct('AnimalEntity', 'animalDetail.view.php');
   }
 
   public function loadGetData() {
-    $this->OwnerPk = 0;
-    $this->AnimalPk = 0;
-    if (isset($_GET['pk']))
-      $this->AnimalPk = intval($_GET['pk']);
+    parent::loadGetData();
     if (isset($_GET['onwnerpk']))
       $this->OwnerPk = intval($_GET['onwnerpk']);
-    $this->IsEdit = isset($_GET['edit']) || $this->AnimalPk == 0;
-    $this->AnimalEnt = new AnimalEntity($this->AnimalPk);
+    $this->AnimalPk = $this->MainDBEntity->PK;
   }
 
   public function initView() {
-
+    $this->loadData();
   }
 
   public function initEdit() {
@@ -92,16 +54,22 @@ class AnimalDetailViewModel extends ViewModelBase {
   }
 
   public function loadData() {
-    $this->AnimalName = $this->AnimalEnt->getColumnStringValue('ani_name');
-    $this->OwnerName  = $this->AnimalEnt->getColumnStringValue('owner_name');
-    $this->Species    = $this->AnimalEnt->getColumnStringValue('ani_species_text');
-    $this->Sex        = $this->AnimalEnt->getColumnStringValue('ani_sex_text');
-    $this->Weight     = $this->AnimalEnt->getColumnStringValue('ani_weight');
-    $this->State      = $this->AnimalEnt->getColumnStringValue('ani_state_text');
-    $this->Birthday   = $this->AnimalEnt->getColumnStringValue('ani_birthday');
-    $this->Race       = $this->AnimalEnt->getColumnStringValue('ani_race');
+    $this->AnimalName = $this->MainDBEntity->getColumnStringValue('ani_name');
+    $this->OwnerName  = $this->MainDBEntity->getColumnStringValue('owner_name');
+    $this->Species    = $this->MainDBEntity->getColumnStringValue('ani_species_text');
+    $this->Sex        = $this->MainDBEntity->getColumnStringValue('ani_sex_text');
+    $this->Weight     = $this->MainDBEntity->getColumnStringValue('ani_weight');
+    $this->State      = $this->MainDBEntity->getColumnStringValue('ani_state_text');
+    $this->Birthday   = $this->MainDBEntity->getColumnStringValue('ani_birthday');
+    $this->Race       = $this->MainDBEntity->getColumnStringValue('ani_race');
     $this->Age        = $this->calculateAgeOfAnimal();
   }
+
+  public function onSuccessPost() {
+    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->PK);
+  }
+
+  // methods specific to Animal detail
 
   public function LoadTreatmentsHTML() {
     $browser = new DBEntityBrowser(
@@ -129,7 +97,7 @@ class AnimalDetailViewModel extends ViewModelBase {
   }
 
   private function calculateAgeOfAnimal() {
-    $birthday = $this->AnimalEnt->getColumnByName('ani_birthday')->getValue();
+    $birthday = $this->MainDBEntity->getColumnByName('ani_birthday')->getValue();
     $date = new DateTime();
     $date->setTimestamp($birthday);
     $now = new DateTime();

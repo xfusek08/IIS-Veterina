@@ -5,7 +5,7 @@ require_once("lib/DBEntityBrowser.php");
 require_once("DBEntities/MedicamentEntity.php");
 require_once("models/MedicamentModel.php");
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/ViewModelBase.php");
 
 class MedicamentBrowseViewModel extends ViewModelBase {
   public $Medicaments = array();  // array of MedicamentModel

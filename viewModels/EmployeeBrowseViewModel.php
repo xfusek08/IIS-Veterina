@@ -1,6 +1,6 @@
 <?php
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/ViewModelBase.php");
 
 class EmployeeBrowseViewModel extends ViewModelBase {
   public $Employees = array();  // probably just result of concrete sql

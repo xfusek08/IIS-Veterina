@@ -1,6 +1,6 @@
 <?php
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/ViewModelBase.php");
 
 class LoginViewModel extends ViewModelBase {
   public $Name = "";

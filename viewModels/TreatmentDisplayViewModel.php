@@ -9,7 +9,7 @@ require_once("DBEntities/ExamOnTreatBrowseEntity.php");
 require_once("models/MedicamentOnTreatmentModel.php");
 require_once("models/ExamOnTreatmentModel.php");
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/ViewModelBase.php");
 
 class TreatmentDisplayViewModel extends ViewModelBase {
   public $Caption = '';

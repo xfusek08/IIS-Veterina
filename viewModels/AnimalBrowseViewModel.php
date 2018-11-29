@@ -5,7 +5,7 @@ require_once("lib/DBEntityBrowser.php");
 require_once("DBEntities/AnimalBrowseEntity.php");
 require_once("models/AnimalBrowseModel.php");
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/ViewModelBase.php");
 
 class AnimalBrowseViewModel extends ViewModelBase {
   public $AnimalsPlanned = array(); // array of AnimalBrowseModel

@@ -5,7 +5,7 @@ require_once("lib/DBEntityBrowser.php");
 require_once("DBEntities/OwnerEntity.php");
 require_once("models/OwnerModel.php");
 
-require_once("viewModels/ViewModelBase.php");
+require_once("viewModels/base/ViewModelBase.php");
 
 class OwnerBrowseViewModel extends ViewModelBase {
   public $Owners = array(); // array of OwnerModel
