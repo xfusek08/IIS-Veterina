@@ -1,7 +1,7 @@
 <?php
   ini_set("default_charset", "utf-8");
 
-  function BuildAnimalViewDiv(TreatmentDisplayViewModel $actVM) {
+  function BuildAnimalViewDiv(TreatmentOnAnimalViewModel $actVM) {
     if ($actVM == null || !is_a($actVM, "TreatmentAnimalViewModel"))
       return;
 ?>

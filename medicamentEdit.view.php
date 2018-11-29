@@ -47,5 +47,6 @@
           <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>
     </div>
+    <div class="message"><?= $actVM->Message ?></div>
   </body>
 </html>

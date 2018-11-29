@@ -105,8 +105,10 @@ abstract class DatabaseEntity {
     } else { // INSERT
       $SQL =
         'insert into ' . $this->TableName . ' (' . implode(', ', $cols) . ')' .
-        ' values (' . str_repeat('?, ', count($cols)) . ')' .
-        ' returning ' . $this->PKColName . ';';
+        ' values (' . str_repeat('?, ', count($cols) - 1) . ' ?)';
+
+      if (!MyDatabase::isMySQL()) // mysql can't do returning ...
+        $SQL .= ' returning ' . $this->PKColName . ';';
     }
 
     $fields = null;
@@ -116,12 +118,26 @@ abstract class DatabaseEntity {
       return false;
     }
 
-    if ($this->PK == 0) {
-      if (count($fields) == 0) {
-        $this->SaveToDBResult = SaveToDBResult::Error;
-        return false;
+    if ($this->PK == 0) { // was insert ?
+      if (!MyDatabase::isMySQL()) { // get value from returning
+        if (count($fields) == 0) {
+          $this->SaveToDBResult = SaveToDBResult::Error;
+          return false;
+        }
+        $this->PK = intval($fields[0][0]);
+      } else { // for mysql select last inserted id
+        $returnedpk;
+        if (!MyDatabase::getOneValue($returnedpk, 'select last_insert_id()')) {
+          $this->SaveToDBResult = SaveToDBResult::Error;
+          return false;
+        }
+        $returnedpk = intval($returnedpk);
+        if ($returnedpk <= 0) {
+          $this->SaveToDBResult = SaveToDBResult::Error;
+          return false;
+        }
+        $this->PK = $returnedpk;
       }
-      $this->PK = intval($fields[0][0]);
     }
 
     return true;

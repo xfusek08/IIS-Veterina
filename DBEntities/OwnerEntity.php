@@ -11,11 +11,14 @@ class OwnerEntity extends DatabaseEntity {
 
   protected function defColumns() {
     $this->addColumn(DataType::Integer, 'own_pk');
-    $this->addColumn(DataType::String, 'own_name');
-    $this->addColumn(DataType::String, 'own_surname', true);
-    $this->addColumn(DataType::String, 'own_sex');
-    $this->addColumn(DataType::String, 'own_mobile_number');
-    $this->addColumn(DataType::String, 'own_address');
-    $this->addColumn(DataType::Bool,   'own_isactive', true, 'Y');
+    $this->addColumn(DataType::String,  'own_name');
+    $this->addColumn(DataType::String,  'own_surname', true);
+    $this->addColumn(DataType::String,  'own_sex');
+    $this->addColumn(DataType::String,  'own_mobile_number');
+    $this->addColumn(DataType::String,  'own_address');
+    $this->addColumn(DataType::Bool,    'own_isactive', true, 'Y');
+
+    $this->addSQLColumn(DataType::String, 'own_sex_text',
+      'select psex_text from Person_sex where psex_shortcut = own_sex');
   }
 }

@@ -4,7 +4,7 @@ require_once("DBEntities/OwnerEntity.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
-require_once("TreatmentDisplay.view.php");
+require_once("treatmentsOnAnimal.view.php");
 
 class OwnerDetailViewModel extends EditableDetailViewModelBase {
   public $Pk = 0;
@@ -34,7 +34,7 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
     $this->Firstname  = $this->MainDBEntity->getColumnStringValue('own_name');
     $this->Surname    = $this->MainDBEntity->getColumnStringValue('own_surname');
     $this->Address    = $this->MainDBEntity->getColumnStringValue('own_address');
-    $this->Sex        = $this->MainDBEntity->getColumnStringValue('own_sex');
+    $this->Sex        = $this->MainDBEntity->getColumnStringValue('own_sex_text');
     $this->Number     = $this->MainDBEntity->getColumnStringValue('own_mobile_number');
     $this->Name       = $this->Firstname . ' ' . $this->Surname;
   }

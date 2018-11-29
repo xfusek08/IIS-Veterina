@@ -1,14 +1,18 @@
 <?php
 
 require_once("lib/SessionControl.php");
+require_once("lib/DBEntityBrowser.php");
 
 require_once("DBEntities/AnimalEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
+require_once("DBEntities/ExaminationEntity.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
-require_once("viewModels/TreatmentDisplayViewModel.php");
+require_once("viewModels/TreatmentOnAnimalViewModel.php");
+require_once("viewModels/ExaminationsOnAnimalViewModel.php");
 
-require_once("TreatmentDisplay.view.php");
+require_once("treatmentsOnAnimal.view.php");
+require_once("examinationsOnAnimal.view.php");
 
 class AnimalDetailViewModel extends EditableDetailViewModelBase {
   public $AnimalName = '';
@@ -20,7 +24,6 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
   public $State = '';
   public $Birthday = '';
   public $Age = '';
-  public $Message = '';
   public $AnimalPk = 0;
   public $OwnerPk = 0;
 
@@ -43,13 +46,17 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     $this->loadData();
   }
 
+  public function onSuccessPost() {
+    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->PK);
+  }
+
   public function initEdit() {
     if ($this->AnimalPk == 0 && $this->OwnerPk < 1)
       die("Can't create new animal without knowing owner pk.");
 
-    $this->SexSelect = $this->LoadEditSelectData("select asex_shortcut, asex_description from Animal_sex order by asex_description");
-    $this->SpeciesSelect = $this->LoadEditSelectData("select spe_pk, spe_name from Animal_species order by spe_name");
-    $this->StateSelect = $this->LoadEditSelectData("select ast_shortcut , ast_text from Animal_state order by ast_text");
+    $this->SexSelect      = $this->LoadEditSelectData("select asex_shortcut, asex_description from Animal_sex order by asex_description");
+    $this->SpeciesSelect  = $this->LoadEditSelectData("select spe_pk, spe_name from Animal_species order by spe_name");
+    $this->StateSelect    = $this->LoadEditSelectData("select ast_shortcut , ast_text from Animal_state order by ast_text");
     $this->loadData();
   }
 
@@ -63,10 +70,6 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     $this->Birthday   = $this->MainDBEntity->getColumnStringValue('ani_birthday');
     $this->Race       = $this->MainDBEntity->getColumnStringValue('ani_race');
     $this->Age        = $this->calculateAgeOfAnimal();
-  }
-
-  public function onSuccessPost() {
-    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->PK);
   }
 
   // methods specific to Animal detail
@@ -83,17 +86,34 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     if ($browser->Loaded == 0) {
       echo "Žádné léčby";
     } else {
-      while(($actTreat = $browser->getNext()) != null) {
-        $vm = new TreatmentDisplayViewModel();
-        $vm->init($actTreat->getColumnByName('tre_pk')->getValue());
+      while(($actEnt = $browser->getNext()) != null) {
+        $vm = new TreatmentOnAnimalViewModel();
+        $vm->initMainDbEntity($actEnt->getColumnByName('tre_pk')->getValue());
         $vm->loadData();
-        BuildTreatmentViewDiv($vm);
+        BuildTreatmentsOnAnimalView($vm);
       }
     }
   }
 
   public function LoadExaminationHTML() {
-    //ExaminationDisplay.view.php
+    $browser = new DBEntityBrowser(
+      "ExaminationEntity",
+      "exa_animal = ?",
+      "exa_begin_date_time"
+    );
+    $browser->addParams($this->AnimalPk);
+    $browser->openBrowser();
+
+    if ($browser->Loaded == 0) {
+      echo "Žádná vyšetření";
+    } else {
+      while(($actEnt = $browser->getNext()) != null) {
+        $vm = new ExaminationsOnAnimalViewModel();
+        $vm->initMainDbEntity($actEnt->getColumnByName('exa_pk')->getValue());
+        $vm->loadData();
+        BuildExaminationsOnAnimalView($vm);
+      }
+    }
   }
 
   private function calculateAgeOfAnimal() {

@@ -1,8 +1,10 @@
 <?php
+  require_once("viewModels/TreatmentOnAnimalViewModel.php");
+
   ini_set("default_charset", "utf-8");
 
-  function BuildTreatmentViewDiv(TreatmentDisplayViewModel $actVM) {
-    if ($actVM == null || !is_a($actVM, "TreatmentDisplayViewModel"))
+  function BuildTreatmentsOnAnimalView(TreatmentOnAnimalViewModel $actVM) {
+    if ($actVM == null || !is_a($actVM, "TreatmentOnAnimalViewModel"))
       return;
 ?>
 <div class="treatmentView">

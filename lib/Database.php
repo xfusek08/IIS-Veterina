@@ -1,12 +1,13 @@
 <?php
 class MyDatabase {
   const DUPLICATE_CODE = 1062;
-  public static $DBFullPath = DATABASE_FULL_CONN_STR;
+  public static $FullDBConnectionStirng = DATABASE_FULL_CONN_STR;
   public static $UserName = DATABASE_USER;
   public static $Password = DATABASE_PASSWORD;
   public static $PDO;
-  public static $isConnected = false;
+  public static $IsConnected = false;
 
+  private static $_isMysql = false;
 
   public static function connect() {
     if (!isset(self::$PDO)) {
@@ -22,19 +23,27 @@ class MyDatabase {
           self::$UserName,
           self::$Password,
           $settings);
+
+        self::$IsConnected = true;
+        self::$FullDBConnectionStirng = DATABASE_FULL_CONN_STR;
+        self::$_isMysql = strpos(strtolower(self::$FullDBConnectionStirng), 'mysql') !== false;
       }
       catch (PDOException $e) {
         Log::WriteLog(LogType::Error, "Database connection error; " . $e->getMessage());
         echo $e->getMessage() . '</br>';
         die("Database connection failed");
       }
-      self::$isConnected = true;
+      self::$IsConnected = true;
     }
   }
 
   public static function disconnect() {
     self::$PDO = null;
-    self::$isConnected = false;
+    self::$IsConnected = false;
+  }
+
+  public static function isMySQL() {
+    return self::$_isMysql;
   }
 
   public static function runQuery(&$fields, $SQL, $isExternalTransaction = false, $params = false) {

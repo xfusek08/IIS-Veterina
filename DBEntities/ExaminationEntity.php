@@ -10,6 +10,7 @@ class ExaminationEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
+    $this->addColumn(DataType::Integer,   'exa_pk');
     $this->addColumn(DataType::String,    'exa_type', true);
     $this->addColumn(DataType::Integer,   'exa_employee', true);
     $this->addColumn(DataType::Integer,   'exa_animal', true);

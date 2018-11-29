@@ -7,6 +7,7 @@ require_once("viewModels/base/ViewModelBase.php");
 abstract class EditableDetailViewModelBase extends ViewModelBase {
   public $IsEdit = false;
   public $Errors = array();
+  public $Message = '';
 
   protected $MainDBEntity = null;
 
@@ -45,10 +46,15 @@ abstract class EditableDetailViewModelBase extends ViewModelBase {
   }
 
   public function loadGetData() {
+    $this->Message = '';
     $pk = 0;
     if (isset($_GET['pk']))
       $pk = intval($_GET['pk']);
     $this->IsEdit = isset($_GET['edit']) || $pk == 0;
+    $this->initMainDbEntity($pk);
+  }
+
+  public function initMainDbEntity($pk) {
     $this->MainDBEntity = new $this->_mainDbEntTypeString($pk);
   }
 

@@ -20,7 +20,7 @@
       <h1><?= $actVM->ExaminationName ?></h1>
       <div class="page_buttons">
         <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
-        <input type="submit" name="submit_edi" value="Upravit" class="swap_button" 
+        <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
         onclick="changePage(<?= $actVM->Pk ?>, 'examinationEdit.view.php')">
       </div>
       <div class="tre_detail">

@@ -4,9 +4,9 @@ require_once("DBEntities/MedicamentEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
 
 require_once("viewModels/base/ViewModelBase.php");
-require_once("viewModels/TreatmentDisplayViewModel.php");
+require_once("viewModels/TreatmentOnAnimalViewModel.php");
 
-require_once("TreatmentDisplay.view.php");
+require_once("treatmentsOnAnimal.view.php");
 
 
 class MedicamentDetailViewModel extends ViewModelBase {
