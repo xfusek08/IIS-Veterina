@@ -16,9 +16,9 @@ function swapTables(toSwap, amount)
   {
     choose = document.getElementById("chosen_detail_" + n);
     if(toSwap == n)
-      choose.style.visibility = "visible";
+      choose.style.display = "block";
     else
-      choose.style.visibility = "hidden";
+      choose.style.display = "none";
     n++;
   }
 }

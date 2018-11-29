@@ -40,7 +40,7 @@
     <tbody>
       <?php foreach ($actVM->Examinations as $actExam) { ?>
         <tr>
-          <td><a href="?pk=<?= $actExam->Pk ?>"><?= $actExam->Date ?></td>
+          <td><a href="?pk=<?= $actExam->ExaPk ?>"><?= $actExam->Date ?></td>
           <td><?= $actExam->Type ?></td>
           <td><?= $actExam->Hour ?></td>
           <td><?= $actExam->Ocurred ?></td>

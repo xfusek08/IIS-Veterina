@@ -9,13 +9,13 @@
 }
 
 .swap_buttons {
-  margin-bottom: 1em; 
+  margin-bottom: 1em;
   border-bottom: 1px solid black;
   height: 3em;
 }
 
 #chosen_detail_2 {
-  visibility: hidden;
+  display: none;
 }
 
 .page_buttons .swap_button {

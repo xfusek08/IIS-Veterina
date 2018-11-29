@@ -7,9 +7,9 @@ class ExaminationModel {
   public $EmployeeName = '';
   public $Date = '';
   public $Hour = '';
-  public $Type = 0;
+  public $Type = '';
   public $Duration = '';
   public $Price = '';
-  public $Diagnosis = '';
+  public $Report = '';
   public $Occured = '';
 }

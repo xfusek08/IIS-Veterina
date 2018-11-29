@@ -7,12 +7,12 @@ require_once("DBEntities/AnimalEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
 require_once("DBEntities/ExaminationEntity.php");
 
+require_once("models/ExaminationModel.php");
+
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 require_once("viewModels/TreatmentOnAnimalViewModel.php");
-require_once("viewModels/ExaminationsOnAnimalViewModel.php");
 
 require_once("treatmentsOnAnimal.view.php");
-require_once("examinationsOnAnimal.view.php");
 
 class AnimalDetailViewModel extends EditableDetailViewModelBase {
   public $AnimalName = '';
@@ -26,6 +26,7 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
   public $Age = '';
   public $AnimalPk = 0;
   public $OwnerPk = 0;
+  public $Examinations = array(); // array of ExaminationModel
 
   public $SexSelect = array();
   public $SpeciesSelect = array();
@@ -70,48 +71,54 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     $this->Birthday   = $this->MainDBEntity->getColumnStringValue('ani_birthday');
     $this->Race       = $this->MainDBEntity->getColumnStringValue('ani_race');
     $this->Age        = $this->calculateAgeOfAnimal();
+
+    $examinationBrowser = new DBEntityBrowser(
+      "ExaminationEntity",
+      "exa_animal = ?",
+      "exa_begin_date_time desc"
+    );
+    $examinationBrowser->addParams($this->AnimalPk);
+    $examinationBrowser->openBrowser();
+
+    while (($actExam = $examinationBrowser->getNext()) != null) {
+      $dateOcured = new DateTime();
+      $dateOcured->setTimestamp($actExam->getColumnByName('exa_begin_date_time')->getValue());
+
+      $examModel = new ExaminationModel();
+      $examModel->PK            = $actExam->getColumnByName('exa_pk')->getValue();
+      $examModel->AnimalPK      = $actExam->getColumnByName('exa_animal')->getValue();
+      $examModel->EmployeePK    = $actExam->getColumnByName('exa_employee')->getValue();
+      $examModel->EmployeeName  = $actExam->getColumnStringValue('employee_name');
+      $examModel->Date          = $dateOcured->format(DATE_FORMAT);
+      $examModel->Hour          = $dateOcured->format("H:i");
+      $examModel->Type          = $actExam->getColumnStringValue('exa_type_text');
+      $examModel->Duration      = $actExam->getColumnStringValue('exa_duration_minutes');
+      $examModel->Price         = $actExam->getColumnStringValue('exa_price');
+      $examModel->Report        = $actExam->getColumnStringValue('exa_final_report');
+      $examModel->Occured       = $actExam->getColumnStringValue('exa_occurred');
+      $this->Examinations[] = $examModel;
+    }
   }
 
   // methods specific to Animal detail
 
   public function LoadTreatmentsHTML() {
-    $browser = new DBEntityBrowser(
+    $TreatmentBrowser = new DBEntityBrowser(
       "TreatmentEntity",
       "tre_animal = ?",
       "tre_priority"
     );
-    $browser->addParams($this->AnimalPk);
-    $browser->openBrowser();
+    $TreatmentBrowser->addParams($this->AnimalPk);
+    $TreatmentBrowser->openBrowser();
 
-    if ($browser->Loaded == 0) {
+    if ($TreatmentBrowser->Loaded == 0) {
       echo "Žádné léčby";
     } else {
-      while(($actEnt = $browser->getNext()) != null) {
+      while(($actTre = $TreatmentBrowser->getNext()) != null) {
         $vm = new TreatmentOnAnimalViewModel();
-        $vm->initMainDbEntity($actEnt->getColumnByName('tre_pk')->getValue());
+        $vm->initMainDbEntity($actTre->getColumnByName('tre_pk')->getValue());
         $vm->loadData();
         BuildTreatmentsOnAnimalView($vm);
-      }
-    }
-  }
-
-  public function LoadExaminationHTML() {
-    $browser = new DBEntityBrowser(
-      "ExaminationEntity",
-      "exa_animal = ?",
-      "exa_begin_date_time"
-    );
-    $browser->addParams($this->AnimalPk);
-    $browser->openBrowser();
-
-    if ($browser->Loaded == 0) {
-      echo "Žádná vyšetření";
-    } else {
-      while(($actEnt = $browser->getNext()) != null) {
-        $vm = new ExaminationsOnAnimalViewModel();
-        $vm->initMainDbEntity($actEnt->getColumnByName('exa_pk')->getValue());
-        $vm->loadData();
-        BuildExaminationsOnAnimalView($vm);
       }
     }
   }
