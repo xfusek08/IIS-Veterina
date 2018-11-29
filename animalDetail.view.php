@@ -52,7 +52,7 @@
             </thead>
             <tbody>
               <?php foreach ($actVM->Examinations as $Examination) { ?>
-                <tr class="table_select">
+                <tr class="table_select" onclick="changePage(<?= $Examination->Pk ?>, 'examinationDetail.view.php')">
                   <td><?= $Examination->Date ?></td>
                   <td><?= $Examination->Hour ?></td>
                   <td><?= $Examination->Type ?></td>

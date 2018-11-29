@@ -18,6 +18,8 @@ class MedicamentDetailViewModel extends ViewModelBase {
   public $Producer = "";
   public $Substance = "";
 
+  public $MedForSpec = array();
+
   public $Errors = array();
 
   public function ProcessGet() {
@@ -30,10 +32,6 @@ class MedicamentDetailViewModel extends ViewModelBase {
   }
 
   public function initView() {
-  }
-
-  public function LoadSpeciesHTML() {
-    //species
   }
 
 }
