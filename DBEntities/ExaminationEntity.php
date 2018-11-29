@@ -22,5 +22,6 @@ class ExaminationEntity extends DatabaseEntity {
 
     $this->addSQLColumn(DataType::String, 'exa_type_text',
       "select exa_text from Examination_type where exa_shortcut = exa_type");
-  }
+    $this->addSQLColumn(DataType::String, 'employee_name',
+      "select concat(emp_surname, ' ', coalesce(emp_name, '')) from Employee where emp_pk = exa_employee");  }
 }
