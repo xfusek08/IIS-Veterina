@@ -16,13 +16,18 @@ function swapTables(toSwap, amount)
   while(n <= amount)
   {
     choose = document.getElementById("chosen_detail_" + n);
-<<<<<<< HEAD
     if(choose != null)
     {
       if(toSwap == n)
+      {
         choose.style.visibility = "visible";
+        choose.style.display = "block";
+      }
       else
+      {
         choose.style.visibility = "hidden";
+        choose.style.display = "none";
+      }
     }
     buttons = document.getElementsByClassName("to_swap");
     if(buttons != null)
@@ -32,12 +37,6 @@ function swapTables(toSwap, amount)
       else
         buttons[n - 1].style.backgroundColor = "rgba(172, 172, 172, 0.11)";
     }
-=======
-    if(toSwap == n)
-      choose.style.display = "block";
-    else
-      choose.style.display = "none";
->>>>>>> a39730d087d4c2724ab0ab3866b255d11e8fd788
     n++;
   }
 }

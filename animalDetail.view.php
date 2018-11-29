@@ -38,10 +38,6 @@
       <div id="chosen_detail_1">
         <?php $actVM->LoadTreatmentsHTML(); ?>
       </div>
-<<<<<<< HEAD
-      <div id="chosen_detail_2" class="hidden">
-        <?php $actVM->LoadExaminationHTML(); ?>
-=======
       <div id="chosen_detail_2">
         <div class="examinationView">
           <h2>Vyšetření</h2>
@@ -68,7 +64,6 @@
             </tbody>
           </table>
         </div>
->>>>>>> a39730d087d4c2724ab0ab3866b255d11e8fd788
       </div>
     </div>
   </body>

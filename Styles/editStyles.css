@@ -20,12 +20,9 @@ p {
   text-align: center;
 }
 
-.right {
-  margin-left: 0.2em;
-}
-
-.anim_detail {
+.anim_detail, .medm_detail {
   float: left;
+  margin-right: 1em;
 }
 
 .block {
@@ -34,4 +31,8 @@ p {
 
 input {
   height: 1.95em;
+}
+
+.sml input {
+  height: 1.8em;
 }

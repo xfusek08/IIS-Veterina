@@ -70,3 +70,18 @@ tr td a:hover {
 table thead th {
   border-bottom: 2px solid black; 
 }
+
+#chosen_detail_2 {
+  visibility: hidden;
+  display: none;
+}
+
+#chosen_detail_3 {
+  visibility: hidden;
+  display: none;
+}
+
+#chosen_detail_4 {
+  visibility: hidden;
+  display: none;
+}

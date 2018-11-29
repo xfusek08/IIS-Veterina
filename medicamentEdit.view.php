@@ -11,6 +11,7 @@
 <html lang="cz">
   <head>
     <?php require_once("baseHeader.php");?>
+    <link rel="stylesheet" type="text/css" href="Styles/editStyles.css">
     <script src="scripts/jQuery.js"></script>
     <script src="scripts/baseScripts.js"></script>
   </head>
@@ -20,14 +21,18 @@
       <form action="" method="post">
         <h1><?= $actVM->Name ?></h1>
         <div class="medm_detail">
-          <p>Jméno: <input type="text" value="<?= $actVM->Name ?>" name="med_name">
-            <?= (isset($actVM->Errors['med_name'])) ? $actVM->Errors['med_name'] : '' ?>
-          </p>
-          <p>Cena: <input type="text" value="<?= $actVM->Price ?>" name="med_price">
-            <?= (isset($actVM->Errors['med_price'])) ? $actVM->Errors['med_price'] : '' ?>
-          </p>
-          <p>Typ:
-            <select type="text" name="med_type">
+          <p>Jméno:</p>
+          <p>Cena:</p>
+          <p>Typ:</p>
+          <p>Výrobce:</p>
+          <p>Složení:</p>
+        </div>
+        <div class="sml">
+          <p><input type="text" value="<?= $actVM->Name ?>" name="med_name">
+            <?= (isset($actVM->Errors['med_name'])) ? $actVM->Errors['med_name'] : '' ?></p>
+          <p><input type="text" value="<?= $actVM->Price ?>" name="med_price">
+            <?= (isset($actVM->Errors['med_price'])) ? $actVM->Errors['med_price'] : '' ?></p>
+          <p><select type="text" name="med_type">
               <?php foreach($actVM->SexSelect as $key => $value) {?>
               <option value="<?= $key ?>"
                       <?php if ($actVM->Sex == $value) echo "selected" ?> >
@@ -35,14 +40,11 @@
               </option>
               <?php } ?>
             </select>
-            <?= (isset($actVM->Errors['med_type'])) ? $actVM->Errors['med_type'] : '' ?>
-          </p>
-          <p>Výrobce: <input type="text" value="<?= $actVM->Producer ?>" name="med_producer">
-            <?= (isset($actVM->Errors['med_producer'])) ? $actVM->Errors['med_producer'] : '' ?>
-          </p>
-          <p>Složení: <input type="text" value="<?= $actVM->Substance ?>" name="med_substance">
-            <?= (isset($actVM->Errors['med_substance'])) ? $actVM->Errors['med_substance'] : '' ?>
-          </p>
+            <?= (isset($actVM->Errors['med_type'])) ? $actVM->Errors['med_type'] : '' ?></p>
+          <p><input type="text" value="<?= $actVM->Producer ?>" name="med_producer">
+            <?= (isset($actVM->Errors['med_producer'])) ? $actVM->Errors['med_producer'] : '' ?></p>
+          <p><input type="text" value="<?= $actVM->Substance ?>" name="med_substance">
+            <?= (isset($actVM->Errors['med_substance'])) ? $actVM->Errors['med_substance'] : '' ?></p>
         </div>
           <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>

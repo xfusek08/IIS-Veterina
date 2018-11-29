@@ -31,7 +31,7 @@
             <p>Stav:</p>
             <p>Datum narození:</p>
           </div>
-          <div class="right">
+          <div>
             <p><input type="text" value="<?= $actVM->AnimalName ?>" name="ani_name">
               <?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_name'] : '' ?></p>
             <p><?= $actVM->OwnerName ?></p>
