@@ -39,8 +39,8 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
 
   public function loadGetData() {
     parent::loadGetData();
-    if (isset($_GET['onwnerpk']))
-      $this->OwnerPk = intval($_GET['onwnerpk']);
+    if (isset($_GET['ownerpk']))
+      $this->OwnerPk = intval($_GET['ownerpk']);
     $this->AnimalPk = $this->MainDBEntity->PK;
   }
 

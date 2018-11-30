@@ -22,7 +22,7 @@ p {
 
 .content {
   border-left: 3px solid black;
-  margin-left: 8em;
+  margin-left: 8.5em;
   padding-left: 2em; 
   min-height: 100vh;
   padding-bottom: 1em;
@@ -34,15 +34,13 @@ p {
   margin: 0;
   padding: 0.5%;
   margin-top: 6.5em;;
-  margin-left: 0.5em;;
   float: left;
 }
 
 .menu_choice {
   margin-top: 30%;
   text-align: left;
-  font-size: 1.5em;
-  
+  font-size: 1.4em;
 }
 
 a {
@@ -76,27 +74,15 @@ table .table_select:hover {
   padding-bottom: 0.5em;
 }
 
-table th:last-child {
+table th:last-child, table td:last-child {
   border-right: 2px solid black;
 }
 
-table td:last-child {
-  border-right: 2px solid black;
-}
-
-table tr td {
+table tr td, table thead th {
   padding: 1em;
 }
 
-table thead th {
-  padding: 1em;
-}
-
-table thead th ~ th {
-  border-left: 1px solid black;
-}
-
-table tr td ~ td {
+table thead th ~ th, table tr td ~ td {
   border-left: 1px solid black;
 }
 

@@ -21,56 +21,67 @@
       <form action="" method="post">
         <h1><?= $actVM->AnimalName ?></h1>
         <div class="block">
-          <div class="anim_detail">
-            <p>Jméno zvířete:</p>
-            <p>Majitel:</p>
-            <p>Druh:</p>
-            <p>Rasa:</p>
-            <p>Pohlaví:</p>
-            <p>Váha:</p>
-            <p>Stav:</p>
-            <p>Datum narození:</p>
-          </div>
-          <div>
-            <p><input type="text" value="<?= $actVM->AnimalName ?>" name="ani_name">
-              <?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_name'] : '' ?></p>
-            <p><?= $actVM->OwnerName ?></p>
-            <p><select type="text" name="ani_species">
+          <table class="edit_table">
+            <tr>
+              <th>Jméno zvířete:</th>
+              <td><input type="text" value="<?= $actVM->AnimalName ?>" name="ani_name">
+              <?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_name'] : '' ?>
+              </td>
+            </tr>
+            <tr>
+              <th>Majitel:</th>
+              <td><?= $actVM->OwnerName ?></td>
+            </tr>
+            <tr>
+              <th>Druh:</th>
+              <td><select type="text" name="ani_species">
                 <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
-                <option value="<?=  $key ?>"
-                        <?php if ($actVM->Species == $value) echo "selected" ?> >
-                  <?= $value ?>
-                </option>
-                <?php } ?>
-              </select>
-              <?= (isset($actVM->Errors['ani_species'])) ? $actVM->Errors['ani_species'] : '' ?></p>
-            <p><input type="text" value="<?= $actVM->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_race'] : '' ?></p>
-            <p><select type="text" name="ani_sex">
+                <option value="<?=  $key ?>"<?php if ($actVM->Species == $value) echo "selected" ?> > <?= $value ?>
+                </option> <?php } ?> </select>
+              <?= (isset($actVM->Errors['ani_species'])) ? $actVM->Errors['ani_species'] : '' ?>
+              </td>
+            </tr>
+            <tr>
+              <th>Rasa:</th>
+              <td>
+                <input type="text" value="<?= $actVM->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_race'] : '' ?>
+              </td>
+            </tr>
+            <tr>
+              <th>Pohlaví:</th>
+              <td><select type="text" name="ani_sex">
                 <?php foreach($actVM->SexSelect as $key => $value) {?>
-                <option value="<?= $key ?>"
-                        <?php if ($actVM->Sex == $value) echo "selected" ?> >
-                  <?= $value ?>
+                <option value="<?= $key ?>" <?php if ($actVM->Sex == $value) echo "selected" ?> > <?= $value ?>
                 </option>
                 <?php } ?>
               </select>
-              <?= (isset($actVM->Errors['ani_sex'])) ? $actVM->Errors['ani_sex'] : '' ?></p>
-            <p><input type="text" value="<?= $actVM->Weight ?>" name="ani_weight"> kg
-              <?= (isset($actVM->Errors['ani_weight'])) ? $actVM->Errors['ani_weight'] : '' ?></p>
-            <p><select type="text" name="ani_state">
-                <?php foreach($actVM->StateSelect as $key => $value) {?>
-                <option value="<?= $key ?>"
-                        <?php if ($actVM->State == $value) echo "selected" ?> >
-                  <?= $value ?>
-                </option>
-                <?php } ?>
-              </select>
-              <?= (isset($actVM->Errors['ani_state'])) ? $actVM->Errors['ani_state'] : '' ?></p>
-            <p><input type="text" value="<?= $actVM->Birthday ?>" name="ani_birthday">
-              <?= (isset($actVM->Errors['ani_birthday'])) ? $actVM->Errors['ani_birthday'] : '' ?></p>
-          </div>
+              <?= (isset($actVM->Errors['ani_sex'])) ? $actVM->Errors['ani_sex'] : '' ?></td>
+            </tr>
+            <tr>
+              <th>Váha:</th>
+              <td><input type="text" value="<?= $actVM->Weight ?>" name="ani_weight"> kg
+                <?= (isset($actVM->Errors['ani_weight'])) ? $actVM->Errors['ani_weight'] : '' ?></td>
+            </tr>
+              <th>Stav:</th>
+              <td><select type="text" name="ani_state">
+                  <?php foreach($actVM->StateSelect as $key => $value) {?>
+                  <option value="<?= $key ?>" <?php if ($actVM->State == $value) echo "selected" ?> > <?= $value ?>
+                  </option>
+                  <?php } ?>
+                </select>
+                <?= (isset($actVM->Errors['ani_state'])) ? $actVM->Errors['ani_state'] : '' ?></td>
+            <tr>
+            </tr>
+            <tr>
+              <th>Datum narození:</th>
+              <td><input type="text" value="<?= $actVM->Birthday ?>" name="ani_birthday">
+                <?= (isset($actVM->Errors['ani_birthday'])) ? $actVM->Errors['ani_birthday'] : '' ?></td>
+            </tr>
+          </table>
         </div>
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>
-    <div class="message"><?= $actVM->Message ?></div>
+      <div class="message"><?= $actVM->Message ?></div>
+    </div>
   </body>
 </html>

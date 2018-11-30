@@ -20,19 +20,18 @@ p {
   text-align: center;
 }
 
-.anim_detail, .medm_detail {
-  float: left;
-  margin-right: 1em;
-}
-
 .block {
   display: block;
 }
 
-input {
-  height: 1.95em;
+.block .edit_table tr * {
+  text-align: left;
 }
 
-.sml input {
-  height: 1.8em;
+.edit_table {
+  border: none;
+}
+
+table th:last-child, table td:last-child {
+  border-right: none;
 }

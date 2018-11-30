@@ -3,9 +3,9 @@ function changePage(spk, url)
   $(location).attr('href', url +"?pk=" + spk);
 }
 
-function changeToNew(spk, owner, url)
+function changeToNewAni(owner, url)
 {
-  $(location).attr('href', url +"?pk=" + spk + "&" + owner);
+  $(location).attr('href', url +"?pk=0" + "&ownerpk=" + owner);
 }
 
 function swapTables(toSwap, amount)
