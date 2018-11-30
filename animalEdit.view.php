@@ -81,6 +81,7 @@
         </div>
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>
+      <input type="submit" value="Zpět" name="back" class="swap_button back_button" onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalDetail.view.php')">
       <div class="message"><?= $actVM->Message ?></div>
     </div>
   </body>

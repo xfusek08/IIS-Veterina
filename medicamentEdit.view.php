@@ -66,13 +66,30 @@
             </tr>
           </table>
         </div>
+        <table id="MedForSpecEditFormTemp" class="template">
+        <thead>
+          <th>Druh</th>
+          <th>Doporučená dávka</th>
+          <th>Efektivní proti</th>
+        </thead>
+          <tbody>
+            <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
+              <tr>
+                <td><?= $MedForSpec->Species ?></td>
+                <td><?= $MedForSpec->RecommendedDose ?></td>
+                <td><?= $MedForSpec->EffectiveAgainst ?></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
       </form>
+        <input value="Zpět" name="back" class="swap_button back_button" onclick="changePage(<?= $actVM->Pk ?>, 'medicamentDetail.view.php')">
     </div>
     <div class="message"><?= $actVM->Message ?></div>
 
-    <div id="MedForSpecEditFormTemp" class="template">
+    <div id="MedForSpecEditFormTemp">
       <input type="hidden" name="{prefix}mfs_medpk" value="<?= $actVM->Pk ?>">
       <select name="{prefix}mfs_spepk">
         <!-- for each species option -->
