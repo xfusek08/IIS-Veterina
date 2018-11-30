@@ -28,7 +28,7 @@
         <p>Cena: <?= $actVM->Price ?></p>
         <p>Výrobce: <?= $actVM->Producer ?></p>
         <p>Složení: <?= $actVM->Substance ?></p>
-      <div>
+      </div>
       <table>
         <thead>
           <th>Druh</th>

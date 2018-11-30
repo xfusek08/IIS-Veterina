@@ -3,7 +3,9 @@
 require_once("lib/DBEntityBrowser.php");
 
 require_once("DBEntities/AnimalBrowseEntity.php");
+
 require_once("models/AnimalBrowseModel.php");
+require_once("models/Mapper.php");
 
 require_once("viewModels/base/ViewModelBase.php");
 
@@ -40,36 +42,8 @@ class AnimalBrowseViewModel extends ViewModelBase {
     $this->loadData();
   }
 
-  public function processAjax() {}
-
-  public function processPost() {}
-
   public function loadData() {
-    // TODO: filtrace na stav ??
-    while (($aniBrEnt = $this->AniPlanBrowser->getNext()) != null) {
-      $model = $this->aniBrEntToBrMod($aniBrEnt);
-      if ($this->SearchString == '' || strpos(strtolower($model->AnimalName . $model->OwnerName . $model->LatestExamination), strtolower($this->SearchString)) !== false)
-        $this->AnimalsPlanned[] = $model;
-    }
-
-    // TODO: filtrace na stav ??
-    while (($aniBrEnt = $this->AniNPlanBrowser->getNext()) != null) {
-      $model = $this->aniBrEntToBrMod($aniBrEnt);
-      if ($this->SearchString == '' || strpos(strtolower($model->AnimalName . $model->OwnerName . $model->LatestExamination), strtolower($this->SearchString)) !== false)
-        $this->AnimalsNotPlanned[] = $model;
-    }
-  }
-
-  private function aniBrEntToBrMod($entity) {
-    $animalBrowseModel = new AnimalBrowseModel();
-    $animalBrowseModel->Pk                 = $entity->getColumnStringValue('ani_pk');
-    $animalBrowseModel->AnimalName         = $entity->getColumnStringValue('ani_name');
-    $animalBrowseModel->OwnerName          = $entity->getColumnStringValue('ownername');
-    $animalBrowseModel->Species            = $entity->getColumnStringValue('spe_name');
-    $animalBrowseModel->Sex                = $entity->getColumnStringValue('asex_description');
-    $animalBrowseModel->State              = $entity->getColumnStringValue('ast_text');
-    $animalBrowseModel->TreatmentNumber    = $entity->getColumnStringValue('treatmentcnt');
-    $animalBrowseModel->LatestExamination  = $entity->getColumnStringValue('exabegin');
-    return $animalBrowseModel;
+    $this->AnimalsPlanned    = Mapper::loadAnimalEntityBrowserToModelList($this->AniPlanBrowser, $this->SearchString);
+    $this->AnimalsNotPlanned = Mapper::loadAnimalEntityBrowserToModelList($this->AniNPlanBrowser, $this->SearchString);
   }
 }

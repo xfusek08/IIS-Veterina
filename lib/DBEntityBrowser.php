@@ -9,23 +9,28 @@ require_once("lib/DatabaseEntity.php");
 class DBEntityBrowser {
   private $_templDBEntInstance;
   private $_actIndex = 0;
+  private $_entityTypeString = '';
 
   public $WhereSQL  = '';
   public $OrderBySQL  = '';
   public $HavingSQL  = '';
-  public $EntityTypeString = '';
   public $BrowserData = array();
   public $IsOpen = false;
   public $IsLoadedAll = false;
   public $Loaded = 0;
   public $Params = array();
 
-  public function __construct($entityTypeString, $whereSQL = '', $orderBySQL = '', $havingSQL = '') {
-    $this->EntityTypeString = $entityTypeString;
+  public function __construct($_entityTypeString, $whereSQL = '', $orderBySQL = '', $havingSQL = '') {
     $this->WhereSQL = $whereSQL;
     $this->OrderBySQL = $orderBySQL;
     $this->HavingSQL = $havingSQL;
-    $this->_templDBEntInstance = new $entityTypeString();
+
+    $this->_entityTypeString = $_entityTypeString;
+    $this->_templDBEntInstance = new $_entityTypeString();
+  }
+
+  public function getEntityTypeString() {
+    return $this->_entityTypeString;
   }
 
   public function buildBrowserSelectSQL($skip = 0 , $count = 0) {
@@ -97,7 +102,7 @@ class DBEntityBrowser {
     $actLoaded = 0;
     $resultFields = array();
     foreach ($DBFields as $DBRow) {
-      $dataEntity = new $this->EntityTypeString();
+      $dataEntity = new $this->_entityTypeString();
       foreach ($dataEntity->Columns as $col) {
         if (!$col->setValueFromString(strval($DBRow[$col->ColName]))) {
           Log::WriteLog(LogType::Error, "DBEntityBrowser->loadData - error on loading values at colum: $col->ColName.");

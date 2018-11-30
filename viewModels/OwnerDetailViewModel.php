@@ -2,6 +2,9 @@
 
 require_once("DBEntities/OwnerEntity.php");
 
+require_once("models/AnimalBrowseModel.php");
+require_once("models/Mapper.php");
+
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
 require_once("treatmentsOnAnimal.view.php");
@@ -14,6 +17,9 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   public $Address = "";
   public $Sex = "";
   public $Number = "";
+  public $AnimalsPlanned = array(); // array of AnimalBrowseModel
+  public $AnimalsNotPlanned = array(); // array of AnimalBrowseModel
+
   public $SexSelect = array();
 
   public function __construct() {
@@ -22,6 +28,23 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
 
   public function initView() {
     $this->loadData();
+    $aniPlanBrowser = new DBEntityBrowser(
+      "AnimalBrowseEntity",             // selected entity class
+      "ani_state = 'A' and ani_owner",  // where condition
+      "exabegin",                       // order by
+      "exabegin > now()"                // having condition
+    );
+    $aniNPlanBrowser = new DBEntityBrowser(
+      "AnimalBrowseEntity",             // selected entity class
+      "ani_state = 'A' and ani_owner",  // where condition
+      "exabegin desc",                  // order by
+      "exabegin < now()"                // having condition
+    );
+    $aniPlanBrowser->openBrowser();
+    $aniNPlanBrowser->openBrowser();
+
+    $this->AnimalsPlanned    = Mapper::loadAnimalEntityBrowserToModelList($aniPlanBrowser);
+    $this->AnimalsNotPlanned = Mapper::loadAnimalEntityBrowserToModelList($aniNPlanBrowser);
   }
 
   public function initEdit() {

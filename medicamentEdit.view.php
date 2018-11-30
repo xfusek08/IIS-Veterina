@@ -33,9 +33,9 @@
           <p><input type="text" value="<?= $actVM->Price ?>" name="med_price">
             <?= (isset($actVM->Errors['med_price'])) ? $actVM->Errors['med_price'] : '' ?></p>
           <p><select type="text" name="med_type">
-              <?php foreach($actVM->SexSelect as $key => $value) {?>
+              <?php foreach($actVM->TypeSelect as $key => $value) {?>
               <option value="<?= $key ?>"
-                      <?php if ($actVM->Sex == $value) echo "selected" ?> >
+                      <?php if ($actVM->Type == $value) echo "selected" ?> >
                 <?= $value ?>
               </option>
               <?php } ?>

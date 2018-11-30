@@ -16,8 +16,9 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   public $Price = "";
   public $Producer = "";
   public $Substance = "";
-
   public $MedForSpec = array();
+
+  public $TypeSelect = array();
 
   public function __construct() {
     parent::__construct('MedicamentEntity');
@@ -29,6 +30,8 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
   public function initEdit() {
     $this->loadData();
+
+    $this->TypeSelect = $this->LoadEditSelectData("select medt_pk, medt_text from Medicament_type order by medt_text");
   }
 
   public function loadData() {
