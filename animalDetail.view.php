@@ -62,6 +62,7 @@
                   <td><?= $Examination->Occurred ?></td>
                 </tr>
               <?php } ?>
+              <tr onclick="changePage(0, 'examinationEdit.view.php')"><th class="table_add table_select" colspan="6">Přidat vyšetření</th></tr>
             </tbody>
           </table>
         </div>

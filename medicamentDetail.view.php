@@ -30,7 +30,7 @@
         <p>Výrobce: <?= $actVM->Producer ?></p>
         <p>Složení: <?= $actVM->Substance ?></p>
       </div>
-      <table>
+      <table class="noHover">
         <thead>
           <th>Druh</th>
           <th>Doporučená dávka</th>
@@ -38,7 +38,7 @@
         </thead>
           <tbody>
             <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
-              <tr class="table_select">
+              <tr>
                 <td><?= $MedForSpec->Species ?></td>
                 <td><?= $MedForSpec->RecommendedDose ?></td>
                 <td><?= $MedForSpec->EffectiveAgainst ?></td>

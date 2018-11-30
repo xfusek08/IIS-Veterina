@@ -42,7 +42,7 @@
             <td><?= $owner->IsActive ?></td>
           </tr>
         <?php } ?>
-        <tr onclick="changePage(0, 'ownerEdit.view.php')"><th class="table_add table_select" colspan="6">Přidat vlastníka</th></tr>
+        <tr onclick="changePage(0, 'ownerEdit.view.php')"><th class="table_add table_select" colspan="6">Přidat majitele</th></tr>
         </tbody>
       </table>
       </div>
