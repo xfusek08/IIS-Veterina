@@ -8,6 +8,7 @@ require_once("DBEntities/TreatmentEntity.php");
 require_once("DBEntities/ExaminationEntity.php");
 
 require_once("models/ExaminationModel.php");
+require_once("models/Mapper.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 require_once("viewModels/TreatmentOnAnimalViewModel.php");
@@ -54,23 +55,8 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     $examinationBrowser->addParams($this->AnimalPk);
     $examinationBrowser->openBrowser();
 
-    while (($actExam = $examinationBrowser->getNext()) != null) {
-      $dateOcured = new DateTime();
-      $dateOcured->setTimestamp($actExam->getColumnByName('exa_begin_date_time')->getValue());
-
-      $examModel = new ExaminationModel();
-      $examModel->PK            = $actExam->getColumnByName('exa_pk')->getValue();
-      $examModel->AnimalPK      = $actExam->getColumnByName('exa_animal')->getValue();
-      $examModel->EmployeePK    = $actExam->getColumnByName('exa_employee')->getValue();
-      $examModel->EmployeeName  = $actExam->getColumnStringValue('employee_name');
-      $examModel->Date          = $dateOcured->format(DATE_FORMAT);
-      $examModel->Hour          = $dateOcured->format("H:i");
-      $examModel->Type          = $actExam->getColumnStringValue('exa_type_text');
-      $examModel->Duration      = $actExam->getColumnStringValue('exa_duration_minutes');
-      $examModel->Price         = $actExam->getColumnStringValue('exa_price');
-      $examModel->Report        = $actExam->getColumnStringValue('exa_final_report');
-      $examModel->Occured       = $actExam->getColumnStringValue('exa_occurred');
-      $this->Examinations[] = $examModel;
+    while (($actExamEntity = $examinationBrowser->getNext()) != null) {
+      $this->Examinations[] = Mapper::entityToExaminationModel($actExamEntity);
     }
   }
 

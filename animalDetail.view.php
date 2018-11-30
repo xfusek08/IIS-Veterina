@@ -55,11 +55,11 @@
               <?php foreach ($actVM->Examinations as $Examination) { ?>
                 <tr class="table_select" onclick="changePage(<?= $Examination->Pk ?>, 'examinationDetail.view.php')">
                   <td><?= $Examination->Date ?></td>
-                  <td><?= $Examination->Hour ?></td>
+                  <td><?= $Examination->BeginTime ?></td>
                   <td><?= $Examination->Type ?></td>
                   <td><?= $Examination->Duration ?></td>
                   <td><?= $Examination->Price ?></td>
-                  <td><?= $Examination->Occured ?></td>
+                  <td><?= $Examination->Occurred ?></td>
                 </tr>
               <?php } ?>
             </tbody>
