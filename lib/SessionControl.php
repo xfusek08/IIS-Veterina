@@ -31,7 +31,7 @@ class SessionControl {
       return false;
 
     $val = 0;
-    if (!MyDatabase::getOneValue($val, 'select emp_isadmin  from Employee where emp_pk = ?', $_SESSION['userPK'])) {
+    if (!MyDatabase::getOneValue($val, 'select emp_isadmin from Employee where emp_pk = ?', false, $_SESSION['userPK'])) {
       die("Database Error");
     }
     return $val === 'A';

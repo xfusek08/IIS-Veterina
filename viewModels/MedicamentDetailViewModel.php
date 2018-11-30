@@ -36,7 +36,6 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       "spe_name"
     );
     $this->MedsOnSpeciesBrowser->addParams($this->MainDBEntity->Pk);
-    $this->MedsOnSpeciesBrowser->openBrowser();
   }
 
   public function initView() {
@@ -65,6 +64,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->Producer   = $this->MainDBEntity->getColumnStringValue('med_producer');
     $this->Substance  = $this->MainDBEntity->getColumnStringValue('med_active_substance');
 
+    $this->MedsOnSpeciesBrowser->openBrowser();
     while (($actEntity = $this->MedsOnSpeciesBrowser->getNext()) != null) {
       $mesOnSpecModel = new MedicamentForSpeciesModel();
       $mesOnSpecModel->Pk                = $actEntity->getColumnByName('mfs_pk')->getValue();;
@@ -87,6 +87,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $toSaveEntities = array();
 
     $cnt = intval($_POST['medCount']);
+    $this->MedsOnSpeciesBrowser->openBrowser();
     while (($actEntity = $this->MedsOnSpeciesBrowser->getNext()) != null) {
       $toDeletePKs[] = $actEntity->Pk;
     }
@@ -112,7 +113,6 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
     if (!$isAllSuccess) {
       $this->Message = STR_MSG_FORM_INVALID_DATA;
-      $this->MedsOnSpeciesBrowser->openBrowser();
       $this->initEdit();
     } else {
       if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
