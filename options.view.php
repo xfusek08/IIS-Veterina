@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/OptionDetailViewModel.php");
+  require_once('menu.php');
 
   $actVM = SessionControl::pageInitRoutine("OptionDetailViewModel");
 ?>
@@ -13,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="Styles/detailStyles.css">
   </head>
   <body>
-  <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
       <div class="page_buttons">
         <input type="submit" name="submit_edi" value="Upravit" class="swap_button"

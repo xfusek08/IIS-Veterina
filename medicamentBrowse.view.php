@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/MedicamentBrowseViewModel.php");
+  require_once('menu.php');
 
   $actVM = SessionControl::pageInitRoutine("MedicamentBrowseViewModel");
 ?>
@@ -15,7 +16,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-  <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
     <h1>Seznam léků</h1>
       <form action="" method="get">

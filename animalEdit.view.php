@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/AnimalDetailViewModel.php");
+  require_once('menu.php');
 
   $_GET['edit'] = '';
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
@@ -16,8 +17,11 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
+      <div class="page_buttons">
+        <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalDetail.view.php')">
+      </div>
       <form action="" method="post">
         <h1>Zvíře</h1>
         <div class="block">
@@ -81,7 +85,6 @@
         </div>
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
       </form>
-      <input type="submit" value="Zpět" name="back" class="swap_button back_button" onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalDetail.view.php')">
       <div class="message"><?= $actVM->Message ?></div>
     </div>
   </body>

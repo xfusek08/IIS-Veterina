@@ -97,3 +97,10 @@ input {
 table .table_add {
   padding: 1em;
 }
+
+.page_buttons .swap_button {
+  float: right;
+  margin-right: 1em;
+  height: 2.5em;
+  font-size: 1.2em;
+}

@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/OwnerDetailViewModel.php");
+  require_once('menu.php');
 
   $_GET['edit'] = '';
   $actVM = SessionControl::pageInitRoutine("OwnerDetailViewModel");
@@ -16,8 +17,11 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
+      <div class="page_buttons">
+        <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->Pk ?>, 'ownerDetail.view.php')">
+      </div>
       <form action="" method="post">
         <h1>Majitel</h1>
         <div class="block">

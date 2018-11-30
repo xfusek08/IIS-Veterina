@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/MedicamentDetailViewModel.php");
+  require_once('menu.php');
 
   $_GET['edit'] = '';
   $actVM = SessionControl::pageInitRoutine("MedicamentDetailViewModel");
@@ -16,8 +17,11 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
+      <div class="page_buttons">
+        <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->Pk ?>, 'medicamentDetail.view.php')">
+      </div>
       <form action="" method="post">
         <h1>Lék:</h1>
         <div class="block">
@@ -75,7 +79,11 @@
           <tbody>
             <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
               <tr>
-                <td><?= $MedForSpec->Species ?></td>
+                <td><?= $MedForSpec->Species ?>
+                  <select name="{prefix}mfs_spepk">
+                    <!-- for each species option -->
+                  </select>
+                </td>
                 <td><?= $MedForSpec->RecommendedDose ?></td>
                 <td><?= $MedForSpec->EffectiveAgainst ?></td>
               </tr>
@@ -85,17 +93,7 @@
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
       </form>
-        <input value="Zpět" name="back" class="swap_button back_button" onclick="changePage(<?= $actVM->Pk ?>, 'medicamentDetail.view.php')">
     </div>
     <div class="message"><?= $actVM->Message ?></div>
-
-    <div id="MedForSpecEditFormTemp">
-      <input type="hidden" name="{prefix}mfs_medpk" value="<?= $actVM->Pk ?>">
-      <select name="{prefix}mfs_spepk">
-        <!-- for each species option -->
-      </select>
-      mfs_recommended_dosis
-      mfs_effective_against
-    </div>
   </body>
 </html>

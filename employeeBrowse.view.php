@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/EmployeeBrowseViewModel.php");
+  require_once('menu.php');
 
   $actVM = SessionControl::pageInitRoutine("EmployeeBrowseViewModel");
 ?>
@@ -13,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="Styles/browStyles.css">
   </head>
   <body>
-    <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
       <h1>Seznam zaměstnanců</h1>
       <form action="" method="get">

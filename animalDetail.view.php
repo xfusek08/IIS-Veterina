@@ -3,6 +3,7 @@
 
   require_once("lib/SessionControl.php");
   require_once("viewModels/AnimalDetailViewModel.php");
+  require_once('menu.php');
 
   unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
@@ -16,7 +17,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php include 'menu.php';?>
+    <?php BuildMenu($actVM->isAdmin) ?>
     <div class="content">
       <div class="page_buttons">
         <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
