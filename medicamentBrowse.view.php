@@ -20,10 +20,10 @@
     <h1>Seznam léků</h1>
       <form action="" method="get">
         <input type="text" value="<?= $actVM->SearchString ?>" placeHolder="Vyhledat..." name="search">
-        <input type="submit" name="searchButton" class="searchButton">
+        <input value="Vyhledat" type="submit" name="searchButton" class="searchButton">
       </form>
       <table>
-        <thead>
+        <thead class="bor_bot">
           <th>Název</th>
           <th>Typ</th>
           <th>Cena</th>

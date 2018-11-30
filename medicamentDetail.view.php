@@ -10,7 +10,7 @@
 <html lang="cz">
   <head>
     <?php require_once("baseHeader.php");?>
-    <link rel="stylesheet" type="text/css" href="Styles/aniStyle.css">
+    <link rel="stylesheet" type="text/css" href="Styles/detailStyle.css">
     <script src="scripts/jQuery.js"></script>
     <script src="scripts/baseScripts.js"></script>
   </head>
@@ -28,6 +28,23 @@
         <p>Cena: <?= $actVM->Price ?></p>
         <p>Výrobce: <?= $actVM->Producer ?></p>
         <p>Složení: <?= $actVM->Substance ?></p>
+      <div>
+      <table>
+        <thead>
+          <th>Druh</th>
+          <th>Doporučená dávka</th>
+          <th>Efektivní proti</th>
+        </thead>
+          <tbody>
+            <?php foreach ($actVM->MedForSpec as $For) { ?>
+              <tr class="table_select" onclick="changePage(<?= $Examination->Pk ?>, 'examinationDetail.view.php')">
+                <td><?= $For->Species ?></td>
+                <td><?= $For->RecomendedDose ?></td>
+                <td><?= $For->EffectiveAgainst ?></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
       </div>
     </div>
   </body>

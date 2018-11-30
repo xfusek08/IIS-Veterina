@@ -17,6 +17,8 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   public $Producer = "";
   public $Substance = "";
 
+  public $MedForSpec = array();
+
   public function __construct() {
     parent::__construct('MedicamentEntity');
   }

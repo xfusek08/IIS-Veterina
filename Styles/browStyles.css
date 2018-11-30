@@ -2,3 +2,7 @@
   width: 5em;
   text-align: center;
 }
+
+.bor_bot {
+  border-bottom: 2px solid black; 
+}

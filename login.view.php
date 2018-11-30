@@ -33,7 +33,7 @@
         <input type="submit" name="post_submit" value="Přihlásit" class="log_button"/>
       </div>
     </form>
-    <hr>
     <div><?= $actVM->Message ?></div>
+    <div class="blue"></div>
   </body>
 </html>
