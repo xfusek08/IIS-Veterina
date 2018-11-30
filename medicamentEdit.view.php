@@ -85,9 +85,9 @@
           <th>Efektivní proti</th>
           <th></th>
         </thead>
-          <tbody>
-            <?php $n = 0; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
-              <tr id="MedForSpecEditFormTemp" class="template">
+          <tbody id="appendTo">
+            <?php $n = 0; $res = ""; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
+              <tr id="MedForSpecEditFormTemp<?= $res ?>" class="template">
                 <td>
                   <select type="text" name="<?= $res ?>mfs_spepk">
                     <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
@@ -111,7 +111,7 @@
             <?php $n++; } ?>
           </tbody>
         </table>
-        <input type="button" name="add" class="swap_button add_button" value="Přidat k druhu" onclick="addRow()">
+        <input type="button" name="add" class="swap_button bigger_button" value="Přidat k druhu" onclick="addRow()">
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
       </form>

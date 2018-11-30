@@ -39,9 +39,11 @@ function swapTables(toSwap, amount)
     }
     n++;
   }
-
-  function addRow()
-  {
-    var template = $('#MedForSpecEditFormTemp').attr('id');
-  }
 }
+
+function addRow()
+  {
+    var template = $('#MedForSpecEditFormTemp');
+    var newRow = template.clone();
+    newRow.appendTo("#appendTo");
+  }
