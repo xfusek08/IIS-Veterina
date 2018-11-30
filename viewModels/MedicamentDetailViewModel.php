@@ -112,6 +112,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
     if (!$isAllSuccess) {
       $this->Message = STR_MSG_FORM_INVALID_DATA;
+      $this->MedsOnSpeciesBrowser->openBrowser();
       $this->initEdit();
     } else {
       if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
