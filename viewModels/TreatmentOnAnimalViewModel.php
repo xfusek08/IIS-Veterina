@@ -23,7 +23,7 @@ class TreatmentOnAnimalViewModel extends TreatmentViewModel {
 
     $examOnTreBrowser = new DBEntityBrowser(
       "ExamOnTreatBrowseEntity",
-      "treatment_pk = ?",
+      "toe_trepk = ?",
       "exa_begin_date_time desc"
     );
     $examOnTreBrowser->addParams($this->MainDBEntity->PK);
@@ -34,8 +34,8 @@ class TreatmentOnAnimalViewModel extends TreatmentViewModel {
       $beginDatetime = new DateTime();
       $beginDatetime->setTimestamp($actEoT->getColumnByName('exa_begin_date_time')->getValue());
 
-      $newModel->ExaPk      = $actEoT->getColumnStringValue('examination_pk');
-      $newModel->TrePk      = $actEoT->getColumnStringValue('treatment_pk');
+      $newModel->ExaPk      = $actEoT->getColumnStringValue('toe_exapk');
+      $newModel->TrePk      = $actEoT->getColumnStringValue('toe_trepk');
       $newModel->Date       = $beginDatetime->format(DATE_FORMAT);
       $newModel->Type       = $actEoT->getColumnStringValue('exa_text');
       $newModel->Hour       = $beginDatetime->format("H:i");

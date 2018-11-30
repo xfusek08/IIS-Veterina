@@ -66,9 +66,19 @@
             </tr>
           </table>
         </div>
-          <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
+        <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
+        <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
       </form>
     </div>
     <div class="message"><?= $actVM->Message ?></div>
+
+    <div id="MedForSpecEditFormTemp" class="template">
+      <input type="hidden" name="{prefix}mfs_medpk" value="<?= $actVM->Pk ?>">
+      <select name="{prefix}mfs_spepk">
+        <!-- for each species option -->
+      </select>
+      mfs_recommended_dosis
+      mfs_effective_against
+    </div>
   </body>
 </html>

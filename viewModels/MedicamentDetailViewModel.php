@@ -30,7 +30,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
     $mesOnSpeciesBrwoser = new DBEntityBrowser(
       "MedicamentForSpeciesEntity",
-      "medicament_pk = ?",
+      "mfs_medpk = ?",
       "spe_name"
     );
     $mesOnSpeciesBrwoser->addParams($this->Pk);
@@ -39,8 +39,8 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     while (($actEntity = $mesOnSpeciesBrwoser->getNext()) != null) {
       $mesOnSpecModel = new MedicamentForSpeciesModel();
       $mesOnSpecModel->Pk                = $actEntity->getColumnByName('mfs_pk')->getValue();;
-      $mesOnSpecModel->MedPk             = $actEntity->getColumnByName('medicament_pk')->getValue();;
-      $mesOnSpecModel->SpeciesPK         = $actEntity->getColumnByName('species_pk')->getValue();;
+      $mesOnSpecModel->MedPk             = $actEntity->getColumnByName('mfs_medpk')->getValue();;
+      $mesOnSpecModel->SpeciesPK         = $actEntity->getColumnByName('mfs_spepk')->getValue();;
       $mesOnSpecModel->Species           = $actEntity->getColumnStringValue('spe_name');
       $mesOnSpecModel->RecommendedDose   = $actEntity->getColumnStringValue('mfs_recommended_dosis');
       $mesOnSpecModel->EffectiveAgainst  = $actEntity->getColumnStringValue('mfs_effective_against');
