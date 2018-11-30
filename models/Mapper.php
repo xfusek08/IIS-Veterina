@@ -16,16 +16,7 @@ class Mapper {
 
     $res = array();
     while (($actEnt = $browser->getNext()) !== null) {
-      $actModel = new AnimalBrowseModel();
-      $actModel->Pk                 = $actEnt->getColumnStringValue('ani_pk');
-      $actModel->AnimalName         = $actEnt->getColumnStringValue('ani_name');
-      $actModel->OwnerName          = $actEnt->getColumnStringValue('ownername');
-      $actModel->Species            = $actEnt->getColumnStringValue('spe_name');
-      $actModel->Sex                = $actEnt->getColumnStringValue('asex_description');
-      $actModel->State              = $actEnt->getColumnStringValue('ast_text');
-      $actModel->TreatmentNumber    = $actEnt->getColumnStringValue('treatmentcnt');
-      $actModel->LatestExamination  = $actEnt->getColumnStringValue('exabegin');
-
+      $actModel = self::entityToAnimalModel($actEnt);
       if (
         $searchString == '' ||
         strpos(strtolower(
@@ -37,6 +28,41 @@ class Mapper {
       }
     }
     return $res;
+  }
+
+  public static function entityToAnimalModel($entity) {
+    $newModel = new AnimalBrowseModel();
+    $newModel->Pk                 = $entity->getColumnStringValue('ani_pk');
+    $newModel->AnimalName         = $entity->getColumnStringValue('ani_name');
+    $newModel->OwnerName          = $entity->getColumnStringValue('ownername');
+    $newModel->Species            = $entity->getColumnStringValue('spe_name');
+    $newModel->Sex                = $entity->getColumnStringValue('asex_description');
+    $newModel->State              = $entity->getColumnStringValue('ast_text');
+    $newModel->TreatmentNumber    = $entity->getColumnStringValue('treatmentcnt');
+    $newModel->LatestExamination  = $entity->getColumnStringValue('exabegin');
+    return $newModel;
+  }
+
+  public static function entityToExaminationModel($entity) {
+    $dateOcurred = new DateTime();
+    $dateOcurred->setTimestamp($entity->getColumnByName('exa_begin_date_time')->getValue());
+
+    $newModel = new ExaminationModel();
+    $newModel->Pk            = $entity->getColumnByName('exa_pk')->getValue();
+    $newModel->AnimalPK      = $entity->getColumnByName('exa_animal')->getValue();
+    $newModel->EmployeePK    = $entity->getColumnByName('exa_employee')->getValue();
+    $newModel->AnimalName    = $entity->getColumnStringValue('animal_name');
+    $newModel->EmployeeName  = $entity->getColumnStringValue('employee_name');
+    $newModel->Type          = $entity->getColumnStringValue('exa_type_text');
+    $newModel->Duration      = $entity->getColumnStringValue('exa_duration_minutes');
+    $newModel->Date          = $dateOcurred->format(DATE_FORMAT);
+    $newModel->BeginTime     = $dateOcurred->format("H:i");
+    $newModel->EndTime       = $dateOcurred->modify("+$newModel->Duration minutes")->format("H:i");
+    $newModel->Price         = $entity->getColumnStringValue('exa_price');
+    $newModel->Report        = $entity->getColumnStringValue('exa_final_report');
+    $newModel->Occurred      = $entity->getColumnStringValue('exa_occurred');
+
+    return $newModel;
   }
 
 }

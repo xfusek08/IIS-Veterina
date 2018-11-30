@@ -3,13 +3,15 @@
 class ExaminationModel {
   public $Pk = 0;
   public $AnimalPK = 0;
-  public $EmployeePK = '';
+  public $EmployeePK = 0;
+  public $AnimalName = "";
   public $EmployeeName = '';
-  public $Date = '';
-  public $Hour = '';
   public $Type = '';
-  public $Duration = '';
+  public $Date = '';
+  public $BeginTime = "";
+  public $EndTime = "";
+  public $Duration = "";
   public $Price = '';
   public $Report = '';
-  public $Occured = '';
+  public $Occurred = '';
 }

@@ -17,18 +17,18 @@
   <body>
     <?php include 'menu.php';?>
     <div class="content">
-      <h1><?= $actVM->ExaminationName ?></h1>
+      <h1>Detail Vyšetření</h1>
       <div class="page_buttons">
         <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
         <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
-        onclick="changePage(<?= $actVM->Pk ?>, 'examinationEdit.view.php')">
+        onclick="changePage(<?= $actVM->Examination->Pk ?>, 'examinationEdit.view.php')">
       </div>
       <div class="tre_detail">
-        <p>Od: <?= $actVM->From ?></p>
-        <p>Do: <?= $actVM->To ?></p>
-        <p>Typ: <?= $actVM->Type ?></p>
-        <p>Naúčtováno: <?= $actVM->Price ?></p>
-        <p>Výsledná zpráva: <?= $actVM->Report ?></p>
+        <p>Od: <?= $actVM->Examination->BeginTime ?></p>
+        <p>Do: <?= $actVM->Examination->EndTime ?> (<?= $actVM->Examination->Duration ?> min)</p>
+        <p>Typ: <?= $actVM->Examination->Type ?></p>
+        <p>Naúčtováno: <?= $actVM->Examination->Price ?></p>
+        <p>Výsledná zpráva: <?= $actVM->Examination->Report ?></p>
       <div class="swap_buttons">
         <input type="submit" name="submit_ch" value="Léčba" class="swap_button to_swap" onclick="swapTables(1, 4)"/>
         <input type="submit" name="submit_ch" value="Zahájít léčbu" class="swap_button to_swap" onclick="swapTables(2, 4)"/>
@@ -36,14 +36,14 @@
         <input type="submit" name="submit_ch" value="Ukončit léčbu" class="swap_button to_swap" onclick="swapTables(4, 4)"/>
       </div>
       <div id="chosen_detail_1">
-        <p><?= $actVM->Treatment->Caption ?></p>
+        <!-- <p><?= $actVM->Treatment->Caption ?></p>
         <p>Stav: <?= $actVM->Treatment->State ?></p>
         <p>Cena: <?= $actVM->Treatment->Price ?></p>
         <div>Prognóza</div>
-        <textarea readonly><?= $actVM->Treatment->Prognosis ?></textarea>
+        <textarea readonly><?= $actVM->Treatment->Prognosis ?></textarea> -->
       </div>
       <div id="chosen_detail_2" class="hidden">
-        <form action="" method="post">
+        <!-- <form action="" method="post">
           <div class="tre_detail">
             <p>Označení: <input type="text" value="<?= $actVM->Treatment->Caption ?>" name="tre_caption">
               <?= (isset($actVM->Errors['tre_caption'])) ? $actVM->Errors['tre_caption'] : '' ?>
@@ -59,13 +59,13 @@
             </p>
           </div>
           <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
-        </form>
+        </form> -->
       </div>
       <div id="chosen_detail_3" class="hidden">
-        <?php $actVM->LoadTreatmentsHTML(); ?>
+        <!-- <?php $actVM->LoadTreatmentsHTML(); ?> -->
       </div>
       <div id="chosen_detail_4" class="hidden">
-        <?php $actVM->LoadTreatmentsHTML(); ?>
+        <!-- <?php $actVM->LoadTreatmentsHTML(); ?> -->
       </div>
     </div>
   </body>
