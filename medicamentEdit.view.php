@@ -12,7 +12,7 @@
   {
     if($i != 0)
       return "$i" . "_";
-    else 
+    else
       return "";
   }
 ?>
@@ -91,21 +91,22 @@
                 <td>
                   <select type="text" name="<?= $res ?>mfs_spepk">
                     <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
-                    <option value="<?=  $key ?>"<?php if ($MedForSpec->SpeciesPK == $value) echo "selected" ?> > <?= $value ?>
+                    <option value="<?=  $key ?>"<?php if ($MedForSpec->SpeciesPK == $key) echo "selected" ?> > <?= $value ?>
                     </option> <?php } ?>
                   </select>
                   <?= (isset($actVM->Errors[$res . 'mfs_spepk'])) ? $actVM->Errors[$res . 'mfs_spepk'] : '' ?>
                 </td>
                 <td>
-                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="<?= $res ?>mfs_dose">
-                  <?= (isset($actVM->Errors[$res . 'mfs_dose'])) ? $actVM->Errors[$res . 'mfs_dose'] : '' ?> 
+                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="<?= $res ?>mfs_recommended_dosis">
+                  <?= (isset($actVM->Errors[$res . 'mfs_recommended_dosis'])) ? $actVM->Errors[$res . 'mfs_recommended_dosis'] : '' ?>
                 <td>
-                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="<?= $res ?>mfs_against">
-                  <?= (isset($actVM->Errors[$res . 'mfs_against'])) ? $actVM->Errors[$res . 'mfs_against'] : '' ?> 
+                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="<?= $res ?>mfs_effective_against">
+                  <?= (isset($actVM->Errors[$res . 'mfs_effective_against'])) ? $actVM->Errors[$res . 'mfs_effective_against'] : '' ?>
                 </td>
                 <td>
                   <input type="button" name="delete" value="Smazat" class="swap_button" />
-                  <input type="hidden" name="mfsPk" value="<?= $MedForSpec->Pk ?>">
+                  <input type="hidden" name="<?= $res ?>mfs_pk" value="<?= $MedForSpec->Pk ?>">
+                  <input type="hidden" name="<?= $res ?>mfs_medpk" value="<?= $actVM->Pk ?>">
                 </td>
               </tr>
             <?php $n++; } ?>

@@ -26,7 +26,7 @@ class TreatmentOnAnimalViewModel extends TreatmentViewModel {
       "toe_trepk = ?",
       "exa_begin_date_time desc"
     );
-    $examOnTreBrowser->addParams($this->MainDBEntity->PK);
+    $examOnTreBrowser->addParams($this->MainDBEntity->Pk);
     $examOnTreBrowser->openBrowser();
 
     while (($actEoT = $examOnTreBrowser->getNext()) != null) {

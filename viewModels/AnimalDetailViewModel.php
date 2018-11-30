@@ -41,7 +41,7 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     parent::loadGetData();
     if (isset($_GET['ownerpk']))
       $this->OwnerPk = intval($_GET['ownerpk']);
-    $this->AnimalPk = $this->MainDBEntity->PK;
+    $this->AnimalPk = $this->MainDBEntity->Pk;
   }
 
   public function initView() {
@@ -61,7 +61,7 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function onSuccessPost() {
-    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->PK);
+    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->Pk);
   }
 
   public function initEdit() {

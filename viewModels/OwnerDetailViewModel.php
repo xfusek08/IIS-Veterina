@@ -53,7 +53,7 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function loadData() {
-    $this->Pk         = $this->MainDBEntity->PK;
+    $this->Pk         = $this->MainDBEntity->Pk;
     $this->Firstname  = $this->MainDBEntity->getColumnStringValue('own_name');
     $this->Surname    = $this->MainDBEntity->getColumnStringValue('own_surname');
     $this->Address    = $this->MainDBEntity->getColumnStringValue('own_address');
@@ -63,6 +63,6 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function onSuccessPost() {
-    SessionControl::navigate("ownerDetail.view.php?pk=" . $this->MainDBEntity->PK);
+    SessionControl::navigate("ownerDetail.view.php?pk=" . $this->MainDBEntity->Pk);
   }
 }
