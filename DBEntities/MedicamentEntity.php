@@ -13,9 +13,10 @@ class MedicamentEntity extends DatabaseEntity {
     $this->addColumn(DataType::Integer,   'med_pk');
     $this->addColumn(DataType::Integer,   'med_type',             true);
     $this->addColumn(DataType::String,    'med_name',             true);
-    $this->addColumn(DataType::Float,     'med_price',            true);
-    $this->addColumn(DataType::String,    'med_producer',         true);
-    $this->addColumn(DataType::String,    'med_active_substance', true);
+    $this->addColumn(DataType::Float,     'med_price');
+    $this->addColumn(DataType::String,    'med_producer');
+    $this->addColumn(DataType::String,    'med_active_substance');
+
     $this->addSQLColumn(DataType::String, 'med_type_text',
       'select medt_text from Medicament_type where medt_pk = med_type');
   }
