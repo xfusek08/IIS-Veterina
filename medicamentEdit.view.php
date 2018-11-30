@@ -96,7 +96,6 @@
                   <?= (isset($actVM->Errors[$res + 'mfs_spepk'])) ? $actVM->Errors[$res + 'mfs_spepk'] : '' ?>
                 </td>
                 <td>
-<<<<<<< HEAD
                   <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="<?= $res ?>mfs_dose">
                   <?= (isset($actVM->Errors[$res + 'mfs_dose'])) ? $actVM->Errors[$res + 'mfs_dose'] : '' ?> 
                 <td>
@@ -106,13 +105,6 @@
                 <td>
                   <input type="button" name="delete" value="Smazat" class="swap_button" />
                   <input type="hidden" name="mfsPk" value="<?= $MedForSpec->Pk ?>">
-=======
-                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="_mfs_dose">
-                  <?= (isset($actVM->Errors['_mfs_dose'])) ? $actVM->Errors['_mfs_dose'] : '' ?>
-                <td>
-                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="_mfs_against">
-                  <?= (isset($actVM->Errors['_mfs_against'])) ? $actVM->Errors['_mfs_against'] : '' ?>
->>>>>>> b76ea3073a54a5a2bba0ee45ca3427cc33df1e4f
                 </td>
               </tr>
             <?php $n++; } ?>

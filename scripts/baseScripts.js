@@ -42,6 +42,6 @@ function swapTables(toSwap, amount)
 
   function addRow()
   {
-    
+    var template = $('#MedForSpecEditFormTemp').attr('id');
   }
 }
