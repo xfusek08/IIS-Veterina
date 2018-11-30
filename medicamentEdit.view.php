@@ -79,13 +79,25 @@
           <tbody>
             <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
               <tr>
-                <td><?= $MedForSpec->Species ?>
-                  <select name="{prefix}mfs_spepk">
-                    <!-- for each species option -->
+                <td>
+                  <select type="text" name="{prefix}mfs_spepk">
+                    <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
+                    <option value="<?=  $key ?>"<?php if ($actVM->Species == $value) echo "selected" ?> > <?= $value ?>
+                    </option> <?php } ?> 
                   </select>
+                  <?= (isset($actVM->Errors['{prefix}mfs_spepk'])) ? $actVM->Errors['{prefix}mfs_spepk'] : '' ?>
                 </td>
-                <td><?= $MedForSpec->RecommendedDose ?></td>
-                <td><?= $MedForSpec->EffectiveAgainst ?></td>
+                <td>
+                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="rec_dose">
+                  <?= (isset($actVM->Errors['rec_dose'])) ? $actVM->Errors['rec_dose'] : '' ?> 
+                <td>
+                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="eff_against">
+                  <?= (isset($actVM->Errors['eff_against'])) ? $actVM->Errors['eff_against'] : '' ?> 
+                </td>
+                <td><input type="button" name="delete" value="Smazat" class="swap_button" /></td>
+              </tr>
+              <tr onclick="changePage(0, 'ownerEdit.view.php')">
+                <th class="table_add table_select" colspan="3">Přidat k druhu</th>
               </tr>
             <?php } ?>
           </tbody>
