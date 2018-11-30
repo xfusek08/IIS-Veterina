@@ -39,9 +39,25 @@ function swapTables(toSwap, amount)
     }
     n++;
   }
-
-  function addRow()
-  {
-    var template = $('#MedForSpecEditFormTemp').attr('id');
-  }
 }
+
+function addRow(res)
+  {
+    var template = $('#MedForSpecEditFormTemp');
+    var newRow = template.clone();
+    newRow.find("input[type=hiden], input[type=text], select").each(function(i,box)
+    {
+      if(box.attr('name') == "mfs_spepk")
+        box.attr('name', res + "mfs_spepk")
+      else if(box.attr('name') == "mfs_recommended_dosis")
+        box.attr('name', res + "mfs_recommended_dosis")
+      else if(box.attr('name') == "mfs_effective_against")
+        box.attr('name', res + "mfs_effective_against")
+      else if(box.attr('name') == "mfs_pk")
+      {
+        box.attr('name', res + "mfs_pk")
+        box.attr('value', 0)
+      }
+    },    
+    newRow.appendTo("#appendTo");
+  }
