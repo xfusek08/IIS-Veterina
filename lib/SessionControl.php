@@ -26,6 +26,17 @@ class SessionControl {
     return false;
   }
 
+  public static function isAdmin() {
+    if (!self::isLogged())
+      return false;
+
+    $val = 0;
+    if (!MyDatabase::getOneValue($val, 'select emp_isadmin  from Employee where emp_pk = ?', $_SESSION['userPK'])) {
+      die("Database Error");
+    }
+    return $val === 'A';
+  }
+
   public static function isAjaxRequest() {}
 
   public static function isPostRequest() {
