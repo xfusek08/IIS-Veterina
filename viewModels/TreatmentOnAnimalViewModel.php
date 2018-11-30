@@ -2,49 +2,24 @@
 
 require_once("lib/DBEntityBrowser.php");
 
-require_once("DBEntities/TreatmentEntity.php");
-require_once("DBEntities/MedOnTreatBrowseEntity.php");
 require_once("DBEntities/ExamOnTreatBrowseEntity.php");
 
-require_once("models/MedicamentOnTreatmentModel.php");
 require_once("models/ExamOnTreatmentModel.php");
 
-require_once("viewModels/base/EditableDetailViewModelBase.php");
+require_once("viewModels/TreatmentViewModel.php");
 
-class TreatmentOnAnimalViewModel extends EditableDetailViewModelBase {
-  public $Caption = '';
-  public $State = '';
-  public $Prognosis = '';
-  public $Price = '';
-  public $Medicaments = array();  // array of MedicamentOnTreatmentModel
+class TreatmentOnAnimalViewModel extends TreatmentViewModel {
   public $Examinations = array(); // array of ExamOnTreatmentModel
 
   public function __construct() {
-    parent::__construct('TreatmentEntity', 'treatmentsOnAnimal.view.php');
+    parent::__construct();
   }
 
-  public function initView() {
-    $this->loadData();
-  }
-
-  public function initEdit() { }
-
-  public function onSuccessPost() { }
+  public function initEdit() { }      // not editable
+  public function onSuccessPost() { } // not editable
 
   public function loadData() {
-    $this->Caption   = $this->MainDBEntity->getColumnStringValue('tre_caption');
-    $this->State     = $this->MainDBEntity->getColumnStringValue('tre_state_text');
-    $this->Prognosis = $this->MainDBEntity->getColumnStringValue('tre_prognosis');
-    $this->Price     = $this->MainDBEntity->getColumnStringValue('tre_price');
-
-    $medOnTreBrowser = new DBEntityBrowser(
-      "MedOnTreatBrowseEntity",
-      "treatment_pk = ?",
-      "med_name"
-    );
-
-    $medOnTreBrowser->addParams($this->MainDBEntity->PK);
-    $medOnTreBrowser->openBrowser();
+    parent::loadData();
 
     $examOnTreBrowser = new DBEntityBrowser(
       "ExamOnTreatBrowseEntity",
@@ -54,18 +29,6 @@ class TreatmentOnAnimalViewModel extends EditableDetailViewModelBase {
     $examOnTreBrowser->addParams($this->MainDBEntity->PK);
     $examOnTreBrowser->openBrowser();
 
-    // medicaments
-    while (($actMoT = $medOnTreBrowser->getNext()) != null) {
-      $newModel = new MedicamentOnTreatmentModel();
-      $newModel->MedPk     = $actMoT->getColumnStringValue('medicament_pk');
-      $newModel->TrePk     = $actMoT->getColumnStringValue('treatment_pk');
-      $newModel->Name      = $actMoT->getColumnStringValue('med_name');
-      $newModel->UsageTime = $actMoT->getColumnStringValue('mot_usage_time');
-      $newModel->Dosage    = $actMoT->getColumnStringValue('mot_dosage');
-      $this->Medicaments[] = $newModel;
-    }
-
-    // examinations
     while (($actEoT = $examOnTreBrowser->getNext()) != null) {
       $newModel = new ExamOnTreatmentModel();
       $beginDatetime = new DateTime();
