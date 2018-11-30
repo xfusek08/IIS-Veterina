@@ -16,7 +16,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
       <h1>Detail majitele</h1>
       <div class="page_buttons">

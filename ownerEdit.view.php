@@ -17,7 +17,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
       <div class="page_buttons">
         <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->Pk ?>, 'ownerDetail.view.php')">

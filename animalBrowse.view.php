@@ -16,7 +16,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
     <h1>Seznam zvířat</h1>
     <form action="" method="get">

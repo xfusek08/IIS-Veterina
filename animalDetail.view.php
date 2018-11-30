@@ -17,7 +17,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
       <div class="page_buttons">
         <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >

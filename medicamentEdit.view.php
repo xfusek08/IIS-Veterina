@@ -17,7 +17,7 @@
     <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
       <div class="page_buttons">
         <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->Pk ?>, 'medicamentDetail.view.php')">
@@ -70,7 +70,7 @@
             </tr>
           </table>
         </div>
-        <table id="MedForSpecEditFormTemp" class="template">
+        <table>
         <thead>
           <th>Druh</th>
           <th>Doporučená dávka</th>
@@ -78,14 +78,14 @@
         </thead>
           <tbody>
             <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
-              <tr>
+              <tr id="MedForSpecEditFormTemp" class="template">
                 <td>
-                  <select type="text" name="{prefix}mfs_spepk">
+                  <select type="text" name="{prefix}_mfs_spepk">
                     <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
                     <option value="<?=  $key ?>"<?php if ($actVM->Species == $value) echo "selected" ?> > <?= $value ?>
                     </option> <?php } ?> 
                   </select>
-                  <?= (isset($actVM->Errors['{prefix}mfs_spepk'])) ? $actVM->Errors['{prefix}mfs_spepk'] : '' ?>
+                  <?= (isset($actVM->Errors['{prefix}_mfs_spepk'])) ? $actVM->Errors['{prefix}_mfs_spepk'] : '' ?>
                 </td>
                 <td>
                   <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="rec_dose">
@@ -96,7 +96,7 @@
                 </td>
                 <td><input type="button" name="delete" value="Smazat" class="swap_button" /></td>
               </tr>
-              <tr onclick="changePage(0, 'ownerEdit.view.php')">
+              <tr>
                 <th class="table_add table_select" colspan="3">Přidat k druhu</th>
               </tr>
             <?php } ?>

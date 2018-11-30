@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="Styles/detailStyles.css">
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
       <div class="page_buttons">
         <input type="submit" name="submit_edi" value="Upravit" class="swap_button"

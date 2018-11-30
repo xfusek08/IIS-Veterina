@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="Styles/browStyles.css">
   </head>
   <body>
-    <?php BuildMenu($actVM->isAdmin) ?>
+    <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="content">
       <h1>Seznam zaměstnanců</h1>
       <form action="" method="get">
