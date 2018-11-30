@@ -10,7 +10,7 @@
 
   function medForSpecCounter($i)
   {
-    if(n != 0)
+    if($i != 0)
       return "$i_";
     else 
       return "";
