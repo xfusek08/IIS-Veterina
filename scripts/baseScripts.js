@@ -39,4 +39,9 @@ function swapTables(toSwap, amount)
     }
     n++;
   }
+
+  function addRow()
+  {
+    
+  }
 }

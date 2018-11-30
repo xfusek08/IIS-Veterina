@@ -80,27 +80,25 @@
             <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
               <tr id="MedForSpecEditFormTemp" class="template">
                 <td>
-                  <select type="text" name="{prefix}_mfs_spepk">
+                  <select type="text" name="_mfs_spepk">
                     <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
                     <option value="<?=  $key ?>"<?php if ($MedForSpec->SpeciesPK == $value) echo "selected" ?> > <?= $value ?>
                     </option> <?php } ?>
                   </select>
-                  <?= (isset($actVM->Errors['{prefix}_mfs_spepk'])) ? $actVM->Errors['{prefix}_mfs_spepk'] : '' ?>
+                  <?= (isset($actVM->Errors['_mfs_spepk'])) ? $actVM->Errors['_mfs_spepk'] : '' ?>
                 </td>
                 <td>
-                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="rec_dose">
-                  <?= (isset($actVM->Errors['rec_dose'])) ? $actVM->Errors['rec_dose'] : '' ?>
+                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="_mfs_dose">
+                  <?= (isset($actVM->Errors['_mfs_dose'])) ? $actVM->Errors['_mfs_dose'] : '' ?>
                 <td>
-                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="eff_against">
-                  <?= (isset($actVM->Errors['eff_against'])) ? $actVM->Errors['eff_against'] : '' ?>
+                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="_mfs_against">
+                  <?= (isset($actVM->Errors['_mfs_against'])) ? $actVM->Errors['_mfs_against'] : '' ?>
                 </td>
                 <td><input type="button" name="delete" value="Smazat" class="swap_button" /></td>
               </tr>
-              <tr>
-                <th class="table_add table_select" colspan="3">Přidat k druhu</th>
-              </tr>
             <?php } ?>
           </tbody>
+          <input type="button" name="add" class="swap_button" value="Přidat k druhu" onclick="addRow()">
         </table>
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
