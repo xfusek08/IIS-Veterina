@@ -1,13 +1,13 @@
 <?php
 
+require_once("lib/DBEntityBrowser.php");
+
 require_once("DBEntities/OwnerEntity.php");
 
 require_once("models/AnimalBrowseModel.php");
 require_once("models/Mapper.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
-
-require_once("treatmentsOnAnimal.view.php");
 
 class OwnerDetailViewModel extends EditableDetailViewModelBase {
   public $Pk = 0;

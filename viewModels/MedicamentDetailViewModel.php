@@ -1,16 +1,17 @@
 <?php
 
+require_once("lib/DBEntityBrowser.php");
+
 require_once("DBEntities/MedicamentEntity.php");
+require_once("DBEntities/MedicamentForSpeciesEntity.php");
+
+require_once("models/MedicamentForSpeciesModel.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
-require_once("viewModels/TreatmentOnAnimalViewModel.php");
-
-require_once("treatmentsOnAnimal.view.php");
-
 
 class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
-  public $Pk = "0";
+  public $Pk = 0;
   public $Name = "";
   public $Type = "";
   public $Price = "";
@@ -26,6 +27,25 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
   public function initView() {
     $this->loadData();
+
+    $mesOnSpeciesBrwoser = new DBEntityBrowser(
+      "MedicamentForSpeciesEntity",
+      "medicament_pk = ?",
+      "spe_name"
+    );
+    $mesOnSpeciesBrwoser->addParams($this->Pk);
+    $mesOnSpeciesBrwoser->openBrowser();
+
+    while (($actEntity = $mesOnSpeciesBrwoser->getNext()) != null) {
+      $mesOnSpecModel = new MedicamentForSpeciesModel();
+      $mesOnSpecModel->Pk                = $actEntity->getColumnByName('mfs_pk')->getValue();;
+      $mesOnSpecModel->MedPk             = $actEntity->getColumnByName('medicament_pk')->getValue();;
+      $mesOnSpecModel->SpeciesPK         = $actEntity->getColumnByName('species_pk')->getValue();;
+      $mesOnSpecModel->Species           = $actEntity->getColumnStringValue('spe_name');
+      $mesOnSpecModel->RecommendedDose   = $actEntity->getColumnStringValue('mfs_recommended_dosis');
+      $mesOnSpecModel->EffectiveAgainst  = $actEntity->getColumnStringValue('mfs_effective_against');
+      $this->MedForSpec[] = $mesOnSpecModel;
+    }
   }
 
   public function initEdit() {

@@ -36,11 +36,11 @@
           <th>Efektivní proti</th>
         </thead>
           <tbody>
-            <?php foreach ($actVM->MedForSpec as $For) { ?>
-              <tr class="table_select" onclick="changePage(<?= $Examination->Pk ?>, 'examinationDetail.view.php')">
-                <td><?= $For->Species ?></td>
-                <td><?= $For->RecomendedDose ?></td>
-                <td><?= $For->EffectiveAgainst ?></td>
+            <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
+              <tr class="table_select">
+                <td><?= $MedForSpec->Species ?></td>
+                <td><?= $MedForSpec->RecommendedDose ?></td>
+                <td><?= $MedForSpec->EffectiveAgainst ?></td>
               </tr>
             <?php } ?>
           </tbody>

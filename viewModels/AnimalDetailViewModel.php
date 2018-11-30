@@ -45,32 +45,6 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
 
   public function initView() {
     $this->loadData();
-  }
-
-  public function onSuccessPost() {
-    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->PK);
-  }
-
-  public function initEdit() {
-    if ($this->AnimalPk == 0 && $this->OwnerPk < 1)
-      die("Can't create new animal without knowing owner pk.");
-
-    $this->SexSelect      = $this->LoadEditSelectData("select asex_shortcut, asex_description from Animal_sex order by asex_description");
-    $this->SpeciesSelect  = $this->LoadEditSelectData("select spe_pk, spe_name from Animal_species order by spe_name");
-    $this->StateSelect    = $this->LoadEditSelectData("select ast_shortcut , ast_text from Animal_state order by ast_text");
-    $this->loadData();
-  }
-
-  public function loadData() {
-    $this->AnimalName = $this->MainDBEntity->getColumnStringValue('ani_name');
-    $this->OwnerName  = $this->MainDBEntity->getColumnStringValue('owner_name');
-    $this->Species    = $this->MainDBEntity->getColumnStringValue('ani_species_text');
-    $this->Sex        = $this->MainDBEntity->getColumnStringValue('ani_sex_text');
-    $this->Weight     = $this->MainDBEntity->getColumnStringValue('ani_weight');
-    $this->State      = $this->MainDBEntity->getColumnStringValue('ani_state_text');
-    $this->Birthday   = $this->MainDBEntity->getColumnStringValue('ani_birthday');
-    $this->Race       = $this->MainDBEntity->getColumnStringValue('ani_race');
-    $this->Age        = $this->calculateAgeOfAnimal();
 
     $examinationBrowser = new DBEntityBrowser(
       "ExaminationEntity",
@@ -98,6 +72,32 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
       $examModel->Occured       = $actExam->getColumnStringValue('exa_occurred');
       $this->Examinations[] = $examModel;
     }
+  }
+
+  public function onSuccessPost() {
+    SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->PK);
+  }
+
+  public function initEdit() {
+    if ($this->AnimalPk == 0 && $this->OwnerPk < 1)
+      die("Can't create new animal without knowing owner pk.");
+
+    $this->SexSelect      = $this->LoadEditSelectData("select asex_shortcut, asex_description from Animal_sex order by asex_description");
+    $this->SpeciesSelect  = $this->LoadEditSelectData("select spe_pk, spe_name from Animal_species order by spe_name");
+    $this->StateSelect    = $this->LoadEditSelectData("select ast_shortcut , ast_text from Animal_state order by ast_text");
+    $this->loadData();
+  }
+
+  public function loadData() {
+    $this->AnimalName = $this->MainDBEntity->getColumnStringValue('ani_name');
+    $this->OwnerName  = $this->MainDBEntity->getColumnStringValue('owner_name');
+    $this->Species    = $this->MainDBEntity->getColumnStringValue('ani_species_text');
+    $this->Sex        = $this->MainDBEntity->getColumnStringValue('ani_sex_text');
+    $this->Weight     = $this->MainDBEntity->getColumnStringValue('ani_weight');
+    $this->State      = $this->MainDBEntity->getColumnStringValue('ani_state_text');
+    $this->Birthday   = $this->MainDBEntity->getColumnStringValue('ani_birthday');
+    $this->Race       = $this->MainDBEntity->getColumnStringValue('ani_race');
+    $this->Age        = $this->calculateAgeOfAnimal();
   }
 
   // methods specific to Animal detail
