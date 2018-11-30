@@ -10,8 +10,8 @@
 
   function medForSpecCounter($i)
   {
-    if(n != 0)
-      return "$i_";
+    if($i != 0)
+      return "$i" . "_";
     else 
       return "";
   }
@@ -83,6 +83,7 @@
           <th>Druh</th>
           <th>Doporučená dávka</th>
           <th>Efektivní proti</th>
+          <th></th>
         </thead>
           <tbody>
             <?php $n = 0; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
