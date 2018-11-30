@@ -36,7 +36,7 @@ class TreatmentViewModel extends EditableDetailViewModelBase {
 
     $medOnTreBrowser = new DBEntityBrowser(
       "MedOnTreatBrowseEntity",
-      "treatment_pk = ?",
+      "mot_trepk = ?",
       "med_name"
     );
 
@@ -46,8 +46,8 @@ class TreatmentViewModel extends EditableDetailViewModelBase {
     // medicaments
     while (($actMoT = $medOnTreBrowser->getNext()) != null) {
       $newModel = new MedicamentOnTreatmentModel();
-      $newModel->MedPk     = $actMoT->getColumnStringValue('medicament_pk');
-      $newModel->TrePk     = $actMoT->getColumnStringValue('treatment_pk');
+      $newModel->MedPk     = $actMoT->getColumnStringValue('mot_medpk');
+      $newModel->TrePk     = $actMoT->getColumnStringValue('mot_trepk');
       $newModel->Name      = $actMoT->getColumnStringValue('med_name');
       $newModel->UsageTime = $actMoT->getColumnStringValue('mot_usage_time');
       $newModel->Dosage    = $actMoT->getColumnStringValue('mot_dosage');
