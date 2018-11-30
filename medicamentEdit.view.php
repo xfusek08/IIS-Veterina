@@ -82,17 +82,17 @@
                 <td>
                   <select type="text" name="{prefix}_mfs_spepk">
                     <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
-                    <option value="<?=  $key ?>"<?php if ($actVM->Species == $value) echo "selected" ?> > <?= $value ?>
-                    </option> <?php } ?> 
+                    <option value="<?=  $key ?>"<?php if ($MedForSpec->SpeciesPK == $value) echo "selected" ?> > <?= $value ?>
+                    </option> <?php } ?>
                   </select>
                   <?= (isset($actVM->Errors['{prefix}_mfs_spepk'])) ? $actVM->Errors['{prefix}_mfs_spepk'] : '' ?>
                 </td>
                 <td>
                   <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="rec_dose">
-                  <?= (isset($actVM->Errors['rec_dose'])) ? $actVM->Errors['rec_dose'] : '' ?> 
+                  <?= (isset($actVM->Errors['rec_dose'])) ? $actVM->Errors['rec_dose'] : '' ?>
                 <td>
                   <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="eff_against">
-                  <?= (isset($actVM->Errors['eff_against'])) ? $actVM->Errors['eff_against'] : '' ?> 
+                  <?= (isset($actVM->Errors['eff_against'])) ? $actVM->Errors['eff_against'] : '' ?>
                 </td>
                 <td><input type="button" name="delete" value="Smazat" class="swap_button" /></td>
               </tr>
