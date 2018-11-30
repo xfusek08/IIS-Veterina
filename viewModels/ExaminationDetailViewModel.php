@@ -29,6 +29,6 @@ class ExaminationDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function onSuccessPost() {
-    SessionControl::navigate("examinationDetail.view.php?pk=" . $this->MainDBEntity->PK);
+    SessionControl::navigate("examinationDetail.view.php?pk=" . $this->MainDBEntity->Pk);
   }
 }

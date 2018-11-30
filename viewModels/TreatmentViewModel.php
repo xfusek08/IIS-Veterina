@@ -40,7 +40,7 @@ class TreatmentViewModel extends EditableDetailViewModelBase {
       "med_name"
     );
 
-    $medOnTreBrowser->addParams($this->MainDBEntity->PK);
+    $medOnTreBrowser->addParams($this->MainDBEntity->Pk);
     $medOnTreBrowser->openBrowser();
 
     // medicaments

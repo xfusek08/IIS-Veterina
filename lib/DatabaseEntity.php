@@ -31,24 +31,24 @@ abstract class DatabaseEntity {
   public $SaveToDBResult;
 
   public function __construct($pk = 0, $isExternalTransaction = false) {
-    $this->PK = $pk;
+    $this->Pk = $pk;
     $this->PKColName = strtolower($this->PKColName);
     $this->IsLoadSuccess = false;
     $this->SaveToDBResult = SaveToDBResult::None;
     $this->defColumns();
 
-    if ($this->PK > 0)
+    if ($this->Pk > 0)
       $this->IsLoadSuccess = $this->initFromDB($isExternalTransaction);
   }
 
   public function initFromDB($isExternalTransaction) {
-    if ($this->PK < 1 || $this->TableName == '' || $this->PKColName == '')
+    if ($this->Pk < 1 || $this->TableName == '' || $this->PKColName == '')
       return false;
 
     $SQL = $this->getSelectSQL() . " where $this->PKColName = ?";
 
     $fields = null;
-    if(!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $this->PK))
+    if(!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $this->Pk))
       return false;
 
     if (count($fields) == 0 || count($fields) > 1)
@@ -97,11 +97,11 @@ abstract class DatabaseEntity {
     }
 
     // UPDATE
-    if ($this->PK > 0) {
+    if ($this->Pk > 0) {
       $SQL =
         'update ' . $this->TableName . ' set ' . implode(' = ?, ', $cols) . ' = ?' .
         ' where ' . $this->PKColName . ' = ?';
-      $params[] = $this->PK;
+      $params[] = $this->Pk;
     } else { // INSERT
       $SQL =
         'insert into ' . $this->TableName . ' (' . implode(', ', $cols) . ')' .
@@ -118,13 +118,13 @@ abstract class DatabaseEntity {
       return false;
     }
 
-    if ($this->PK == 0) { // was insert ?
+    if ($this->Pk == 0) { // was insert ?
       if (!MyDatabase::isMySQL()) { // get value from returning
         if (count($fields) == 0) {
           $this->SaveToDBResult = SaveToDBResult::Error;
           return false;
         }
-        $this->PK = intval($fields[0][0]);
+        $this->Pk = intval($fields[0][0]);
       } else { // for mysql select last inserted id
         $returnedpk;
         if (!MyDatabase::getOneValue($returnedpk, 'select last_insert_id()')) {
@@ -136,7 +136,7 @@ abstract class DatabaseEntity {
           $this->SaveToDBResult = SaveToDBResult::Error;
           return false;
         }
-        $this->PK = $returnedpk;
+        $this->Pk = $returnedpk;
       }
     }
 
@@ -148,19 +148,19 @@ abstract class DatabaseEntity {
       return false;
     }
 
-    if ($this->PK < 1)
+    if ($this->Pk < 1)
       return true;
 
     $SQL = 'delete from ' . $this->TableName . ' where ' . $this->PKColName . ' = ?';
     $fields = null;
-    if (!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $this->PK))
+    if (!MyDatabase::runQuery($fields, $SQL, $isExternalTransaction, $this->Pk))
       return false;
     return true;
   }
 
   public function getAsXML($formated = true) {
     $res = '<' . $this->TableName . '>' . PHP_EOL;
-    $res .= '<pk>' . $this->PK . '</pk>' . PHP_EOL;
+    $res .= '<pk>' . $this->Pk . '</pk>' . PHP_EOL;
     foreach ($this->Columns as $col) {
       $res .=
         '<' . $col->ColName . '>' .

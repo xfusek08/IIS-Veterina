@@ -11,7 +11,6 @@ require_once("models/MedicamentForSpeciesModel.php");
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
 class MedicamentDetailViewModel extends EditableDetailViewModelBase {
-
   public $Pk = 0;
   public $Name = "";
   public $Type = "";
@@ -23,7 +22,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   public $TypeSelect = array();
   public $SpeciesSelect = array();
 
-  private $MesOnSpeciesBrwoser = null; // instance of DBEntityBrowser
+  private $MedsOnSpeciesBrowser = null; // instance of DBEntityBrowser
 
   public function __construct() {
     parent::__construct('MedicamentEntity');
@@ -31,13 +30,13 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
   public function loadGetData() {
     parent::loadGetData();
-    $this->MesOnSpeciesBrwoser = new DBEntityBrowser(
+    $this->MedsOnSpeciesBrowser = new DBEntityBrowser(
       "MedicamentForSpeciesEntity",
       "mfs_medpk = ?",
       "spe_name"
     );
-    $this->MesOnSpeciesBrwoser->addParams($this->Pk);
-    $this->MesOnSpeciesBrwoser->openBrowser();
+    $this->MedsOnSpeciesBrowser->addParams($this->MainDBEntity->Pk);
+    $this->MedsOnSpeciesBrowser->openBrowser();
   }
 
   public function initView() {
@@ -51,16 +50,19 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->SpeciesSelect = $this->LoadEditSelectData('select spe_pk, spe_name from Animal_species order by spe_name');
   }
 
+  public function onSuccessPost() {
+    SessionControl::navigate("medicamentDetail.view?pk=" . $this->MainDBEntity->Pk);
+  }
+
   public function loadData() {
-    $this->Pk         = $this->MainDBEntity->PK;
+    $this->Pk         = $this->MainDBEntity->Pk;
     $this->Name       = $this->MainDBEntity->getColumnStringValue('med_name');
     $this->Type       = $this->MainDBEntity->getColumnStringValue('med_type_text');
     $this->Price      = $this->MainDBEntity->getColumnStringValue('med_price');
     $this->Producer   = $this->MainDBEntity->getColumnStringValue('med_producer');
     $this->Substance  = $this->MainDBEntity->getColumnStringValue('med_active_substance');
 
-    $this->initMedOnSpeBrowser();
-    while (($actEntity = $this->MesOnSpeciesBrwoser->getNext()) != null) {
+    while (($actEntity = $this->MedsOnSpeciesBrowser->getNext()) != null) {
       $mesOnSpecModel = new MedicamentForSpeciesModel();
       $mesOnSpecModel->Pk                = $actEntity->getColumnByName('mfs_pk')->getValue();;
       $mesOnSpecModel->MedPk             = $actEntity->getColumnByName('mfs_medpk')->getValue();;
@@ -76,23 +78,23 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->loadGetData();
     $this->MainDBEntity->loadFromPostData();
     $isAllSuccess = $this->MainDBEntity->isDataValid();
-    $this->Errors = array_merge($this->Errors, $this->MainDBEntity->GetInvalidData($prefix));
+    $this->Errors = array_merge($this->Errors, $this->MainDBEntity->GetInvalidData());
 
     $toDeletePKs = array();
     $toSaveEntities = array();
 
     $cnt = intval($_POST['medCount']);
-    while (($actEntity = $this->MesOnSpeciesBrwoser->getNext()) != null) {
-      $toDeletePKs = $actEntity->PK;
+    while (($actEntity = $this->MedsOnSpeciesBrowser->getNext()) != null) {
+      $toDeletePKs[] = $actEntity->Pk;
     }
 
     $index = 0;
     while ($index < $cnt) {
       $prefix = '';
-      if ($index == 0)
+      if ($index != 0)
         $prefix = $index . '_';
 
-      $actEntity = new MedicamentForSpeciesModel(intval($_POST[$prefix . 'mfs_pk']));
+      $actEntity = new MedicamentForSpeciesEntity(intval($_POST[$prefix . 'mfs_pk']));
 
       $indexOfPK = array_search($actEntity->Pk, $toDeletePKs);
       if ($indexOfPK !== false)
@@ -102,19 +104,19 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       $isAllSuccess = $isAllSuccess && $actEntity->isDataValid();
       $this->Errors = array_merge($this->Errors, $actEntity->GetInvalidData($prefix));
       $toSaveEntities[] = $actEntity;
-      $index = $index - 1;
+      $index = $index + 1;
     }
 
     if (!$isAllSuccess) {
       $this->Message = STR_MSG_FORM_INVALID_DATA;
       $this->initEdit();
     } else {
-      $this->tryToSaveToDB($toSaveEntities, $toDeletePKs);
+      if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
+        $this->onSuccessPost();
+      else {
+        // error
+      }
     }
-  }
-
-  public function onSuccessPost() {
-    SessionControl::navigate("medicamentDetail.view?pk=" . $this->MainDBEntity->PK);
   }
 
   public function tryToSaveToDB($toSaveEntities, $toDeletePKs) {
@@ -122,7 +124,19 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       MyDatabase::$PDO->beginTransaction();
       $success = true;
 
-      echo '<pre>', var_dumb($toSaveEntities), '</pre>';
+      foreach ($toDeletePKs as $pk) {
+        $ent = new MedicamentForSpeciesEntity($pk);
+        if (!$ent->deleteFromDB(true))
+          throw new Exception("Entity with pk: $ent->Pk failed to be deleted from DB.");
+      }
+
+      foreach ($toSaveEntities as $ent) {
+        if (!$ent->saveToDB(true))
+          throw new Exception("Entity with pk: $ent->Pk failed to be saved to DB.");
+      }
+
+      if (!$this->MainDBEntity->saveToDB(true))
+        throw new Exception('Failed to save main medicament entity.');
 
       if ($success) {
         MyDatabase::$PDO->commit();
@@ -134,8 +148,8 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       Log::WriteLog(LogType::Error, $e->getMessage());
       Log::WriteLog(LogType::Anouncement, "RollBack");
       MyDatabase::$PDO->rollBack();
-      $succes = false;
+      $success = false;
     }
-    return $succes;
+    return $success;
   }
 }
