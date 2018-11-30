@@ -83,6 +83,7 @@
           <th>Druh</th>
           <th>Doporučená dávka</th>
           <th>Efektivní proti</th>
+          <th></th>
         </thead>
           <tbody>
             <?php $n = 0; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
