@@ -11,7 +11,7 @@
   function medForSpecCounter($i)
   {
     if(n != 0)
-      return "$i";
+      return "$i_";
     else 
       return "";
   }
@@ -93,14 +93,14 @@
                     <option value="<?=  $key ?>"<?php if ($MedForSpec->SpeciesPK == $value) echo "selected" ?> > <?= $value ?>
                     </option> <?php } ?>
                   </select>
-                  <?= (isset($actVM->Errors[$res + 'mfs_spepk'])) ? $actVM->Errors[$res + 'mfs_spepk'] : '' ?>
+                  <?= (isset($actVM->Errors[$res . 'mfs_spepk'])) ? $actVM->Errors[$res . 'mfs_spepk'] : '' ?>
                 </td>
                 <td>
                   <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="<?= $res ?>mfs_dose">
-                  <?= (isset($actVM->Errors[$res + 'mfs_dose'])) ? $actVM->Errors[$res + 'mfs_dose'] : '' ?> 
+                  <?= (isset($actVM->Errors[$res . 'mfs_dose'])) ? $actVM->Errors[$res . 'mfs_dose'] : '' ?> 
                 <td>
                   <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="<?= $res ?>mfs_against">
-                  <?= (isset($actVM->Errors[$res + 'mfs_against'])) ? $actVM->Errors[$res + 'mfs_against'] : '' ?> 
+                  <?= (isset($actVM->Errors[$res . 'mfs_against'])) ? $actVM->Errors[$res . 'mfs_against'] : '' ?> 
                 </td>
                 <td>
                   <input type="button" name="delete" value="Smazat" class="swap_button" />
