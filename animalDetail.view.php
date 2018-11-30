@@ -23,8 +23,9 @@
         <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
         onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalEdit.view.php')">
       </div>
-      <h1><?= $actVM->AnimalName ?></h1>
+      <h1>Detail zvířete</h1>
       <div class="anim_detail">
+        <h3>Jméno zvířete: <?= $actVM->AnimalName ?></h3>
         <p>Jméno majitele: <?= $actVM->OwnerName ?></p>
         <p>Druh: <?= $actVM->Species ?></p>
         <p>Pohlaví: <?= $actVM->Sex ?></p>

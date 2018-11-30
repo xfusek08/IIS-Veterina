@@ -19,7 +19,7 @@
     <?php include 'menu.php';?>
     <div class="content">
       <form action="" method="post">
-        <h1><?= $actVM->Name ?></h1>
+        <h1>Lék:</h1>
         <div class="block">
           <table class="edit_table">
             <tr>

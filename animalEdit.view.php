@@ -19,7 +19,7 @@
     <?php include 'menu.php';?>
     <div class="content">
       <form action="" method="post">
-        <h1><?= $actVM->AnimalName ?></h1>
+        <h1>Zvíře</h1>
         <div class="block">
           <table class="edit_table">
             <tr>
