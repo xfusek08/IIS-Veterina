@@ -147,7 +147,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
         Logging::WriteLog(LogType::Announcement, "RollBack");
         MyDatabase::$PDO->rollBack();
       }
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
       Log::WriteLog(LogType::Error, $e->getMessage());
       Log::WriteLog(LogType::Announcement, "RollBack");
       MyDatabase::$PDO->rollBack();

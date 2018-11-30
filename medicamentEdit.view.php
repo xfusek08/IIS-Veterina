@@ -112,7 +112,7 @@
             <?php $n++; } ?>
           </tbody>
         </table>
-        <input type="button" name="add" class="swap_button bigger_button" value="Přidat k druhu" onclick="addRow( <?= $n ?>)">
+        <input type="button" name="add" class="swap_button bigger_button" value="Přidat k druhu" onclick="addRow()">
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
       </form>

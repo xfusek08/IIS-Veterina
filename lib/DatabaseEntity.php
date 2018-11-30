@@ -127,7 +127,7 @@ abstract class DatabaseEntity {
         $this->Pk = intval($fields[0][0]);
       } else { // for mysql select last inserted id
         $returnedpk;
-        if (!MyDatabase::getOneValue($returnedpk, 'select last_insert_id()')) {
+        if (!MyDatabase::getOneValue($returnedpk, 'select last_insert_id()', $isExternalTransaction)) {
           $this->SaveToDBResult = SaveToDBResult::Error;
           return false;
         }
