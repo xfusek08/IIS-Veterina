@@ -7,6 +7,14 @@
 
   $_GET['edit'] = '';
   $actVM = SessionControl::pageInitRoutine("MedicamentDetailViewModel");
+
+  function medForSpecCounter($i)
+  {
+    if(n != 0)
+      return "$i";
+    else 
+      return "";
+  }
 ?>
 
 <html lang="cz">
@@ -44,7 +52,7 @@
               <th>Typ:</th>
               <td>
                 <select type="text" name="med_type">
-                <?php foreach($actVM->TypeSelect as $key => $value) {?>
+                <?php foreach($actVM->TypeSelect as $key => $value) { ?>
                 <option value="<?= $key ?>"
                         <?php if ($actVM->Type == $value) echo "selected" ?> >
                   <?= $value ?>
@@ -77,29 +85,32 @@
           <th>Efektivní proti</th>
         </thead>
           <tbody>
-            <?php foreach ($actVM->MedForSpec as $MedForSpec) { ?>
+            <?php $n = 0; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
               <tr id="MedForSpecEditFormTemp" class="template">
                 <td>
-                  <select type="text" name="_mfs_spepk">
+                  <select type="text" name="<?= $res ?>mfs_spepk">
                     <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
                     <option value="<?=  $key ?>"<?php if ($MedForSpec->SpeciesPK == $value) echo "selected" ?> > <?= $value ?>
                     </option> <?php } ?>
                   </select>
-                  <?= (isset($actVM->Errors['_mfs_spepk'])) ? $actVM->Errors['_mfs_spepk'] : '' ?>
+                  <?= (isset($actVM->Errors[$res + 'mfs_spepk'])) ? $actVM->Errors[$res + 'mfs_spepk'] : '' ?>
                 </td>
                 <td>
-                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="_mfs_dose">
-                  <?= (isset($actVM->Errors['_mfs_dose'])) ? $actVM->Errors['_mfs_dose'] : '' ?>
+                  <input type="text" value="<?= $MedForSpec->RecommendedDose ?>" name="<?= $res ?>mfs_dose">
+                  <?= (isset($actVM->Errors[$res + 'mfs_dose'])) ? $actVM->Errors[$res + 'mfs_dose'] : '' ?> 
                 <td>
-                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="_mfs_against">
-                  <?= (isset($actVM->Errors['_mfs_against'])) ? $actVM->Errors['_mfs_against'] : '' ?>
+                  <input type="text" value="<?= $MedForSpec->EffectiveAgainst ?>" name="<?= $res ?>mfs_against">
+                  <?= (isset($actVM->Errors[$res + 'mfs_against'])) ? $actVM->Errors[$res + 'mfs_against'] : '' ?> 
                 </td>
-                <td><input type="button" name="delete" value="Smazat" class="swap_button" /></td>
+                <td>
+                  <input type="button" name="delete" value="Smazat" class="swap_button" />
+                  <input type="hidden" name="mfsPk" value="<?= $MedForSpec->Pk ?>">
+                </td>
               </tr>
-            <?php } ?>
+            <?php $n++; } ?>
           </tbody>
-          <input type="button" name="add" class="swap_button" value="Přidat k druhu" onclick="addRow()">
         </table>
+        <input type="button" name="add" class="swap_button add_button" value="Přidat k druhu" onclick="addRow()">
         <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
       </form>
