@@ -48,6 +48,9 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
     $this->TypeSelect = $this->LoadEditSelectData("select medt_pk, medt_text from Medicament_type order by medt_text");
     $this->SpeciesSelect = $this->LoadEditSelectData('select spe_pk, spe_name from Animal_species order by spe_name');
+
+    if (count($this->MedForSpec) == 0)
+      $this->MedForSpec[] = new MedicamentForSpeciesModel();
   }
 
   public function onSuccessPost() {
@@ -114,7 +117,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
         $this->onSuccessPost();
       else {
-        // error
+        $this->Message = STR_DATABASE_ERROR;
       }
     }
   }
@@ -141,12 +144,12 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       if ($success) {
         MyDatabase::$PDO->commit();
       } else {
-        Logging::WriteLog(LogType::Anouncement, "RollBack");
+        Logging::WriteLog(LogType::Announcement, "RollBack");
         MyDatabase::$PDO->rollBack();
       }
     } catch (PDOException $e) {
       Log::WriteLog(LogType::Error, $e->getMessage());
-      Log::WriteLog(LogType::Anouncement, "RollBack");
+      Log::WriteLog(LogType::Announcement, "RollBack");
       MyDatabase::$PDO->rollBack();
       $success = false;
     }
