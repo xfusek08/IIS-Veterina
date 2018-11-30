@@ -41,23 +41,28 @@ function swapTables(toSwap, amount)
   }
 }
 
+var num = 0;
 function addRow(res)
+{
+  console.log(num);
+  if(res > num)
+    num = res;
+  var template = $('#MedForSpecEditFormTemp');
+  var newRow = template.clone();
+  newRow.find("input[type=hidden], input[type=text], select").each(function()
   {
-    var template = $('#MedForSpecEditFormTemp');
-    var newRow = template.clone();
-    newRow.find("input[type=hiden], input[type=text], select").each(function(i,box)
+    if($(this).attr('name') == "mfs_spepk")
+      $(this).attr('name', num + "_mfs_spepk")
+    else if($(this).attr('name') == "mfs_recommended_dosis")
+      $(this).attr('name', num + "_mfs_recommended_dosis")
+    else if($(this).attr('name') == "mfs_effective_against")
+      $(this).attr('name', num + "_mfs_effective_against")
+    else if($(this).attr('name') == "mfs_pk")
     {
-      if(box.attr('name') == "mfs_spepk")
-        box.attr('name', res + "mfs_spepk")
-      else if(box.attr('name') == "mfs_recommended_dosis")
-        box.attr('name', res + "mfs_recommended_dosis")
-      else if(box.attr('name') == "mfs_effective_against")
-        box.attr('name', res + "mfs_effective_against")
-      else if(box.attr('name') == "mfs_pk")
-      {
-        box.attr('name', res + "mfs_pk")
-        box.attr('value', 0)
-      }
-    },    
-    newRow.appendTo("#appendTo");
-  }
+      $(this).attr('name', num + "_mfs_pk")
+      $(this).attr('value', "0")
+    }
+  })    
+  newRow.appendTo("#appendTo");
+  num++;
+}

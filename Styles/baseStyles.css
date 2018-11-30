@@ -1,7 +1,7 @@
 body {
   padding: 0; 
   margin: 0;
-  background-color: rgb(77, 226, 226);
+  background-color: whitesmoke;
 }
 
 h1 {
@@ -18,6 +18,10 @@ p {
 .menu {
   vertical-align: middle;
   margin-left: 0.5em;
+}
+
+.preContent {
+  background-color: rgb(77, 226, 226);
 }
 
 .content {

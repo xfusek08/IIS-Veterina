@@ -17,6 +17,7 @@
   </head>
   <body>
     <?php BuildMenu(SessionControl::isAdmin()) ?>
+    <div class="preContent"></div>
     <div class="content">
       <h1>Detail majitele</h1>
       <div class="page_buttons">
