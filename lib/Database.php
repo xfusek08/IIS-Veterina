@@ -89,10 +89,10 @@ class MyDatabase {
     return true;
   }
 
-  public static function getOneValue(&$Val, $SQL, $params = false) {
+  public static function getOneValue(&$Val, $SQL, $isExternalTransaction = false, $params = false) {
     $fields = null;
 
-    if (!self::runQuery($fields, $SQL, false, $params)) {
+    if (!self::runQuery($fields, $SQL, $isExternalTransaction, $params)) {
       return false;
     }
 

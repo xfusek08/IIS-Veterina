@@ -41,28 +41,20 @@ function swapTables(toSwap, amount)
   }
 }
 
-var num = 0;
-function addRow(res)
-{
-  console.log(num);
-  if(res > num)
-    num = res;
+function addRow() {
   var template = $('#MedForSpecEditFormTemp');
   var newRow = template.clone();
-  newRow.find("input[type=hidden], input[type=text], select").each(function()
-  {
-    if($(this).attr('name') == "mfs_spepk")
-      $(this).attr('name', num + "_mfs_spepk")
-    else if($(this).attr('name') == "mfs_recommended_dosis")
-      $(this).attr('name', num + "_mfs_recommended_dosis")
-    else if($(this).attr('name') == "mfs_effective_against")
-      $(this).attr('name', num + "_mfs_effective_against")
-    else if($(this).attr('name') == "mfs_pk")
-    {
-      $(this).attr('name', num + "_mfs_pk")
-      $(this).attr('value', "0")
-    }
-  })    
+  var cntInput = $('input[name="medCount"]');
+  var count = parseInt(cntInput.val());
+  newRow.find("input[type=hidden], input[type=text], select").each(function() {
+    var name = $(this).attr('name');
+    console.log();
+    if ($(this).attr('type') !== 'hidden')
+      $(this).val("");
+    if (name == 'mfs_pk')
+      $(this).val(0);
+    $(this).attr('name', count + '_' +name);
+  });
+  cntInput.val(count + 1);
   newRow.appendTo("#appendTo");
-  num++;
 }
