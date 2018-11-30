@@ -20,6 +20,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   public $MedForSpec = array();
 
   public $TypeSelect = array();
+  public $SpeciesSelect = array();
 
   public function __construct() {
     parent::__construct('MedicamentEntity');
@@ -27,6 +28,22 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
 
   public function initView() {
     $this->loadData();
+  }
+
+  public function initEdit() {
+    $this->loadData();
+
+    $this->TypeSelect = $this->LoadEditSelectData("select medt_pk, medt_text from Medicament_type order by medt_text");
+    $this->SpeciesSelect = $this->LoadEditSelectData('select spe_pk, spe_name from Animal_species order by spe_name');
+  }
+
+  public function loadData() {
+    $this->Pk         = $this->MainDBEntity->PK;
+    $this->Name       = $this->MainDBEntity->getColumnStringValue('med_name');
+    $this->Type       = $this->MainDBEntity->getColumnStringValue('med_type_text');
+    $this->Price      = $this->MainDBEntity->getColumnStringValue('med_price');
+    $this->Producer   = $this->MainDBEntity->getColumnStringValue('med_producer');
+    $this->Substance  = $this->MainDBEntity->getColumnStringValue('med_active_substance');
 
     $mesOnSpeciesBrwoser = new DBEntityBrowser(
       "MedicamentForSpeciesEntity",
@@ -46,21 +63,6 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
       $mesOnSpecModel->EffectiveAgainst  = $actEntity->getColumnStringValue('mfs_effective_against');
       $this->MedForSpec[] = $mesOnSpecModel;
     }
-  }
-
-  public function initEdit() {
-    $this->loadData();
-
-    $this->TypeSelect = $this->LoadEditSelectData("select medt_pk, medt_text from Medicament_type order by medt_text");
-  }
-
-  public function loadData() {
-    $this->Pk         = $this->MainDBEntity->PK;
-    $this->Name       = $this->MainDBEntity->getColumnStringValue('med_name');
-    $this->Type       = $this->MainDBEntity->getColumnStringValue('med_type_text');
-    $this->Price      = $this->MainDBEntity->getColumnStringValue('med_price');
-    $this->Producer   = $this->MainDBEntity->getColumnStringValue('med_producer');
-    $this->Substance  = $this->MainDBEntity->getColumnStringValue('med_active_substance');
   }
 
   public function onSuccessPost() {
