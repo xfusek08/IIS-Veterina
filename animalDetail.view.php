@@ -28,7 +28,7 @@
         <h1>Detail zvířete</h1>
         <div class="anim_detail">
           <h3>Jméno zvířete: <?= $actVM->AnimalName ?></h3>
-          <p>Jméno majitele: <?= $actVM->OwnerName ?></p>
+          <p>Jméno majitele: <a class="click_info" onclick="changePage(<?= $actVM->OwnerPk ?>, 'ownerDetail.view.php')"><?= $actVM->OwnerName ?></a></p>
           <p>Druh: <?= $actVM->Species ?></p>
           <p>Pohlaví: <?= $actVM->Sex ?></p>
           <p>Váha: <?= $actVM->Weight ?> kg</p>
