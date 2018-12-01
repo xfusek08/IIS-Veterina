@@ -42,6 +42,7 @@
               <td><?= $employee->Position ?></td>
             </tr>
           <?php } ?>
+          <tr onclick="changePage(0, 'employeeDetail.view.php')"><th class="table_add table_select" colspan="6">Přidat zaměstnance</th></tr>
           </tbody>
         </table>
       </div>

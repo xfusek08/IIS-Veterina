@@ -2,10 +2,10 @@
   ini_set("default_charset", "utf-8");
 
   require_once("lib/SessionControl.php");
-  require_once("viewModels/OptionDetailViewModel.php");
+  require_once("viewModels/employeeDetailViewModel.php");
   require_once('menu.php');
 
-  $actVM = SessionControl::pageInitRoutine("OptionDetailViewModel");
+  $actVM = SessionControl::pageInitRoutine("employeeDetailViewModel.php");
 ?>
 
 <html lang="cz">
@@ -19,11 +19,11 @@
       <div class="content">
         <div class="page_buttons">
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
-          onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalEdit.view.php')">
+          onclick="changePage(<?= $actVM->Pk ?>, 'optionsEdit.view.php')">
         </div>
-        <h2>Zaměstnanec: <?= "jméno zaměstnance" ?></h2>
-        <p>Jméno: <?= "přihlašovací jméno" ?></p>
-        <p>Heslo: <?= "*****" ?></p>
+        <h1>Vlastní nastavení</h1>
+        <h2>Zaměstnanec: <?= $actVM->Name ?></h2>
+        <p>Přihlašovací jméno: <?= $actVM->AccName ?></p>
       </div>
     </div>
   </body>

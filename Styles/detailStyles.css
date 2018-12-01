@@ -32,6 +32,10 @@ h1 {
   height: 3em;
 }
 
+.swap_buttons .to_swap {
+  width: 7.5em;
+}
+
 .to_swap:first-of-type {
   background-color: rgb(77, 226, 226);
 }
