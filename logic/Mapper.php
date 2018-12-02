@@ -69,9 +69,9 @@ class Mapper {
 
   public static function entityToMedicamentModel($entity) {
     $newModel = new MedicamentForSpeciesModel();
-    $newModel->Pk                = $entity->getColumnByName('mfs_pk')->getValue();;
-    $newModel->MedPk             = $entity->getColumnByName('mfs_medpk')->getValue();;
-    $newModel->SpeciesPK         = $entity->getColumnByName('mfs_spepk')->getValue();;
+    $newModel->Pk                = $entity->getColumnByName('mfs_pk')->getValue();
+    $newModel->MedPk             = $entity->getColumnByName('mfs_medpk')->getValue();
+    $newModel->SpeciesPK         = $entity->getColumnByName('mfs_spepk')->getValue();
     $newModel->Species           = $entity->getColumnStringValue('spe_name');
     $newModel->RecommendedDose   = $entity->getColumnStringValue('mfs_recommended_dosis');
     $newModel->EffectiveAgainst  = $entity->getColumnStringValue('mfs_effective_against');

@@ -1,3 +1,19 @@
+
+var template;
+$(document).ready(function() {
+  template = $('.medForSpecEditForm.template').clone();
+  template.removeClass('template');
+  template.find("input[type=hidden], input[type=text], select").each(function() {
+    if ($(this).attr('type') !== 'hidden')
+      $(this).val("");
+  });
+
+  $('body').on('click', '.medForSpecEditForm input[name=delete]', function() {
+    deleteRow($(this).closest('.medForSpecEditForm'));
+  });
+
+});
+
 function changePage(spk, url)
 {
   $(location).attr('href', url +"?pk=" + spk);
@@ -42,19 +58,39 @@ function swapTables(toSwap, amount)
 }
 
 function addRow() {
-  var template = $('.medForSpecEditForm.template');
   var newRow = template.clone();
   var cntInput = $('input[name="medCount"]');
   var count = parseInt(cntInput.val());
-  newRow.find("input[type=hidden], input[type=text], select").each(function() {
-    var name = $(this).attr('name');
-    console.log();
-    if ($(this).attr('type') !== 'hidden')
-      $(this).val("");
-    if (name == 'mfs_pk')
-      $(this).val(0);
-    $(this).attr('name', count + '_' +name);
-  });
+  newRow.find("input[name=mfs_pk]").val(0);
   cntInput.val(count + 1);
   newRow.appendTo("#appendTo");
+  recalculatePrefixes();
+}
+
+function deleteRow(row) {
+  if (row.length > 0) {
+    row.remove();
+    var cntInput = $('input[name="medCount"]');
+    var count = parseInt(cntInput.val());
+    cntInput.val(count - 1);
+    recalculatePrefixes();
+  }
+}
+
+function recalculatePrefixes() {
+  var rows = $("#appendTo tr")
+  var cnt = 0;
+  rows.each(function() {
+    var inputList = template.find('input[type=hidden], input[type=text], select');
+    var inputIndex = 0;
+    $(this).find("input[type=hidden], input[type=text], select").each(function() {
+      var name = '';
+      if (cnt > 0)
+        name = cnt + '_';
+      name += inputList.eq(inputIndex).attr('name');
+      $(this).attr('name', name);
+      inputIndex++;
+    });
+    cnt++;
+  });
 }

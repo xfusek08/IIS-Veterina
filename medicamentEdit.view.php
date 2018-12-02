@@ -85,7 +85,7 @@
           </thead>
             <tbody id="appendTo">
               <?php $n = 0; $res = ""; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
-                <tr class="medForSpecEditForm template">
+                <tr class="medForSpecEditForm<?= ($n == 0) ? ' template' : '' ?>">
                   <td>
                     <select type="text" name="<?= $res ?>mfs_spepk">
                       <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
@@ -102,7 +102,7 @@
                     <?= (isset($actVM->Errors[$res . 'mfs_effective_against'])) ? $actVM->Errors[$res . 'mfs_effective_against'] : '' ?>
                   </td>
                   <td>
-                    <input type="button" name="delete" value="Smazat" class="swap_button" />
+                    <input type="button" name="delete" value="Smazat" class="swap_button"/>
                     <input type="hidden" name="<?= $res ?>mfs_pk" value="<?= $MedForSpec->Pk ?>">
                     <input type="hidden" name="<?= $res ?>mfs_medpk" value="<?= $actVM->Pk ?>">
                   </td>

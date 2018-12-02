@@ -9,6 +9,8 @@ require_once("DBEntities/MedicamentForSpeciesEntity.php");
 
 require_once("models/MedicamentForSpeciesModel.php");
 
+require_once("logic/Mapper.php");
+
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
 class MedicamentDetailViewModel extends EditableDetailViewModelBase {
@@ -29,7 +31,8 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     parent::__construct('MedicamentEntity');
     $this->_medsOnSpeciesCollection = new EntityListOnEntityCollection(
       "MedicamentForSpeciesEntity",
-      Mapper::entityToMedicamentModel);
+      function($entity) { return Mapper::entityToMedicamentModel($entity); }
+    );
   }
 
   public function loadGetData() {
@@ -42,8 +45,10 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $medsOnSpeciesBrowser->addParams($this->MainDBEntity->Pk);
     $medsOnSpeciesBrowser->openBrowser();
     $this->_medsOnSpeciesCollection->clearAll();
-    while (($actEntity = $medsOnSpeciesBrowser->getNext()) != null)
+    while (($actEntity = $medsOnSpeciesBrowser->getNext()) != null) {
+      $actEntity->Pk = $actEntity->getColumnByName('mfs_pk')->getValue();
       $this->_medsOnSpeciesCollection->addEntity($actEntity);
+    }
   }
 
   public function initView() {
@@ -84,45 +89,29 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $isAllSuccess = $isAllSuccess && $this->_medsOnSpeciesCollection->loadFromPostData(getIntFromPost('medCount'));
     $this->Errors = array_merge($this->Errors, $this->_medsOnSpeciesCollection->getErrorLoadList());
 
-    formated_var_dump($this->_medsOnSpeciesCollection->getMedicamentEntities());
-
     if (!$isAllSuccess) {
       $this->Message = STR_MSG_FORM_INVALID_DATA;
       $this->initEdit();
     } else {
-      // if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
-      //   $this->onSuccessPost();
-      // else {
-      //   $this->Message = STR_DATABASE_ERROR;
-      // }
+      if ($this->tryToSaveToDB())
+        $this->onSuccessPost();
+      else {
+        $this->Message = STR_DATABASE_ERROR;
+      }
     }
   }
 
-  public function tryToSaveToDB($toSaveEntities, $toDeletePKs) {
+  public function tryToSaveToDB() {
+    $success = true;
     try {
       MyDatabase::$PDO->beginTransaction();
-      $success = true;
-
-      foreach ($toDeletePKs as $pk) {
-        $ent = new MedicamentForSpeciesEntity($pk);
-        if (!$ent->deleteFromDB(true))
-          throw new Exception("Entity with pk: $ent->Pk failed to be deleted from DB.");
-      }
-
-      foreach ($toSaveEntities as $ent) {
-        if (!$ent->saveToDB(true))
-          throw new Exception("Entity with pk: $ent->Pk failed to be saved to DB.");
-      }
 
       if (!$this->MainDBEntity->saveToDB(true))
         throw new Exception('Failed to save main medicament entity.');
 
-      if ($success) {
-        MyDatabase::$PDO->commit();
-      } else {
-        Logging::WriteLog(LogType::Announcement, "RollBack");
-        MyDatabase::$PDO->rollBack();
-      }
+      $this->_medsOnSpeciesCollection->saveToDB(true);
+
+      MyDatabase::$PDO->commit();
     } catch (Exception $e) {
       Log::WriteLog(LogType::Error, $e->getMessage());
       Log::WriteLog(LogType::Announcement, "RollBack");
