@@ -23,7 +23,8 @@
     <div class="preContent">
       <div class="content">
         <div class="page_buttons">
-          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
+          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" 
+          onclick="ConfirmDel('delete')">
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
           onclick="changePage(<?= $actVM->Pk ?>, 'medicamentEdit.view.php')">
         </div>

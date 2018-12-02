@@ -6,6 +6,13 @@
   require_once('menu.php');
 
   $actVM = SessionControl::pageInitRoutine("ExaminationDetailViewModel");
+  function treatmentCounter($i)
+  {
+    if($i != 0)
+      return "$i" . "_";
+    else
+      return "";
+  }
 ?>
 
 <html lang="cz">
@@ -19,12 +26,13 @@
     <?php BuildMenu(SessionControl::isAdmin()) ?>
     <div class="preContent">
       <div class="content">
-        <h1>Detail Vyšetření</h1>
         <div class="page_buttons">
-          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
+          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" 
+          onclick="ConfirmDel('delete')">
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
           onclick="changePage(<?= $actVM->Examination->Pk ?>, 'examinationEdit.view.php')">
         </div>
+        <h1>Detail Vyšetření</h1>
         <div class="tre_detail">
           <p>Od: <?= $actVM->Examination->BeginTime ?></p>
           <p>Do: <?= $actVM->Examination->EndTime ?> (<?= $actVM->Examination->Duration ?> min)</p>
@@ -64,10 +72,76 @@
           </form> -->
         </div>
         <div id="chosen_detail_3" class="hidden">
-          <!-- <?php $actVM->LoadTreatmentsHTML(); ?> -->
+          <!--
+          <form action="" method="post">
+          <h2>Léčby</h2>
+          <table>
+          <thead>
+            <th>Označení</th>
+            <th>Stav</th>
+            <th>Cena</th>
+            <th>Prognóza</th>
+            <th></th>
+          </thead>
+            <tbody id="appendTo">
+              <?php $n = 0; $res = ""; foreach ($actVM->Treatments as $Treatment) { $res = treatmentCounter($n); ?>
+                <tr id="TreatmentAddTo<?= $res ?>" class="template">
+                  <td>
+                    <input type="text" value="<?= $Treatment->Caption ?>" name="tre_caption">
+                  <td>
+                    <input type="text" value="<?= $Treatment->State ?>" name="tre_state">
+                  </td>
+                  <td>
+                    <input type="text" value="<?= $Treatment->Price ?>" name="tre_price">
+                  </td>
+                  <td>
+                    <textarea type="text" value="<?= $Treatment->Prognosis ?>" name="tre_prognosis">
+                  </td>
+                  <td>
+                    <input type="button" name="signTo" value="Přiřadit" class="swap_button" />
+                    <input type="hidden" name="<?= $res ?>tre_pk" value="<?= $Treatment->Pk ?>">
+                  </td>
+                </tr>
+              <?php $n++; } ?>
+            </tbody>
+          </table>
+        </form> -->
         </div>
         <div id="chosen_detail_4" class="hidden">
-          <!-- <?php $actVM->LoadTreatmentsHTML(); ?> -->
+          <!-- 
+          <form action="" method="post">
+          <h2>Léčby</h2>
+          <table>
+          <thead>
+            <th>Označení</th>
+            <th>Stav</th>
+            <th>Cena</th>
+            <th>Prognóza</th>
+            <th></th>
+          </thead>
+            <tbody id="appendTo">
+            <?php $n = 0; $res = ""; foreach ($actVM->Treatments as $Treatment) { $res = treatmentCounter($n); ?>
+                <tr id="TreatmentEnd<?= $res ?>" class="template">
+                  <td>
+                    <input type="text" value="<?= $Treatment->Caption ?>" name="tre_caption">
+                  <td>
+                    <input type="text" value="<?= $Treatment->State ?>" name="tre_state">
+                  </td>
+                  <td>
+                    <input type="text" value="<?= $Treatment->Price ?>" name="tre_price">
+                  </td>
+                  <td>
+                    <textarea type="text" value="<?= $Treatment->Prognosis ?>" name="tre_prognosis">
+                  </td>
+                  <td>
+                    <input type="button" name="signTo" value="Přiřadit" class="swap_button" />
+                    <input type="hidden" name="<?= $res ?>tre_pk" value="<?= $Treatment->Pk ?>">
+                  </td>
+                </tr>
+              <?php $n++; } ?>
+            </tbody>
+          </table>
+           -->
         </div>
       </div>
     </div>

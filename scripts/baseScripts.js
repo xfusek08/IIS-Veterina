@@ -94,3 +94,14 @@ function recalculatePrefixes() {
     cnt++;
   });
 }
+
+function ConfirmDel(Url) 
+{
+  var res = confirm("Jste si jistí?");
+  if (res == true) 
+  {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", Url, true); // true for asynchronous 
+    xmlHttp.send(null);
+  }
+}
