@@ -12,6 +12,8 @@
   <head>
     <?php require_once("baseHeader.php");?>
     <link rel="stylesheet" type="text/css" href="Styles/browStyles.css">
+    <script src="scripts/jQuery.js"></script>
+    <script src="scripts/baseScripts.js"></script>
   </head>
   <body>
     <?php BuildMenu(SessionControl::isAdmin()) ?>
