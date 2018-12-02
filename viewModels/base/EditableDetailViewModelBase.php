@@ -22,6 +22,10 @@ abstract class EditableDetailViewModelBase extends ViewModelBase {
 
   public function ProcessGet() {
     $this->loadGetData();
+    if (isset($_GET['delete']))
+      if ($this->DeleteFromDB())
+        return;
+
     if ($this->IsEdit)
       $this->initEdit();
     else
@@ -59,9 +63,20 @@ abstract class EditableDetailViewModelBase extends ViewModelBase {
     $this->MainDBEntity = new $this->_mainDbEntTypeString($pk);
   }
 
+  public function DeleteFromDB() {
+    if (!$this->MainDBEntity->deleteFromDB()) {
+      $this->Message = STR_MSG_DELETE_FAILED;
+      return false;
+    } else {
+      $this->onSuccessDelete();
+      return true;
+    }
+  }
+
   public abstract function initView();
   public abstract function initEdit();
   public abstract function onSuccessPost();
+  public abstract function onSuccessDelete();
 
   protected function LoadEditSelectData($SQL) {
     $res = array();

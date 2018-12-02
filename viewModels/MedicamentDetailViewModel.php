@@ -70,6 +70,10 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     SessionControl::navigate("medicamentDetail.view?pk=" . $this->MainDBEntity->Pk);
   }
 
+  public function onSuccessDelete() {
+    SessionControl::navigate("medicamentBrowser.view.php");
+  }
+
   public function loadData() {
     $this->Pk         = $this->MainDBEntity->Pk;
     $this->Name       = $this->MainDBEntity->getColumnStringValue('med_name');

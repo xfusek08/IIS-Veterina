@@ -68,6 +68,10 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     SessionControl::navigate("animalDetail.view.php?pk=" . $this->MainDBEntity->Pk);
   }
 
+  public function onSuccessDelete() {
+    SessionControl::navigate("animalBrowser.view.php");
+  }
+
   public function initEdit() {
     if ($this->AnimalPk == 0 && $this->OwnerPk < 1)
       die("Can't create new animal without knowing owner pk.");

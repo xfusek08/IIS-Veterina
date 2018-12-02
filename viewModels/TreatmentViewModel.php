@@ -28,6 +28,8 @@ class TreatmentViewModel extends EditableDetailViewModelBase {
 
   public function onSuccessPost() { }
 
+  public function onSuccessDelete() { }
+
   public function loadData() {
     $this->Caption   = $this->MainDBEntity->getColumnStringValue('tre_caption');
     $this->State     = $this->MainDBEntity->getColumnStringValue('tre_state_text');

@@ -41,5 +41,7 @@ class EmployeeDetailViewModel extends EditableDetailViewModelBase {
     SessionControl::navigate("employeeDetail.view.php?pk=" . $this->MainDBEntity->Pk);
   }
 
-
+  public function onSuccessDelete() {
+    SessionControl::navigate("employeeBrowser.view.php");
+  }
 }
