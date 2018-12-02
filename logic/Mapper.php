@@ -6,6 +6,7 @@ require_once("DBEntities/AnimalBrowseEntity.php");
 require_once("models/AnimalBrowseModel.php");
 require_once("models/ExaminationModel.php");
 require_once("models/MedicamentForSpeciesModel.php");
+require_once("models/EmployeeModel.php");
 
 class Mapper {
 
@@ -78,6 +79,24 @@ class Mapper {
     $newModel->Species           = $entity->getColumnStringValue('spe_name');
     $newModel->RecommendedDose   = $entity->getColumnStringValue('mfs_recommended_dosis');
     $newModel->EffectiveAgainst  = $entity->getColumnStringValue('mfs_effective_against');
+    return $newModel;
+  }
+
+  public static function entityToEmployeeModel($entity) {
+    $newModel = new EmployeeModel();
+    $newModel->Pk         = $entity->getColumnByName('emp_pk')->getValue();
+    $newModel->Name       = $entity->getColumnStringValue('emp_name');
+    $newModel->Surname    = $entity->getColumnStringValue('emp_surname');
+    $newModel->State      = $entity->getColumnStringValue('emp_state_text');
+    $newModel->Address    = $entity->getColumnStringValue('emp_address');
+    $newModel->Telephone  = $entity->getColumnStringValue('emp_mobile_number');
+    $newModel->Sex        = $entity->getColumnStringValue('emp_sex_text');
+    $newModel->Position   = $entity->getColumnStringValue('emp_position_text');
+    $newModel->Wage       = $entity->getColumnStringValue('emp_wage');
+    $newModel->Birthday   = $entity->getColumnStringValue('emp_birthday');
+    $newModel->IsAdmin    = $entity->getColumnStringValue('emp_isadmin');
+    $newModel->UserName   = $entity->getColumnStringValue('emp_username');
+    $newModel->Password   = $entity->getColumnStringValue('emp_password');
     return $newModel;
   }
 }
