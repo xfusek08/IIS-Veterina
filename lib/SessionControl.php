@@ -16,6 +16,8 @@ class SessionControl {
 
   public static function destroySession() {
     session_destroy();
+    unset($_SESSION['userPK']);
+    session_regenerate_id();
     MyDatabase::disconnect();
   }
 
@@ -46,7 +48,7 @@ class SessionControl {
   public static function login($userName, $password) {
     $loginRes = null;
     Log::WriteLog(LogType::Announcement, "Login attempt for user: \"$userName\"");
-    if (!MyDatabase::getOneValue($loginRes, LOGIN_SQL, array($userName, $password))) {
+    if (!MyDatabase::getOneValue($loginRes, LOGIN_SQL, false, array($userName, $password))) {
       self::navigate(LOGIN_PAGE . "?message=" . urlencode(STR_DATABASE_ERROR));
     }
     $loginRes = intval($loginRes);
