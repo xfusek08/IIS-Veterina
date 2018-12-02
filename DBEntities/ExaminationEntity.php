@@ -14,7 +14,7 @@ class ExaminationEntity extends DatabaseEntity {
     $this->addColumn(DataType::Integer,   'exa_employee'        , true);
     $this->addColumn(DataType::Integer,   'exa_animal'          , true);
     $this->addColumn(DataType::String,    'exa_type'            , true);
-    $this->addColumn(DataType::Timestamp, 'exa_begin_date_time' , true);
+    $this->addColumn(DataType::DateTime,  'exa_begin_date_time' , true);
     $this->addColumn(DataType::Integer,   'exa_duration_minutes', true);
     $this->addColumn(DataType::Float,     'exa_price'           , true);
     $this->addColumn(DataType::Bool,      'exa_occurred'        , true);

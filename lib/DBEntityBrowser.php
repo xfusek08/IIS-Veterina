@@ -105,7 +105,7 @@ class DBEntityBrowser {
       $dataEntity = new $this->_entityTypeString();
       foreach ($dataEntity->Columns as $col) {
         if (!$col->setValueFromString(strval($DBRow[$col->ColName]))) {
-          Log::WriteLog(LogType::Error, "DBEntityBrowser->loadData - error on loading values at colum: $col->ColName.");
+          Log::WriteLog(LogType::Error, "DBEntityBrowser->loadData - error on parsing value: \"" . $DBRow[$col->ColName] . "\" for column: \"$col->ColName\". With message: $col->InvalidDataMsg");
           return -1;
         }
       }

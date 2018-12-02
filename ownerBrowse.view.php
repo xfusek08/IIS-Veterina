@@ -41,7 +41,7 @@
               <td><?= $owner->Address ?></td>
               <td><?= $owner->Telephone ?></td>
               <td><?= $owner->Sex ?></td>
-              <td><?= $owner->IsActive ?></td>
+              <td><?= ($owner->IsActive == 'A') ? 'Aktivní': 'Neaktivní' ?></td>
             </tr>
           <?php } ?>
           <tr onclick="changePage(0, 'ownerEdit.view.php')"><th class="table_add table_select" colspan="6">Přidat majitele</th></tr>

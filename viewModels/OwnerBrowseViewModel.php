@@ -39,7 +39,7 @@ class OwnerBrowseViewModel extends ViewModelBase {
       $newModel->Surname    = $ent->getColumnStringValue('own_surname');
       $newModel->Address    = $ent->getColumnStringValue('own_address');
       $newModel->Telephone  = $ent->getColumnStringValue('own_mobile_number');
-      $newModel->Sex        = $ent->getColumnStringValue('own_sex');
+      $newModel->Sex        = $ent->getColumnStringValue('own_sex_text');
       $newModel->IsActive   = $ent->getColumnStringValue('own_isactive');
       if ($this->SearchString == '' || strpos(strtolower($newModel->Name . $newModel->Surname . $newModel->Address . $newModel->Telephone), strtolower($this->SearchString)) !== false)
         $this->Owners[] = $newModel;

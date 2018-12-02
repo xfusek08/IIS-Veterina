@@ -24,8 +24,7 @@ function IsTimestamp($var) {
 }
 
 function validateDate($date, $format = DATE_FORMAT) {
-    $d = DateTime::createFromFormat($format, $date);
-    return $d && $d->format($format) == $date;
+    return validateDateTime($date, $format);
 }
 
 function validateDateTime($date, $format = DATE_TIME_FORMAT) {

@@ -4,6 +4,7 @@ require_once("lib/SessionControl.php");
 require_once("lib/DBEntityBrowser.php");
 
 require_once("DBEntities/AnimalEntity.php");
+require_once("DBEntities/OwnerEntity.php");
 require_once("DBEntities/TreatmentEntity.php");
 require_once("DBEntities/ExaminationEntity.php");
 
@@ -39,9 +40,12 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
 
   public function loadGetData() {
     parent::loadGetData();
-    if (isset($_GET['ownerpk']))
-      $this->OwnerPk = intval($_GET['ownerpk']);
     $this->AnimalPk = $this->MainDBEntity->Pk;
+    if (isset($_GET['ownerpk'])) {
+      $this->OwnerPk = intval($_GET['ownerpk']);
+      if ($this->AnimalPk == 0)
+        $this->MainDBEntity->getColumnByName('ani_owner')->setValue($this->OwnerPk);
+    }
   }
 
   public function initView() {
@@ -71,10 +75,17 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
     $this->SexSelect      = $this->LoadEditSelectData("select asex_shortcut, asex_description from Animal_sex order by asex_description");
     $this->SpeciesSelect  = $this->LoadEditSelectData("select spe_pk, spe_name from Animal_species order by spe_name");
     $this->StateSelect    = $this->LoadEditSelectData("select ast_shortcut , ast_text from Animal_state order by ast_text");
+
     $this->loadData();
+
+    $ownEntity = new OwnerEntity($this->OwnerPk);
+    $this->OwnerName =
+      $ownEntity->getColumnStringValue('own_surname') . ' ' .
+      $ownEntity->getColumnStringValue('own_name');
   }
 
   public function loadData() {
+    $this->OwnerPk    = $this->MainDBEntity->getColumnByName('ani_owner')->getValue();
     $this->AnimalName = $this->MainDBEntity->getColumnStringValue('ani_name');
     $this->OwnerName  = $this->MainDBEntity->getColumnStringValue('owner_name');
     $this->Species    = $this->MainDBEntity->getColumnStringValue('ani_species_text');
@@ -111,9 +122,7 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
 
   private function calculateAgeOfAnimal() {
     $birthday = $this->MainDBEntity->getColumnByName('ani_birthday')->getValue();
-    $date = new DateTime();
-    $date->setTimestamp($birthday);
     $now = new DateTime();
-    return $now->diff($date)->y;
+    return $now->diff($birthday)->y;
   }
 }

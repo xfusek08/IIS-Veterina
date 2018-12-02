@@ -49,7 +49,7 @@
               <tr>
                 <th>Rasa:</th>
                 <td>
-                  <input type="text" value="<?= $actVM->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_race'] : '' ?>
+                  <input type="text" value="<?= $actVM->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_race'])) ? $actVM->Errors['ani_race'] : '' ?>
                 </td>
               </tr>
               <tr>

@@ -7,6 +7,9 @@
 
   unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
+  if ($actVM->AnimalPk == 0)
+    SessionControl::navigate('animalBrowse.view.php');
+
 ?>
 
 <html lang="cz">

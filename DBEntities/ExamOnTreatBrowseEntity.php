@@ -18,7 +18,7 @@ class ExamOnTreatBrowseEntity extends DatabaseEntity {
     $this->addColumn(DataType::String,    'toe_ongoing_diagnosis');
     $this->addColumn(DataType::Integer,   'exa_pk');
     $this->addColumn(DataType::String,    'exa_text');
-    $this->addColumn(DataType::Timestamp, 'exa_begin_date_time');
+    $this->addColumn(DataType::DateTime,  'exa_begin_date_time');
     $this->addColumn(DataType::Float,     'exa_price');
     $this->addColumn(DataType::Bool,      'exa_occurred');
   }

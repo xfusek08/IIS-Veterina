@@ -18,7 +18,7 @@ class Mapper {
 
     $res = array();
     while (($actEnt = $browser->getNext()) !== null) {
-      $actModel = self::entityToAnimalModel($actEnt);
+      $actModel = self::entityToAnimalBrowseModel($actEnt);
       if (
         $searchString == '' ||
         strpos(strtolower(
@@ -32,7 +32,7 @@ class Mapper {
     return $res;
   }
 
-  public static function entityToAnimalModel($entity) {
+  public static function entityToAnimalBrowseModel($entity) {
     $newModel = new AnimalBrowseModel();
     $newModel->Pk                 = $entity->getColumnStringValue('ani_pk');
     $newModel->AnimalName         = $entity->getColumnStringValue('ani_name');
@@ -46,10 +46,10 @@ class Mapper {
   }
 
   public static function entityToExaminationModel($entity) {
-    $dateOcurred = new DateTime();
-    $dateOcurred->setTimestamp($entity->getColumnByName('exa_begin_date_time')->getValue());
-
     $newModel = new ExaminationModel();
+
+    $dateOcurred = $entity->getColumnByName('exa_begin_date_time')->getValue();
+
     $newModel->Pk            = $entity->getColumnByName('exa_pk')->getValue();
     $newModel->AnimalPK      = $entity->getColumnByName('exa_animal')->getValue();
     $newModel->EmployeePK    = $entity->getColumnByName('exa_employee')->getValue();
@@ -57,12 +57,15 @@ class Mapper {
     $newModel->EmployeeName  = $entity->getColumnStringValue('employee_name');
     $newModel->Type          = $entity->getColumnStringValue('exa_type_text');
     $newModel->Duration      = $entity->getColumnStringValue('exa_duration_minutes');
-    $newModel->Date          = $dateOcurred->format(DATE_FORMAT);
-    $newModel->BeginTime     = $dateOcurred->format("H:i");
-    $newModel->EndTime       = $dateOcurred->modify("+$newModel->Duration minutes")->format("H:i");
     $newModel->Price         = $entity->getColumnStringValue('exa_price');
     $newModel->Report        = $entity->getColumnStringValue('exa_final_report');
     $newModel->Occurred      = $entity->getColumnStringValue('exa_occurred');
+
+    if ($dateOcurred != null) {
+      $newModel->Date        = $dateOcurred->format(DATE_FORMAT);
+      $newModel->BeginTime   = $dateOcurred->format("H:i");
+      $newModel->EndTime     = $dateOcurred->modify("+$newModel->Duration minutes")->format("H:i");
+    }
 
     return $newModel;
   }

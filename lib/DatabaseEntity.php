@@ -10,7 +10,7 @@ class DataType {
   const Float = 3;
   const Date = 4;
   const DateTrnc = 5;
-  const Timestamp = 6;
+  const DateTime = 6;
   const Bool = 7;
 }
 
@@ -278,7 +278,16 @@ class DBEntColumn {
   }
 
   public function getSelectSQL() {
-    return $this->ColName;
+    switch ($this->DataType) {
+      case DataType::Date:
+        return "DATE_FORMAT($this->ColName, \"%d.%m.%Y\") as $this->ColName";
+      case DataType::DateTrnc:
+        return "DATE_FORMAT($this->ColName, \"%d.%m.\") as $this->ColName";
+      case DataType::DateTime:
+        return "DATE_FORMAT($this->ColName, \"%d.%m.%Y %H:%i\") as $this->ColName";
+      default:
+        return $this->ColName;
+    }
   }
 
   public function setValue($valueVar) {
@@ -312,8 +321,8 @@ class DBEntColumn {
         break;
       case DataType::Date:
       case DataType::DateTrnc:
-      case DataType::Timestamp:
-        $this->IsValid = IsTimestamp($this->_valueVar);
+      case DataType::DateTime:
+        $this->IsValid = is_a($this->_valueVar, 'DateTime');
         break;
       case DataType::Bool:
         $this->IsValid = $this->_valueVar === true || $this->_valueVar === false;
@@ -368,14 +377,28 @@ class DBEntColumn {
         }
         break;
       case DataType::Date:
-      case DataType::DateTrnc:
-      case DataType::Timestamp:
-        if (strtotime($valueString) == false) {
+        if (validateDateTime($valueString, DATE_FORMAT))
+          $this->setValue(DateTime::createFromFormat(DATE_FORMAT, $valueString));
+        else {
           $this->IsValid = false;
-          $this->InvalidDataMsg = 'Položka není platný časový údaj.';
+          $this->InvalidDataMsg = 'Položka musí být platné datum ve formátu: "d.m.Y" .';
         }
-        else
-          $this->setValue(strtotime($valueString));
+        break;
+      case DataType::DateTrnc:
+        if (validateDateTime($valueString, 'd.m.'))
+          $this->setValue(DateTime::createFromFormat('d.m.', $valueString));
+        else {
+          $this->IsValid = false;
+          $this->InvalidDataMsg = 'Položka musí být platné datum a čas ve formátu: "d.m" .';
+        }
+        break;
+      case DataType::DateTime:
+        if (validateDateTime($valueString, DATE_TIME_FORMAT))
+          $this->setValue(DateTime::createFromFormat(DATE_TIME_FORMAT, $valueString));
+        else {
+          $this->IsValid = false;
+          $this->InvalidDataMsg = 'Položka musí být platné datum ve formátu: "d.m.Y H:i" .';
+        }
         break;
     }
     return $this->IsValid;
@@ -397,11 +420,17 @@ class DBEntColumn {
           return number_format($this->getValue(), 2, '.', '');
         return number_format($this->getValue(), 2, ',', ' ');
       case DataType::Date:
-        return date(DATE_FORMAT, $this->getValue());
+        if (!$isFormated)
+          return $this->getValue()->format("Y-m-d H:i:s");
+        return $this->getValue()->format(DATE_FORMAT);
       case DataType::DateTrnc:
-        return date('d.m.', $this->getValue());
-      case DataType::Timestamp:
-        return date(DATE_TIME_FORMAT, $this->getValue());
+        if (!$isFormated)
+          return $this->getValue()->format("Y-m-d H:i:s");
+        return $this->getValue()->format('d.m.');
+      case DataType::DateTime:
+        if (!$isFormated)
+          return $this->getValue()->format("Y-m-d H:i:s");
+        return $this->getValue()->format(DATE_TIME_FORMAT);
       case DataType::Bool:
         return boolToANStr($this->getValue());
     }

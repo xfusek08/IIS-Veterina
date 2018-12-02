@@ -61,7 +61,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->SpeciesSelect = $this->LoadEditSelectData('select spe_pk, spe_name from Animal_species order by spe_name');
 
     if ($this->_medsOnSpeciesCollection->countEntities() == 0)
-      $this->_medsOnSpeciesCollection->add(new MedicamentForSpeciesEntity());
+      $this->_medsOnSpeciesCollection->addEntityByPK(0);
 
     $this->loadData();
   }
@@ -86,7 +86,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->MainDBEntity->loadFromPostData();
     $isAllSuccess = $this->MainDBEntity->isDataValid();
     $this->Errors = array_merge($this->Errors, $this->MainDBEntity->GetInvalidData());
-    $isAllSuccess = $isAllSuccess && $this->_medsOnSpeciesCollection->loadFromPostData(getIntFromPost('medCount'));
+    $isAllSuccess = $this->_medsOnSpeciesCollection->loadFromPostData(getIntFromPost('medCount')) && $isAllSuccess;
     $this->Errors = array_merge($this->Errors, $this->_medsOnSpeciesCollection->getErrorLoadList());
 
     if (!$isAllSuccess) {

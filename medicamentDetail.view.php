@@ -5,7 +5,10 @@
   require_once("viewModels/MedicamentDetailViewModel.php");
   require_once('menu.php');
 
+  unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("MedicamentDetailViewModel");
+  if ($actVM->Pk == 0)
+    SessionControl::navigate('medicamentBrowse.view.php');
 ?>
 
 <html lang="cz">

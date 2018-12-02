@@ -31,8 +31,7 @@ class TreatmentOnAnimalViewModel extends TreatmentViewModel {
 
     while (($actEoT = $examOnTreBrowser->getNext()) != null) {
       $newModel = new ExamOnTreatmentModel();
-      $beginDatetime = new DateTime();
-      $beginDatetime->setTimestamp($actEoT->getColumnByName('exa_begin_date_time')->getValue());
+      $beginDatetime = $actEoT->getColumnByName('exa_begin_date_time')->getValue();
 
       $newModel->ExaPk      = $actEoT->getColumnStringValue('toe_exapk');
       $newModel->TrePk      = $actEoT->getColumnStringValue('toe_trepk');

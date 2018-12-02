@@ -16,15 +16,16 @@ class AnimalBrowseEntity extends DatabaseEntity {
 
   protected function defColumns() {
     $this->addColumn(DataType::Integer,       'ani_pk');
+    $this->addColumn(DataType::Integer,       'ani_owner');
     $this->addSQLColumn(DataType::String,     'ownername',
       "concat(own_surname, ' ', coalesce(own_name, ''))");
     $this->addColumn(DataType::String,        'spe_name');
     $this->addColumn(DataType::String,        'ani_name');
     $this->addColumn(DataType::String,        'ast_text');
     $this->addColumn(DataType::String,        'asex_description');
-    $this->addSQLColumn(DataType::Timestamp,  'exabegin',
-      'select max(exa_begin_date_time) from Examination where exa_animal = ani_pk');
+    $this->addSQLColumn(DataType::DateTime,   'exabegin',
+      'select DATE_FORMAT(max(exa_begin_date_time), "%d.%m.%Y %H:%i") from Examination where exa_animal = ani_pk');
     $this->addSQLColumn(DataType::Integer,    'treatmentcnt',
-      'select count(*) from Treatment where tre_animal = ani_pk');
+      "select count(*) from Treatment where tre_animal = ani_pk and tre_state != 'F'");
   }
 }

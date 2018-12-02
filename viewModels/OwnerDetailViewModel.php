@@ -17,8 +17,7 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   public $Address = "";
   public $Sex = "";
   public $Number = "";
-  public $AnimalsPlanned = array(); // array of AnimalBrowseModel
-  public $AnimalsNotPlanned = array(); // array of AnimalBrowseModel
+  public $Animals = array(); // array of AnimalBrowseModel
 
   public $SexSelect = array();
 
@@ -28,23 +27,16 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
 
   public function initView() {
     $this->loadData();
-    $aniPlanBrowser = new DBEntityBrowser(
-      "AnimalBrowseEntity",             // selected entity class
-      "ani_state = 'A' and ani_owner",  // where condition
-      "exabegin",                       // order by
-      "exabegin > now()"                // having condition
+    $animalBrowser = new DBEntityBrowser(
+      "AnimalBrowseEntity", // selected entity class
+      "own_pk = ?",      // where condition
+      "exabegin desc",      // order by
+      ""    // having condition
     );
-    $aniNPlanBrowser = new DBEntityBrowser(
-      "AnimalBrowseEntity",             // selected entity class
-      "ani_state = 'A' and ani_owner",  // where condition
-      "exabegin desc",                  // order by
-      "exabegin < now()"                // having condition
-    );
-    $aniPlanBrowser->openBrowser();
-    $aniNPlanBrowser->openBrowser();
+    $animalBrowser->addParams($this->Pk);
+    $animalBrowser->openBrowser();
 
-    $this->AnimalsPlanned    = Mapper::loadAnimalEntityBrowserToModelList($aniPlanBrowser);
-    $this->AnimalsNotPlanned = Mapper::loadAnimalEntityBrowserToModelList($aniNPlanBrowser);
+    $this->Animals = Mapper::loadAnimalEntityBrowserToModelList($animalBrowser);
   }
 
   public function initEdit() {

@@ -1,5 +1,5 @@
 body {
-  padding: 0; 
+  padding: 0;
   margin: 0;
   background-color: whitesmoke;
 }
@@ -27,7 +27,7 @@ p {
 .content {
   border-left: 3px solid black;
   margin-left: 8.5em;
-  padding-left: 2em; 
+  padding-left: 2em;
   min-height: 100vh;
   padding-bottom: 1em;
   background-color: whitesmoke;
@@ -124,4 +124,13 @@ textarea {
 
 .smallPad {
   padding: 0.47em;
+}
+
+.click_info {
+  color: rgba(100, 100, 200, 1);
+  text-decoration: underline;
+}
+
+.click_info:hover {
+  cursor: pointer;
 }

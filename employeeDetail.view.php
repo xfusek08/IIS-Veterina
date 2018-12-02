@@ -7,6 +7,8 @@
 
   unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("EmployeeDetailViewModel");
+  if ($actVM->Pk == 0)
+    SessionControl::navigate('employeeBrowse.view.php');
 ?>
 
 <html lang="cz">

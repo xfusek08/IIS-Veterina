@@ -1,7 +1,7 @@
 <?php
 
 // Time formats
-define("DATE_TIME_FORMAT", "d.m.Y H:i:s");
+define("DATE_TIME_FORMAT", "d.m.Y H:i");
 define("DATE_FORMAT", "d.m.Y");
 
 // Time zone
