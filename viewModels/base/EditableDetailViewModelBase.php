@@ -34,16 +34,16 @@ abstract class EditableDetailViewModelBase extends ViewModelBase {
     if (!$this->MainDBEntity->isDataValid()) {
       $this->Errors = $this->MainDBEntity->GetInvalidData();
       $this->Message = STR_MSG_FORM_INVALID_DATA;
-      $this->initEdit();
     } else {
       if (!$this->MainDBEntity->saveToDB()) {
         $this->Message = STR_MSG_SAVE_FAILED;
-        $this->initEdit();
       } else {
         $this->Message = STR_MSG_SAVED;
         $this->onSuccessPost();
+        return;
       }
     }
+    $this->initEdit();
   }
 
   public function loadGetData() {

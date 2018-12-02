@@ -277,14 +277,18 @@ class DBEntColumn {
     return $this->InvalidDataMsg;
   }
 
+  private function ColNameDateTimeToSelectSQL($format) {
+    return "IF($this->ColName, date_format($this->ColName, \"$format\"), NULL) as $this->ColName";
+  }
+
   public function getSelectSQL() {
     switch ($this->DataType) {
       case DataType::Date:
-        return "DATE_FORMAT($this->ColName, \"%d.%m.%Y\") as $this->ColName";
+        return $this->ColNameDateTimeToSelectSQL('%d.%m.%Y');
       case DataType::DateTrnc:
-        return "DATE_FORMAT($this->ColName, \"%d.%m.\") as $this->ColName";
+        return $this->ColNameDateTimeToSelectSQL('%d.%m.');
       case DataType::DateTime:
-        return "DATE_FORMAT($this->ColName, \"%d.%m.%Y %H:%i\") as $this->ColName";
+        return $this->ColNameDateTimeToSelectSQL('%d.%m.%Y %H:%i');
       default:
         return $this->ColName;
     }

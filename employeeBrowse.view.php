@@ -32,6 +32,7 @@
             <th>Telefon</th>
             <th>Pohlaví</th>
             <th>Pozice</th>
+            <th>Stav</th>
           </thead>
           <tbody>
           <?php foreach($actVM->Employees as $employee) { ?>
@@ -42,9 +43,10 @@
               <td><?= $employee->Telephone ?></td>
               <td><?= $employee->Sex ?></td>
               <td><?= $employee->Position ?></td>
+              <td><?= $employee->State ?></td>
             </tr>
           <?php } ?>
-          <tr onclick="changePage(0, 'employeeEdit.view.php')"><th class="table_add table_select" colspan="6">Přidat zaměstnance</th></tr>
+          <tr onclick="changePage(0, 'employeeEdit.view.php')"><th class="table_add table_select" colspan="7">Přidat zaměstnance</th></tr>
           </tbody>
         </table>
       </div>
