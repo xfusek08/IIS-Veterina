@@ -24,7 +24,7 @@
       <div class="content">
         <div class="page_buttons">
           <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" 
-          onclick="ConfirmDel('delete')">
+          onclick="ConfirmDel('medicamentDetail.view.php?pk=<?= $actVM->Pk ?>&delete')">
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
           onclick="changePage(<?= $actVM->Pk ?>, 'medicamentEdit.view.php')">
         </div>

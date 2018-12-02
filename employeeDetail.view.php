@@ -23,8 +23,8 @@
     <div class="preContent">
       <div class="content">
         <div class="page_buttons">
-          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button"
-          onclick="ConfirmDel('delete')">
+          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" 
+          onclick="ConfirmDel('employeeDetail.view.php?pk=<?= $actVM->Employee->Pk ?>&delete')">
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
           onclick="changePage(<?= $actVM->Employee->Pk ?>, 'employeeEdit.view.php')">
         </div>
