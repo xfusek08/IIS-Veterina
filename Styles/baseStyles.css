@@ -118,6 +118,10 @@ textarea {
   flex-direction: row;
 }
 
-.flexLeft {
-  margin-right: 4em;
+.flexPart {
+  margin-right: 2em;
+}
+
+.smallPad {
+  padding: 0.47em;
 }
