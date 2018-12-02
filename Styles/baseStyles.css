@@ -111,15 +111,12 @@ table .table_add {
 
 textarea {
   resize: none;
+  width: 30em;
+  height: 10em;
 }
 
-.flex {
-  display: flex;
-  flex-direction: row;
-}
-
-.flexPart {
-  margin-right: 2em;
+.table_select textarea {
+  cursor: pointer;
 }
 
 .smallPad {
@@ -133,4 +130,5 @@ textarea {
 
 .click_info:hover {
   cursor: pointer;
+  padding: 0.5em;
 }
