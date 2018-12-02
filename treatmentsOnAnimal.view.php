@@ -9,8 +9,8 @@
 ?>
 <div class="treatmentView">
   <h2><?= $actVM->Caption ?>-<?= $actVM->State ?></h2>
-  <div>
-    <div class="left">
+  <div class="flex">
+    <div class="flexLeft">
       <div class="prognosis">Prognóza</div>
       <textarea readonly><?= $actVM->Prognosis ?></textarea>
       <p>Předepsané léky</p>
@@ -31,7 +31,7 @@
         </tbody>
       </table>
     </div>
-    <div class="right">
+    <div class="flexRight">
       <p>Spjatá vyšetření</p>
       <table>
         <thead>
@@ -42,7 +42,7 @@
         </thead>
         <tbody>
           <?php foreach ($actVM->Examinations as $actExam) { ?>
-            <tr>
+            <tr class="table_select" onclick="changePage(<?= $actExam->ExaPk ?>, 'examinationDetail.view.php')">
               <td><a href="?pk=<?= $actExam->Pk ?>"><?= $actExam->Date ?></td>
               <td><?= $actExam->Type ?></td>
               <td><?= $actExam->Hour ?></td>

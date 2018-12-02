@@ -108,3 +108,16 @@ table .table_add {
   height: 2.5em;
   font-size: 1.2em;
 }
+
+textarea {
+  resize: none;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexLeft {
+  margin-right: 4em;
+}
