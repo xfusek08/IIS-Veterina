@@ -23,13 +23,13 @@
     <div class="preContent">
       <div class="content">
         <div class="page_buttons">
-          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" 
+          <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button"
           onclick="ConfirmDel('delete')">
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
           onclick="changePage(<?= $actVM->Employee->Pk ?>, 'employeeEdit.view.php')">
         </div>
         <h1>Detail zaměstnance</h1>
-        <h3>Jméno zaměstnance: <?= $actVM->Employee->Name ?></h3>
+        <h3>Jméno zaměstnance: <?= $actVM->Employee->Name . ' ' . $actVM->Employee->Surname ?></h3>
         <p>Adresa: <?= $actVM->Employee->Address ?></p>
         <p>Pohlaví: <?= $actVM->Employee->Sex ?></p>
         <p>Telefoní číslo: <?= $actVM->Employee->Telephone ?></p>

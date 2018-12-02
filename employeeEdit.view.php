@@ -68,7 +68,7 @@
               </tr>
               <tr>
                 <th>Pozice:</th>
-                <td><select type="text" name="emp_state">
+                <td><select type="text" name="emp_position">
                     <?php foreach($actVM->PositionSelect as $key => $value) {?>
                     <option value="<?= $key ?>" <?php if ($actVM->Employee->Position == $value) echo "selected" ?> > <?= $value ?>
                     </option>
