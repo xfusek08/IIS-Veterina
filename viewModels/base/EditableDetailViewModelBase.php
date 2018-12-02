@@ -38,6 +38,7 @@ abstract class EditableDetailViewModelBase extends ViewModelBase {
     } else {
       if (!$this->MainDBEntity->saveToDB()) {
         $this->Message = STR_MSG_SAVE_FAILED;
+        $this->initEdit();
       } else {
         $this->Message = STR_MSG_SAVED;
         $this->onSuccessPost();

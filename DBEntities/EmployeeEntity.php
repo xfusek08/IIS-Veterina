@@ -10,8 +10,9 @@ class EmployeeEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
-    $this->addColumn(DataType::Integer, 'emp_state'   , true);
-    $this->addColumn(DataType::Integer, 'emp_position', true, 'W');
+    $this->addColumn(DataType::Integer, 'emp_pk');
+    $this->addColumn(DataType::String, 'emp_state'   , true);
+    $this->addColumn(DataType::String, 'emp_position', true, 'W');
     $this->addColumn(DataType::String,  'emp_name');
     $this->addColumn(DataType::String,  'emp_surname' , true);
     $this->addColumn(DataType::String,  'emp_sex'     , true);
@@ -22,5 +23,12 @@ class EmployeeEntity extends DatabaseEntity {
     $this->addColumn(DataType::Bool,    'emp_isadmin' , true, 'N');
     $this->addColumn(DataType::String,  'emp_username');
     $this->addColumn(DataType::String,  'emp_password');
+
+    $this->addSQLColumn(DataType::String, 'emp_sex_text',
+      'select psex_text from Person_sex where psex_shortcut = emp_sex');
+    $this->addSQLColumn(DataType::String, 'emp_state_text',
+      'select est_text from Employee_state where est_shortcut = emp_state');
+    $this->addSQLColumn(DataType::String, 'emp_position_text',
+      'select pos_text from Employee_position where pos_shortcut = emp_position');
   }
 }

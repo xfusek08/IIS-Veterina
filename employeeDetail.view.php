@@ -7,7 +7,7 @@
 
   unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("EmployeeDetailViewModel");
-  if ($actVM->Pk == 0)
+  if ($actVM->Employee->Pk == 0)
     SessionControl::navigate('employeeBrowse.view.php');
 ?>
 
@@ -25,16 +25,16 @@
         <div class="page_buttons">
           <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button" >
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
-          onclick="changePage(<?= $actVM->Pk ?>, 'employeeEdit.view.php')">
+          onclick="changePage(<?= $actVM->Employee->Pk ?>, 'employeeEdit.view.php')">
         </div>
         <h1>Detail zaměstnance</h1>
-        <h3>Jméno zaměsnance: <?= $actVM->Name ?></h3>
-        <p>Adresa: <?= $actVM->Address ?></p>
-        <p>Pohlaví: <?= $actVM->Sex ?></p>
-        <p>Telefoní číslo: <?= $actVM->PhoneNumber ?></p>
-        <p>Hodinová mzda: <?= $actVM->Wage ?></p>
-        <p>Stav: <?= $actVM->State ?></p>
-        <p>Přihlašovací jméno: <?= $actVM->AccName ?></p>
+        <h3>Jméno zaměstnance: <?= $actVM->Employee->Name ?></h3>
+        <p>Adresa: <?= $actVM->Employee->Address ?></p>
+        <p>Pohlaví: <?= $actVM->Employee->Sex ?></p>
+        <p>Telefoní číslo: <?= $actVM->Employee->Telephone ?></p>
+        <p>Hodinová mzda: <?= $actVM->Employee->Wage ?></p>
+        <p>Stav: <?= $actVM->Employee->State ?></p>
+        <p>Přihlašovací jméno: <?= $actVM->Employee->UserName ?></p>
     </div>
   </body>
 </html>
