@@ -2,11 +2,11 @@
   ini_set("default_charset", "utf-8");
 
   require_once("lib/SessionControl.php");
-  require_once("viewModels/employeeDetailViewModel.php");
+  require_once("viewModels/EmployeeDetailViewModel.php");
   require_once('menu.php');
 
   unset($_GET['edit']);
-  $actVM = SessionControl::pageInitRoutine("employeeDetailViewModel");
+  $actVM = SessionControl::pageInitRoutine("EmployeeDetailViewModel");
 ?>
 
 <html lang="cz">

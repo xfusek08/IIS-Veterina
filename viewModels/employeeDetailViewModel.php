@@ -2,11 +2,11 @@
 
 require_once("lib/DBEntityBrowser.php");
 ;
-require_once("models/Mapper.php");
+require_once("logic/Mapper.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
-class OwnerDetailViewModel extends EditableDetailViewModelBase {
+class EmployeeDetailViewModel extends EditableDetailViewModelBase {
   public $Pk = 0;
   public $Name = "";
   public $Firstname = "";
@@ -19,7 +19,7 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   public $State = "";
   public $AccName = "";
   public $Password = "";
-  
+
   public $SexSelect = array();
   public $StateSelect = array();
 }

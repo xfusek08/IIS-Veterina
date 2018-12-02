@@ -4,6 +4,8 @@
 require_once("lib/DBEntityBrowser.php");
 require_once("DBEntities/AnimalBrowseEntity.php");
 require_once("models/AnimalBrowseModel.php");
+require_once("models/ExaminationModel.php");
+require_once("models/MedicamentForSpeciesModel.php");
 
 class Mapper {
 
@@ -65,4 +67,14 @@ class Mapper {
     return $newModel;
   }
 
+  public static function entityToMedicamentModel($entity) {
+    $newModel = new MedicamentForSpeciesModel();
+    $newModel->Pk                = $entity->getColumnByName('mfs_pk')->getValue();;
+    $newModel->MedPk             = $entity->getColumnByName('mfs_medpk')->getValue();;
+    $newModel->SpeciesPK         = $entity->getColumnByName('mfs_spepk')->getValue();;
+    $newModel->Species           = $entity->getColumnStringValue('spe_name');
+    $newModel->RecommendedDose   = $entity->getColumnStringValue('mfs_recommended_dosis');
+    $newModel->EffectiveAgainst  = $entity->getColumnStringValue('mfs_effective_against');
+    return $newModel;
+  }
 }

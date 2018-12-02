@@ -8,7 +8,7 @@ require_once("DBEntities/TreatmentEntity.php");
 require_once("DBEntities/ExaminationEntity.php");
 
 require_once("models/ExaminationModel.php");
-require_once("models/Mapper.php");
+require_once("logic/Mapper.php");
 
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 require_once("viewModels/TreatmentOnAnimalViewModel.php");

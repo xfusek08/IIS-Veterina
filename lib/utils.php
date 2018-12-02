@@ -32,3 +32,15 @@ function validateDateTime($date, $format = DATE_TIME_FORMAT) {
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
 }
+
+function getIntFromPost($str) {
+  $intval = 0;
+  if (isset($_POST[$str])) {
+    $intval = intval($_POST[$str]);
+  }
+  return $intval;
+}
+
+function formated_var_dump($var) {
+  echo "<pre>", var_dump($var), "<pre>";
+}

@@ -85,7 +85,7 @@
           </thead>
             <tbody id="appendTo">
               <?php $n = 0; $res = ""; foreach ($actVM->MedForSpec as $MedForSpec) { $res = medForSpecCounter($n); ?>
-                <tr id="MedForSpecEditFormTemp<?= $res ?>" class="template">
+                <tr class="medForSpecEditForm template">
                   <td>
                     <select type="text" name="<?= $res ?>mfs_spepk">
                       <?php foreach($actVM->SpeciesSelect as $key => $value) {?>

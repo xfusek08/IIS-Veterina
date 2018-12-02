@@ -42,7 +42,7 @@ function swapTables(toSwap, amount)
 }
 
 function addRow() {
-  var template = $('#MedForSpecEditFormTemp');
+  var template = $('.medForSpecEditForm.template');
   var newRow = template.clone();
   var cntInput = $('input[name="medCount"]');
   var count = parseInt(cntInput.val());

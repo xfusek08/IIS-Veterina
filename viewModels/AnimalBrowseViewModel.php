@@ -5,7 +5,8 @@ require_once("lib/DBEntityBrowser.php");
 require_once("DBEntities/AnimalBrowseEntity.php");
 
 require_once("models/AnimalBrowseModel.php");
-require_once("models/Mapper.php");
+
+require_once("logic/Mapper.php");
 
 require_once("viewModels/base/ViewModelBase.php");
 

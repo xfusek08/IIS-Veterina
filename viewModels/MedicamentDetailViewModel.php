@@ -2,6 +2,7 @@
 
 require_once("lib/Logs.php");
 require_once("lib/DBEntityBrowser.php");
+require_once("lib/EntityListOnEntityCollection.php");
 
 require_once("DBEntities/MedicamentEntity.php");
 require_once("DBEntities/MedicamentForSpeciesEntity.php");
@@ -11,6 +12,8 @@ require_once("models/MedicamentForSpeciesModel.php");
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
 class MedicamentDetailViewModel extends EditableDetailViewModelBase {
+  private $_medsOnSpeciesCollection = null; // instance of EntityListOnEntityCollection
+
   public $Pk = 0;
   public $Name = "";
   public $Type = "";
@@ -22,20 +25,25 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   public $TypeSelect = array();
   public $SpeciesSelect = array();
 
-  private $MedsOnSpeciesBrowser = null; // instance of DBEntityBrowser
-
   public function __construct() {
     parent::__construct('MedicamentEntity');
+    $this->_medsOnSpeciesCollection = new EntityListOnEntityCollection(
+      "MedicamentForSpeciesEntity",
+      Mapper::entityToMedicamentModel);
   }
 
   public function loadGetData() {
     parent::loadGetData();
-    $this->MedsOnSpeciesBrowser = new DBEntityBrowser(
+    $medsOnSpeciesBrowser = new DBEntityBrowser(
       "MedicamentForSpeciesEntity",
       "mfs_medpk = ?",
       "spe_name"
     );
-    $this->MedsOnSpeciesBrowser->addParams($this->MainDBEntity->Pk);
+    $medsOnSpeciesBrowser->addParams($this->MainDBEntity->Pk);
+    $medsOnSpeciesBrowser->openBrowser();
+    $this->_medsOnSpeciesCollection->clearAll();
+    while (($actEntity = $medsOnSpeciesBrowser->getNext()) != null)
+      $this->_medsOnSpeciesCollection->addEntity($actEntity);
   }
 
   public function initView() {
@@ -43,13 +51,14 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function initEdit() {
-    $this->loadData();
 
     $this->TypeSelect = $this->LoadEditSelectData("select medt_pk, medt_text from Medicament_type order by medt_text");
     $this->SpeciesSelect = $this->LoadEditSelectData('select spe_pk, spe_name from Animal_species order by spe_name');
 
-    if (count($this->MedForSpec) == 0)
-      $this->MedForSpec[] = new MedicamentForSpeciesModel();
+    if ($this->_medsOnSpeciesCollection->countEntities() == 0)
+      $this->_medsOnSpeciesCollection->add(new MedicamentForSpeciesEntity());
+
+    $this->loadData();
   }
 
   public function onSuccessPost() {
@@ -64,17 +73,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->Producer   = $this->MainDBEntity->getColumnStringValue('med_producer');
     $this->Substance  = $this->MainDBEntity->getColumnStringValue('med_active_substance');
 
-    $this->MedsOnSpeciesBrowser->openBrowser();
-    while (($actEntity = $this->MedsOnSpeciesBrowser->getNext()) != null) {
-      $mesOnSpecModel = new MedicamentForSpeciesModel();
-      $mesOnSpecModel->Pk                = $actEntity->getColumnByName('mfs_pk')->getValue();;
-      $mesOnSpecModel->MedPk             = $actEntity->getColumnByName('mfs_medpk')->getValue();;
-      $mesOnSpecModel->SpeciesPK         = $actEntity->getColumnByName('mfs_spepk')->getValue();;
-      $mesOnSpecModel->Species           = $actEntity->getColumnStringValue('spe_name');
-      $mesOnSpecModel->RecommendedDose   = $actEntity->getColumnStringValue('mfs_recommended_dosis');
-      $mesOnSpecModel->EffectiveAgainst  = $actEntity->getColumnStringValue('mfs_effective_against');
-      $this->MedForSpec[] = $mesOnSpecModel;
-    }
+    $this->MedForSpec = $this->_medsOnSpeciesCollection->getMedicamentModelList();
   }
 
   public function processPost() {
@@ -82,44 +81,20 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->MainDBEntity->loadFromPostData();
     $isAllSuccess = $this->MainDBEntity->isDataValid();
     $this->Errors = array_merge($this->Errors, $this->MainDBEntity->GetInvalidData());
+    $isAllSuccess = $isAllSuccess && $this->_medsOnSpeciesCollection->loadFromPostData(getIntFromPost('medCount'));
+    $this->Errors = array_merge($this->Errors, $this->_medsOnSpeciesCollection->getErrorLoadList());
 
-    $toDeletePKs = array();
-    $toSaveEntities = array();
-
-    $cnt = intval($_POST['medCount']);
-    $this->MedsOnSpeciesBrowser->openBrowser();
-    while (($actEntity = $this->MedsOnSpeciesBrowser->getNext()) != null) {
-      $toDeletePKs[] = $actEntity->Pk;
-    }
-
-    $index = 0;
-    while ($index < $cnt) {
-      $prefix = '';
-      if ($index != 0)
-        $prefix = $index . '_';
-
-      $actEntity = new MedicamentForSpeciesEntity(intval($_POST[$prefix . 'mfs_pk']));
-
-      $indexOfPK = array_search($actEntity->Pk, $toDeletePKs);
-      if ($indexOfPK !== false)
-        unset($toDeletePKs[$indexOfPK]);
-
-      $actEntity->loadFromPostData($prefix);
-      $isAllSuccess = $isAllSuccess && $actEntity->isDataValid();
-      $this->Errors = array_merge($this->Errors, $actEntity->GetInvalidData($prefix));
-      $toSaveEntities[] = $actEntity;
-      $index = $index + 1;
-    }
+    formated_var_dump($this->_medsOnSpeciesCollection->getMedicamentEntities());
 
     if (!$isAllSuccess) {
       $this->Message = STR_MSG_FORM_INVALID_DATA;
       $this->initEdit();
     } else {
-      if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
-        $this->onSuccessPost();
-      else {
-        $this->Message = STR_DATABASE_ERROR;
-      }
+      // if ($this->tryToSaveToDB($toSaveEntities, $toDeletePKs))
+      //   $this->onSuccessPost();
+      // else {
+      //   $this->Message = STR_DATABASE_ERROR;
+      // }
     }
   }
 
