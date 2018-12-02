@@ -5,7 +5,8 @@
   require_once("viewModels/employeeDetailViewModel.php");
   require_once('menu.php');
 
-  $actVM = SessionControl::pageInitRoutine("employeeDetailViewModel.php");
+  unset($_GET['edit']);
+  $actVM = SessionControl::pageInitRoutine("employeeDetailViewModel");
 ?>
 
 <html lang="cz">

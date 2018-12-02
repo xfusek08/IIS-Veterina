@@ -12,4 +12,13 @@ class EmployeeBrowseViewModel extends ViewModelBase {
   public function processAjax() {}
 
   public function processPost() {}
+
+  public function initView() {
+  }
+
+  public function onSuccessPost() {
+  }
+
+  public function initEdit() {
+  }
 }

@@ -1,12 +1,9 @@
 <?php
 
-require_once("lib/DBEntityBrowser.php");
-;
-require_once("models/Mapper.php");
-
+require_once("viewModels/base/ViewModelBase.php");
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
-class OwnerDetailViewModel extends EditableDetailViewModelBase {
+class EmployeeDetailViewModel extends EditableDetailViewModelBase {
   public $Pk = 0;
   public $Name = "";
   public $Firstname = "";
@@ -22,4 +19,22 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   
   public $SexSelect = array();
   public $StateSelect = array();
+
+  public function __construct() {
+  }
+
+  public function ProcessGet() {}
+
+  public function processAjax() {}
+  
+  public function processPost() {}
+
+  public function initView() {
+  }
+
+  public function onSuccessPost() {
+  }
+
+  public function initEdit() {
+  }
 }
