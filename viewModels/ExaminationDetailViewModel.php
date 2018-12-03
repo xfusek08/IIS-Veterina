@@ -21,8 +21,8 @@ class ExaminationDetailViewModel extends EditableDetailViewModelBase {
   private $_medOnExamCollection = null; // instance of EntityListOnEntityCollection
 
   public $Examination = null; // instance of ExaminationModel
-  public $Animal = null; // instance of AnimalModel
-  public $Employee = null; // instance of EmployeeModel
+  public $Animal = null;      // instance of AnimalModel
+  public $Employee = null;    // instance of EmployeeModel
 
   public $Medicaments = null; // instance of MedicamentModel
 
