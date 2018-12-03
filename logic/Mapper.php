@@ -72,6 +72,16 @@ class Mapper {
   }
 
   public static function entityToMedicamentModel($entity) {
+    $newModel = new MedicamentModel();
+    $newModel->Pk       = $entity->getColumnByName('med_pk')->getValue();
+    $newModel->Name     = $entity->getColumnStringValue('med_name');
+    $newModel->Type     = $entity->getColumnStringValue('med_type_text');
+    $newModel->Price    = $entity->getColumnStringValue('med_price');
+    $newModel->Producer = $entity->getColumnStringValue('med_producer');
+    return $newModel;
+  }
+
+  public static function entityToMedicamentForSpeciesModel($entity) {
     $newModel = new MedicamentForSpeciesModel();
     $newModel->Pk                = $entity->getColumnByName('mfs_pk')->getValue();
     $newModel->MedPk             = $entity->getColumnByName('mfs_medpk')->getValue();

@@ -31,7 +31,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     parent::__construct('MedicamentEntity');
     $this->_medsOnSpeciesCollection = new EntityListOnEntityCollection(
       "MedicamentForSpeciesEntity",
-      function($entity) { return Mapper::entityToMedicamentModel($entity); }
+      function($entity) { return Mapper::entityToMedicamentForSpeciesModel($entity); }
     );
   }
 
@@ -82,7 +82,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
     $this->Producer   = $this->MainDBEntity->getColumnStringValue('med_producer');
     $this->Substance  = $this->MainDBEntity->getColumnStringValue('med_active_substance');
 
-    $this->MedForSpec = $this->_medsOnSpeciesCollection->getMedicamentModelList();
+    $this->MedForSpec = $this->_medsOnSpeciesCollection->getModelList();
   }
 
   public function processPost() {

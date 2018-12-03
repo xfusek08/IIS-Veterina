@@ -7,11 +7,11 @@ class EntityListOnEntityCollection {
   private $_mapperFunctionString = '';
   private $_entityTypeString = '';
 
-  public function getMedicamentEntities()   { return $this->_entityList;  }
+  public function getEntityList()   { return $this->_entityList;  }
   public function getErrorLoadList()        { return $this->_loadErrorList; }
   public function countEntities()           { return count($this->_entityList); }
   public function countToDeleteEntities()   { return count($this->_toDeleteEntities); }
-  public function getMedicamentModelList()  {
+  public function getModelList()  {
     $res = array();
     foreach ($this->_entityList as $entity)
       $res[] = call_user_func($this->_mapperFunctionString, $entity);

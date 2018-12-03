@@ -10,6 +10,7 @@ require_once("models/MedicamentOnTreatmentModel.php");
 require_once("viewModels/base/EditableDetailViewModelBase.php");
 
 class TreatmentViewModel extends EditableDetailViewModelBase {
+  public $Pk = 0;
   public $Caption = '';
   public $State = '';
   public $Prognosis = '';
@@ -31,6 +32,7 @@ class TreatmentViewModel extends EditableDetailViewModelBase {
   public function onSuccessDelete() { }
 
   public function loadData() {
+    $this->Pk        = $this->MainDBEntity->Pk;
     $this->Caption   = $this->MainDBEntity->getColumnStringValue('tre_caption');
     $this->State     = $this->MainDBEntity->getColumnStringValue('tre_state_text');
     $this->Prognosis = $this->MainDBEntity->getColumnStringValue('tre_prognosis');
@@ -42,7 +44,7 @@ class TreatmentViewModel extends EditableDetailViewModelBase {
       "med_name"
     );
 
-    $medOnTreBrowser->addParams($this->MainDBEntity->Pk);
+    $medOnTreBrowser->addParams($this->Pk);
     $medOnTreBrowser->openBrowser();
 
     // medicaments
