@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+		img {height:60em; width:30em}
+    </style>
+</head>
+<body>
+
+<h1>Veterinární klinika</h1>
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Jaromír Franěk <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xautor01@stud.fit.vutbr.cz">xfrane16@stud.fit.vutbr.cz</a> -
+		správa uživatelů a uživatelské rozhraní
+	</dd>
+	<dd>Petr Fusek <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xautor02@stud.fit.vutbr.cz">xfusek08@stud.fit.vutbr.cz</a> - 
+		databázový subsystém
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xfusek08/">http://www.stud.fit.vutbr.cz/~xfusek08/</a></dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>Jaromir</td><td>DoctorWHO</td><td>Doktor</td></tr>
+<tr><td>Petr</td><td>123456</td><td>Sestra</td></tr>
+</table>
+
+<h2>Implementace</h2>
+<p>use-case</p>
+<img src="Veterinarni_klinika_UCD.png" alt="USE" />
+<p>PHP skripty, které implementují jednotlivé případy použití uvedené v use-case diagramu, jsou ve složce viewModels.</p>
+<p>Změny: use-case jsme prodiskutovali a rozhodli jsme se, že sestra bude moct vykonávat stejné akce jako doktor.</p>
+<p>->Důvod je ten, že pro některé doktory bude příjemnější vykonávat prohlídku a nechat sestrumezitím zadávat a vyhledávat informace.</p>
+<p>->Správce může spravovat číselníkové typy na úrovni aplikace.</p>
+
+<h2>Instalace</h2>
+<ul>
+<li>Stručně popište postup instalace na server</li>
+<li>Softwarové požadavky (verze PHP apod.)</li>
+<li>Jak rozbalit, konfigurovat, inicializovat databází, ...</li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Nestihli jsme doimplementovat vytváření a editaci léčeb na vyšetření.</p>
+<p>Na úrovni aplikace nejdou přidávat druhy zvířat, to může a nemusí být problém podle pohledu (třeba že budou předimplementované), nicméně je důležité toto uvést.</p>
+
+</body>
+</html>

@@ -34,15 +34,19 @@
           onclick="changePage(<?= $actVM->Examination->Pk ?>, 'examinationEdit.view.php')">
         </div>
         <h1>Detail Vyšetření</h1>
+        <p>Jméno majitele: <?= $actVM->Animal->OwnerName ?></p>
+        <p>Jméno zvířete: <?= $actVM->Animal->Name ?></p>
+        <p>Provedl: <?= $actVM->Employee->Surname ?></p>
+        <p>Detaily:</p>
         <table>
           <tr><td>Od:</td><td><?= $actVM->Examination->BeginTime ?></td></tr>
           <tr><td>Do:</td><td><?= $actVM->Examination->EndTime ?> (<?= $actVM->Examination->Duration ?> min)</td></tr>
           <tr><td>Typ:</td><td><?= $actVM->Examination->Type ?></td></tr>
           <tr><td>Naúčtováno:</td><td><?= $actVM->Examination->Price ?></td></tr>
         </table>
-        <div>Výsledná zpráva:</div>
+        <p>Výsledná zpráva:</p>
         <textarea readonly><?= $actVM->Examination->Report ?></textarea>
-        <div>Podané léky:</div>
+        <p>Podané léky:</p>
           <table class="noHover">
           <thead>
             <th>Název</th>
@@ -62,7 +66,7 @@
           </tbody>
         </table>
 
-        <div>Léčby:</div>
+        <p>Léčby:</p>
         <?php $actVM->LoadTreatmentsHTML(); ?>
       </div>
     </div>
