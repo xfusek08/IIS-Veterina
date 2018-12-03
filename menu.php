@@ -7,6 +7,7 @@
       <?php if($isAdmin) { ?>
         <li class="menu_choice"><a href="employeeBrowse.view.php">Zaměstnanci</a></li>
       <?php } ?>
+      <li class="menu_choice" onclick="LogOut()"><a>Odhlásit</a></li>
     </ul>
   </div>
 <?php } ?>

@@ -127,3 +127,12 @@ function ConfirmDel(Url)
     xmlHttp.send(null);
   }
 }
+
+function LogOut()
+{
+  var xmlHttp = new XMLHttpRequest();
+  var currentLocation = window.location.href;
+  xmlHttp.open("GET", currentLocation + "?logout", true);
+  xmlHttp.send(null);
+  location.reload();
+}
