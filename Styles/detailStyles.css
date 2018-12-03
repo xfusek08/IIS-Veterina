@@ -76,3 +76,7 @@ table thead th {
   display: none;
 }
 
+.noMar {
+    margin: auto;
+    width: 2em;
+}

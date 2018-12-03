@@ -123,10 +123,11 @@
             </table>
           </div>
 
-          <div>Výsledná zpráva:</div>
+          <h3>Výsledná zpráva:</h3>
           <textarea name="" ><?= $actVM->Examination->Report ?></textarea>
 
-          <div>Podané léky:</div>
+          <h3>Podané léky:</h3>
+          <div>(zadávejte prosím unikátní hodnoty léků)</div>
           <div id="moeStack">
           <?php $n = 0; foreach ($actVM->Medicaments as $med) {  $prefix = getprefix($n); ?>
             <div class="moerow"><?php buildMOESlect($prefix, $med->Pk) ?></div>
@@ -137,7 +138,7 @@
 
           <input type="button" name="delete" value="Přidat" class="swap_button" onclick="addRow('#moeTamplate', 'moeStack', 'input[name=moeCount]'), 'select[name=med_pk]'"/>
 
-          <div>Léčby:</div>
+          <h3>Léčby:</h3>
 
           <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         </form>

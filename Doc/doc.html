@@ -8,7 +8,8 @@
     	table { border-collapse: collapse; }
     	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
     	dt { font-weight: bold; margin-top: 0.5em; }
-		img {height:60em; width:30em}
+		.use {height:60em; width:30em}
+		.er {height:30em; width:50em}
     </style>
 </head>
 <body>
@@ -38,17 +39,19 @@
 </table>
 
 <h2>Implementace</h2>
-<p>use-case</p>
-<img src="Veterinarni_klinika_UCD.png" alt="USE" />
+<h4>Use-case diagram:</h4>
+<img class="use" src="Veterinarni_klinika_UCD.png" alt="USE" />
 <p>PHP skripty, které implementují jednotlivé případy použití uvedené v use-case diagramu, jsou ve složce viewModels.</p>
 <p>Změny: use-case jsme prodiskutovali a rozhodli jsme se, že sestra bude moct vykonávat stejné akce jako doktor.</p>
 <p>->Důvod je ten, že pro některé doktory bude příjemnější vykonávat prohlídku a nechat sestrumezitím zadávat a vyhledávat informace.</p>
-<p>->Správce může spravovat číselníkové typy na úrovni aplikace.</p>
+<p>->Správce může spravovat číselníkové typy na úrovni aplikace. (asi jasné, ale pro jistotu uvádím)</p>
+<h4>ER diagram:</h4>
+<img class="er" src="ER.png" alt="ER" />
 
 <h2>Instalace</h2>
 <ul>
-<li>Stručně popište postup instalace na server</li>
-<li>Softwarové požadavky (verze PHP apod.)</li>
+<li>Rozbalit a spustit na localhostu</li>
+<li>Nutnost PHP verze 5.6, MySQL, povolení javascriptu na klientském počítači</li>
 <li>Jak rozbalit, konfigurovat, inicializovat databází, ...</li>
 </ul>
 

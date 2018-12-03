@@ -37,10 +37,11 @@
         <p>Jméno majitele: <?= $actVM->Animal->OwnerName ?></p>
         <p>Jméno zvířete: <?= $actVM->Animal->Name ?></p>
         <p>Provedl: <?= $actVM->Employee->Surname ?></p>
+        <p>Proběhlo: <?php if($actVM->Examination->Occurred == "N"){echo "Ne";}else{echo "ANO";} ?><p>
         <p>Detaily:</p>
         <table>
-          <tr><td>Od:</td><td><?= $actVM->Examination->BeginTime ?></td></tr>
-          <tr><td>Do:</td><td><?= $actVM->Examination->EndTime ?> (<?= $actVM->Examination->Duration ?> min)</td></tr>
+          <tr><td>Datum:</td><td><?= $actVM->Examination->Date ?></td></tr>
+          <tr><td>Trvání:</td><td><?= $actVM->Examination->Duration ?> min</td></tr>
           <tr><td>Typ:</td><td><?= $actVM->Examination->Type ?></td></tr>
           <tr><td>Naúčtováno:</td><td><?= $actVM->Examination->Price ?></td></tr>
         </table>
