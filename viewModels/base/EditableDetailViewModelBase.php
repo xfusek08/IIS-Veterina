@@ -67,10 +67,9 @@ abstract class EditableDetailViewModelBase extends ViewModelBase {
     if (!$this->MainDBEntity->deleteFromDB()) {
       $this->Message = STR_MSG_DELETE_FAILED;
       return false;
-    } else {
-      $this->onSuccessDelete();
-      return true;
     }
+    $this->onSuccessDelete();
+    return true;
   }
 
   public abstract function initView();

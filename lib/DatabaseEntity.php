@@ -143,7 +143,7 @@ abstract class DatabaseEntity {
     return true;
   }
 
-  public function deleteFromDB($isExternalTransaction) {
+  public function deleteFromDB($isExternalTransaction = false) {
     if ($this->TableName == '' || $this->PKColName == '') {
       return false;
     }

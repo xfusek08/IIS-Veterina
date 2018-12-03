@@ -69,7 +69,8 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function onSuccessDelete() {
-    SessionControl::navigate("animalBrowser.view.php");
+    echo "onSuccessDelete";
+    SessionControl::navigate("ownerDetail.view.php?pk=" . $this->OwnerPk);
   }
 
   public function initEdit() {
@@ -126,6 +127,8 @@ class AnimalDetailViewModel extends EditableDetailViewModelBase {
 
   private function calculateAgeOfAnimal() {
     $birthday = $this->MainDBEntity->getColumnByName('ani_birthday')->getValue();
+    if ($birthday == null)
+      return 0;
     $now = new DateTime();
     return $now->diff($birthday)->y;
   }

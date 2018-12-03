@@ -57,7 +57,7 @@
               </tr>
               <tr>
                 <th>Telefoní číslo:</th>
-                <td><input type="text" value="<?= $actVM->Employee->Telephone ?>" name="emp_mobile_number"> kg
+                <td><input type="text" value="<?= $actVM->Employee->Telephone ?>" name="emp_mobile_number">
                   <?= (isset($actVM->Errors['emp_mobile_number'])) ? $actVM->Errors['emp_mobile_number'] : '' ?></td>
               </tr>
               <tr>

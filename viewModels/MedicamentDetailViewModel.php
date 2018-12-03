@@ -71,7 +71,7 @@ class MedicamentDetailViewModel extends EditableDetailViewModelBase {
   }
 
   public function onSuccessDelete() {
-    SessionControl::navigate("medicamentBrowser.view.php");
+    SessionControl::navigate("medicamentBrowse.view.php");
   }
 
   public function loadData() {

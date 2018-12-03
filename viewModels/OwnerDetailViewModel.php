@@ -57,4 +57,8 @@ class OwnerDetailViewModel extends EditableDetailViewModelBase {
   public function onSuccessPost() {
     SessionControl::navigate("ownerDetail.view.php?pk=" . $this->MainDBEntity->Pk);
   }
+
+  public function onSuccessDelete() {
+    SessionControl::navigate("ownerBrowse.view.php");
+  }
 }
