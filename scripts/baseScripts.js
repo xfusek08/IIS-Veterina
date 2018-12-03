@@ -1,17 +1,15 @@
 
 var template;
 $(document).ready(function() {
-  template = $('.medForSpecEditForm.template').clone();
-  template.removeClass('template');
-  template.find("input[type=hidden], input[type=text], select").each(function() {
-    if ($(this).attr('type') !== 'hidden')
-      $(this).val("");
-  });
+
 
   $('body').on('click', '.medForSpecEditForm input[name=delete]', function() {
-    deleteRow($(this).closest('.medForSpecEditForm'));
+    deleteRow('.medForSpecEditForm.template', 'appendTo', $(this).closest('.medForSpecEditForm'), 'input[name=medCount]');
   });
 
+  $('body').on('click', '#moeStack input[name=delete]', function() {
+    deleteRow('#moeTamplate', 'moeStack', $(this).closest('.moerow'), 'input[name=moeCount]');
+  });
 });
 
 function changePage(spk, url)
@@ -57,28 +55,52 @@ function swapTables(toSwap, amount)
   }
 }
 
-function addRow() {
-  var newRow = template.clone();
-  var cntInput = $('input[name="medCount"]');
-  var count = parseInt(cntInput.val());
-  newRow.find("input[name=mfs_pk]").val(0);
-  cntInput.val(count + 1);
-  newRow.appendTo("#appendTo");
-  recalculatePrefixes();
+function getTemplatePrepared(templateSelector) {
+  var tamplateInstance = $(templateSelector).clone();
+  tamplateInstance.removeClass('template');
+  tamplateInstance.removeClass('hidden');
+  tamplateInstance.find("input[type=hidden], input[type=text], select").each(function() {
+    if ($(this).attr('type') !== 'hidden')
+      $(this).val("");
+  });
+  return tamplateInstance;
 }
 
-function deleteRow(row) {
+function addRow(templateSelector, toAddID, counterSelector = '', zeroValueSelector = '') {
+  var newRow = getTemplatePrepared(templateSelector);
+  var cntInput;
+  var count;
+
+  if (counterSelector != '') {
+    cntInput = $(counterSelector);
+    count = parseInt(cntInput.val());
+  }
+
+  if (zeroValueSelector != '')
+    newRow.find(zeroValueSelector).val(0);
+
+  if (counterSelector != '') {
+    cntInput.val(count + 1);
+  }
+  newRow.appendTo("#" + toAddID);
+  recalculatePrefixes(toAddID, templateSelector);
+}
+
+function deleteRow(templateSelector, toAddID, row, counterSelector = '') {
   if (row.length > 0) {
     row.remove();
-    var cntInput = $('input[name="medCount"]');
-    var count = parseInt(cntInput.val());
-    cntInput.val(count - 1);
-    recalculatePrefixes();
+    if (counterSelector != '') {
+      var cntInput = $(counterSelector);
+      var count = parseInt(cntInput.val());
+      cntInput.val(count - 1);
+    }
+    recalculatePrefixes(toAddID, templateSelector);
   }
 }
 
-function recalculatePrefixes() {
-  var rows = $("#appendTo tr")
+function recalculatePrefixes(toAddID, templateSelector) {
+  var template = getTemplatePrepared(templateSelector);
+  var rows = $('#' + toAddID + ' > *');
   var cnt = 0;
   rows.each(function() {
     var inputList = template.find('input[type=hidden], input[type=text], select');
@@ -95,13 +117,13 @@ function recalculatePrefixes() {
   });
 }
 
-function ConfirmDel(Url) 
+function ConfirmDel(Url)
 {
   var res = confirm("Jste si jistí?");
-  if (res == true) 
+  if (res == true)
   {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", Url, true); // true for asynchronous 
+    xmlHttp.open("GET", Url, true); // true for asynchronous
     xmlHttp.send(null);
   }
 }

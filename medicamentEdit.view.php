@@ -110,12 +110,12 @@
               <?php $n++; } ?>
             </tbody>
           </table>
-          <input type="button" name="add" class="swap_button bigger_button" value="Přidat k druhu" onclick="addRow()">
-          <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
+          <input type="button" name="add" class="swap_button bigger_button" value="Přidat k druhu" onclick="addRow('.medForSpecEditForm.template', 'appendTo', 'input[name=medCount]', 'input[name=mfs_pk]')">
           <input type="hidden" name="medCount" value="<?= count($actVM->MedForSpec) ?>">
+          <input type="submit" name="post_submit" value="Uložit" class="swap_button" />
         </form>
+        <div class="message"><?= $actVM->Message ?></div>
       </div>
     </div>
-    <div class="message"><?= $actVM->Message ?></div>
   </body>
 </html>

@@ -10,6 +10,7 @@ class AnimalEntity extends DatabaseEntity {
   }
 
   protected function defColumns() {
+    $this->addColumn(DataType::Integer,   'ani_pk');
     $this->addColumn(DataType::Integer,   'ani_owner',   true);
     $this->addColumn(DataType::Integer,   'ani_species', true);
     $this->addColumn(DataType::String,    'ani_state',   true, 'A');

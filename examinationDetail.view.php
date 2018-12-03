@@ -5,6 +5,7 @@
   require_once("viewModels/ExaminationDetailViewModel.php");
   require_once('menu.php');
 
+  unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("ExaminationDetailViewModel");
   function treatmentCounter($i)
   {
@@ -38,8 +39,9 @@
           <tr><td>Do:</td><td><?= $actVM->Examination->EndTime ?> (<?= $actVM->Examination->Duration ?> min)</td></tr>
           <tr><td>Typ:</td><td><?= $actVM->Examination->Type ?></td></tr>
           <tr><td>Naúčtováno:</td><td><?= $actVM->Examination->Price ?></td></tr>
-          <tr><td>Výsledná zpráva:</td><td><?= $actVM->Examination->Report ?></td></tr>
         </table>
+        <div>Výsledná zpráva:</div>
+        <textarea readonly><?= $actVM->Examination->Report ?></textarea>
         <div>Podané léky:</div>
           <table class="noHover">
           <thead>

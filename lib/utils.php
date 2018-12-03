@@ -40,6 +40,14 @@ function getIntFromPost($str) {
   return $intval;
 }
 
+function getIntFromGet($str) {
+  $intval = 0;
+  if (isset($_GET[$str])) {
+    $intval = intval($_GET[$str]);
+  }
+  return $intval;
+}
+
 function formated_var_dump($var) {
   echo "<pre>", var_dump($var), "<pre>";
 }

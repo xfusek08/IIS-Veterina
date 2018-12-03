@@ -4,6 +4,7 @@
 require_once("lib/DBEntityBrowser.php");
 require_once("DBEntities/AnimalBrowseEntity.php");
 require_once("models/AnimalBrowseModel.php");
+require_once("models/AnimalModel.php");
 require_once("models/ExaminationModel.php");
 require_once("models/MedicamentForSpeciesModel.php");
 require_once("models/EmployeeModel.php");
@@ -43,6 +44,27 @@ class Mapper {
     $newModel->State              = $entity->getColumnStringValue('ast_text');
     $newModel->TreatmentNumber    = $entity->getColumnStringValue('treatmentcnt');
     $newModel->LatestExamination  = $entity->getColumnStringValue('exabegin');
+    return $newModel;
+  }
+
+  public static function entityToAnimalModel($entity) {
+    $newModel = new AnimalModel();
+    $newModel->Pk         = $entity->getColumnByName('ani_pk')->getValue();
+    $newModel->OwnerPk    = $entity->getColumnByName('ani_owner')->getValue();
+    $newModel->Name       = $entity->getColumnStringValue('ani_name');
+    $newModel->OwnerName  = $entity->getColumnStringValue('owner_name');
+    $newModel->Species    = $entity->getColumnStringValue('ani_species_text');
+    $newModel->Sex        = $entity->getColumnStringValue('ani_sex_text');
+    $newModel->Weight     = $entity->getColumnStringValue('ani_weight');
+    $newModel->State      = $entity->getColumnStringValue('ani_state_text');
+    $newModel->Birthday   = $entity->getColumnStringValue('ani_birthday');
+    $newModel->Race       = $entity->getColumnStringValue('ani_race');
+
+    $birthdate = $entity->getColumnByName('ani_birthday')->getValue();
+    if ($newModel->Birthday != null) {
+      $now = new DateTime();
+      $newModel->Age = $now->diff($birthdate)->y;
+    }
     return $newModel;
   }
 

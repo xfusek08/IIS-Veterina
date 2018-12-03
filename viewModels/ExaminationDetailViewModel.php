@@ -3,6 +3,8 @@
 require_once("lib/DBEntityBrowser.php");
 require_once("lib/EntityListOnEntityCollection.php");
 
+require_once("DBEntities/AnimalEntity.php");
+require_once("DBEntities/EmployeeEntity.php");
 require_once("DBEntities/ExaminationEntity.php");
 require_once("DBEntities/MedicamentEntity.php");
 
@@ -19,7 +21,13 @@ class ExaminationDetailViewModel extends EditableDetailViewModelBase {
   private $_medOnExamCollection = null; // instance of EntityListOnEntityCollection
 
   public $Examination = null; // instance of ExaminationModel
+  public $Animal = null; // instance of AnimalModel
+  public $Employee = null; // instance of EmployeeModel
+
   public $Medicaments = null; // instance of MedicamentModel
+
+  public $ExaminationTypeSelect = array();
+  public $MedicamentSelect = array();
 
   public function __construct() {
     parent::__construct('ExaminationEntity');
@@ -31,16 +39,25 @@ class ExaminationDetailViewModel extends EditableDetailViewModelBase {
     );
   }
 
+  public function loadGetData() {
+    parent::loadGetData();
+    $this->Animal->Pk = getIntFromGet('animalpk');
+  }
+
   public function initView() {
     $this->loadData();
   }
 
   public function initEdit() {
     $this->loadData();
+    $this->ExaminationTypeSelect = $this->LoadEditSelectData("select exa_shortcut, exa_text from Examination_type order by exa_text");
+    $this->MedicamentSelect = $this->LoadEditSelectData("select med_pk, concat(med_name, ', ', med_producer, ', ', medt_text) from Medicament join Medicament_type on medt_pk = med_type order by med_name");
   }
 
   public function loadData() {
     $this->Examination = Mapper::entityToExaminationModel($this->MainDBEntity);
+    $this->Animal = Mapper::entityToAnimalModel(new AnimalEntity($this->Examination->AnimalPK));
+    $this->Employee = Mapper::entityToEmployeeModel(new EmployeeEntity($this->Examination->EmployeePK));
 
     $medOnExaBrowser = new DBEntityBrowser(
       "MedicamentEntity",

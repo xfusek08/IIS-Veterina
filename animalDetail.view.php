@@ -7,7 +7,7 @@
 
   unset($_GET['edit']);
   $actVM = SessionControl::pageInitRoutine("AnimalDetailViewModel");
-  if ($actVM->AnimalPk == 0)
+  if ($actVM->Animal->Pk == 0)
     SessionControl::navigate('animalBrowse.view.php');
 
 ?>
@@ -25,19 +25,19 @@
       <div class="content">
         <div class="page_buttons">
           <input type="submit" action="" name="submit_del" value="Smazat" class="swap_button"
-          onclick="ConfirmDel('animalDetail.view.php?pk=<?= $actVM->AnimalPk ?>&delete')" >
+          onclick="ConfirmDel('animalDetail.view.php?pk=<?= $actVM->Animal->Pk ?>&delete')" >
           <input type="submit" name="submit_edi" value="Upravit" class="swap_button"
-          onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalEdit.view.php')">
+          onclick="changePage(<?= $actVM->Animal->Pk ?>, 'animalEdit.view.php')">
         </div>
         <h1>Detail zvířete</h1>
         <div class="anim_detail">
-          <h3>Jméno zvířete: <?= $actVM->AnimalName ?></h3>
-          <p>Jméno majitele: <a class="click_info" onclick="changePage(<?= $actVM->OwnerPk ?>, 'ownerDetail.view.php')"><?= $actVM->OwnerName ?></a></p>
-          <p>Druh: <?= $actVM->Species ?></p>
-          <p>Pohlaví: <?= $actVM->Sex ?></p>
-          <p>Váha: <?= $actVM->Weight ?> kg</p>
-          <p>Stav: <?= $actVM->State ?></p>
-          <p>Datum narození: <?= $actVM->Birthday ?> (<?= $actVM->Age ?>)</p>
+          <h3>Jméno zvířete: <?= $actVM->Animal->Name ?></h3>
+          <p>Jméno majitele: <a class="click_info" onclick="changePage(<?= $actVM->Animal->OwnerPk ?>, 'ownerDetail.view.php')"><?= $actVM->Animal->OwnerName ?></a></p>
+          <p>Druh: <?= $actVM->Animal->Species ?></p>
+          <p>Pohlaví: <?= $actVM->Animal->Sex ?></p>
+          <p>Váha: <?= $actVM->Animal->Weight ?> kg</p>
+          <p>Stav: <?= $actVM->Animal->State ?></p>
+          <p>Datum narození: <?= $actVM->Animal->Birthday ?> (<?= $actVM->Animal->Age ?>)</p>
         <div class="swap_buttons">
           <input type="submit" name="submit_ch" value="Léčby" class="swap_button to_swap" onclick="swapTables(1, 2)"/>
           <input type="submit" name="submit_ch" value="Vyšetření" class="swap_button to_swap" onclick="swapTables(2, 2)"/>

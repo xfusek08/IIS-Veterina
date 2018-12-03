@@ -35,3 +35,25 @@ p {
 table th:last-child, table td:last-child {
   border-right: none;
 }
+
+.hidden {
+  display: none;
+}
+
+.moerow table td input[type=button] {
+  padding: 0;
+  margin: 0;
+}
+
+.moerow table td {
+  border: none;
+  padding: 0;
+  margin: 0;
+  line-height: 30px;
+  vertical-align: middle;
+}
+.moerow table {
+  border: none;
+  padding: 0;
+  margin: 0;
+}

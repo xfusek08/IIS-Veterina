@@ -21,7 +21,7 @@
     <div class="preContent">
       <div class="content">
         <div class="page_buttons">
-          <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->AnimalPk ?>, 'animalDetail.view.php')">
+          <input type="submit" value="Zpět" name="back" class="swap_button" onclick="changePage(<?= $actVM->Animal->Pk ?>, 'animalDetail.view.php')">
         </div>
         <form action="" method="post">
           <h1>Zvíře</h1>
@@ -29,19 +29,19 @@
             <table class="edit_table">
               <tr>
                 <th>Jméno zvířete:</th>
-                <td><input type="text" value="<?= $actVM->AnimalName ?>" name="ani_name">
+                <td><input type="text" value="<?= $actVM->Animal->Name ?>" name="ani_name">
                 <?= (isset($actVM->Errors['ani_name'])) ? $actVM->Errors['ani_name'] : '' ?>
                 </td>
               </tr>
               <tr>
                 <th>Majitel:</th>
-                <td><?= $actVM->OwnerName ?></td>
+                <td><?= $actVM->Animal->OwnerName ?></td>
               </tr>
               <tr>
                 <th>Druh:</th>
                 <td><select type="text" name="ani_species">
                   <?php foreach($actVM->SpeciesSelect as $key => $value) {?>
-                  <option value="<?=  $key ?>"<?php if ($actVM->Species == $value) echo "selected" ?> > <?= $value ?>
+                  <option value="<?=  $key ?>"<?php if ($actVM->Animal->Species == $value) echo "selected" ?> > <?= $value ?>
                   </option> <?php } ?> </select>
                 <?= (isset($actVM->Errors['ani_species'])) ? $actVM->Errors['ani_species'] : '' ?>
                 </td>
@@ -49,14 +49,14 @@
               <tr>
                 <th>Rasa:</th>
                 <td>
-                  <input type="text" value="<?= $actVM->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_race'])) ? $actVM->Errors['ani_race'] : '' ?>
+                  <input type="text" value="<?= $actVM->Animal->Race ?>" name="ani_race"><?= (isset($actVM->Errors['ani_race'])) ? $actVM->Errors['ani_race'] : '' ?>
                 </td>
               </tr>
               <tr>
                 <th>Pohlaví:</th>
                 <td><select type="text" name="ani_sex">
                   <?php foreach($actVM->SexSelect as $key => $value) {?>
-                  <option value="<?= $key ?>" <?php if ($actVM->Sex == $value) echo "selected" ?> > <?= $value ?>
+                  <option value="<?= $key ?>" <?php if ($actVM->Animal->Sex == $value) echo "selected" ?> > <?= $value ?>
                   </option>
                   <?php } ?>
                 </select>
@@ -64,13 +64,13 @@
               </tr>
               <tr>
                 <th>Váha:</th>
-                <td><input type="text" value="<?= $actVM->Weight ?>" name="ani_weight"> kg
+                <td><input type="text" value="<?= $actVM->Animal->Weight ?>" name="ani_weight"> kg
                   <?= (isset($actVM->Errors['ani_weight'])) ? $actVM->Errors['ani_weight'] : '' ?></td>
               </tr>
                 <th>Stav:</th>
                 <td><select type="text" name="ani_state">
                     <?php foreach($actVM->StateSelect as $key => $value) {?>
-                    <option value="<?= $key ?>" <?php if ($actVM->State == $value) echo "selected" ?> > <?= $value ?>
+                    <option value="<?= $key ?>" <?php if ($actVM->Animal->State == $value) echo "selected" ?> > <?= $value ?>
                     </option>
                     <?php } ?>
                   </select>
@@ -79,7 +79,7 @@
               </tr>
               <tr>
                 <th>Datum narození:</th>
-                <td><input type="text" value="<?= $actVM->Birthday ?>" name="ani_birthday">
+                <td><input type="text" value="<?= $actVM->Animal->Birthday ?>" name="ani_birthday">
                   <?= (isset($actVM->Errors['ani_birthday'])) ? $actVM->Errors['ani_birthday'] : '' ?></td>
               </tr>
             </table>

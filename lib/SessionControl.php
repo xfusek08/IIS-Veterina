@@ -14,6 +14,12 @@ class SessionControl {
     }
   }
 
+  public static function getAckUserPK() {
+    if (isset($_SESSION['userPK']))
+      return intval($_SESSION['userPK']);
+    return 0;
+  }
+
   public static function destroySession() {
     session_destroy();
     unset($_SESSION['userPK']);
