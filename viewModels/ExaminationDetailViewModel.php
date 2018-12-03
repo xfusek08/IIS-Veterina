@@ -32,6 +32,8 @@ class ExaminationDetailViewModel extends EditableDetailViewModelBase {
   public function __construct() {
     parent::__construct('ExaminationEntity');
     $this->Examination = new ExaminationModel();
+    $this->Animal = new AnimalModel();
+    $this->Employee = new EmployeeModel();
 
     $this->_medOnExamCollection = new EntityListOnEntityCollection(
       "MedicamentModel",
